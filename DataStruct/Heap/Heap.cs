@@ -15,10 +15,7 @@ namespace DataStruct.Heap
         // 还需要手动再次开辟空间
         public List<int> list = new List<int>();
 
-        public Heap()
-        {
-
-        }
+        public Heap() {    }
 
         public void TestInsert()
         {
@@ -131,11 +128,11 @@ namespace DataStruct.Heap
                 return;
             }
 
-            // 令 index 位置的值 为其自身和子节点中最大者
+            // 令 index 位置的值 为自身和子节点中最大者
             int maxIndex = 0;
             while (index != (maxIndex = ProperParent(dataList, index, length)))
             {
-                // index 位置的值，比子节点的值小，则互换自身与最大节点的值
+                // index 位置的值，比子节点的值小，则互换自身与较大子节点的值
                 int temp = dataList[maxIndex];
                 dataList[maxIndex] = dataList[index];
                 dataList[index] = temp;

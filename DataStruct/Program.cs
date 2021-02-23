@@ -11,13 +11,12 @@ namespace DataStruct
     {
         static void Main(string[] args)
         {
+            Heap.Heap heap = new Heap.Heap();
+            heap.TestInsert();
+            heap.TestHeapCreate();
 
-            //Heap.Heap heap = new Heap.Heap();
-            //heap.TestInsert();
-            //heap.TestHeapCreate();
-
-            Sort.HeapSort heapSort = new Sort.HeapSort();
-            heapSort.Test();
+            //Sort.HeapSort heapSort = new Sort.HeapSort();
+            //heapSort.Test();
 
             Console.ReadLine();
         }

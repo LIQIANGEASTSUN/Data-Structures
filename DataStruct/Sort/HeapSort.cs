@@ -25,9 +25,10 @@ namespace DataStruct.Sort
             // 构建堆
             heap.HeapCreate();
 
-            // 一： 每次将堆顶(最大元素)和末尾元素进行交换
+            // 初始尾部元素为末尾元素 int i = list.Count - 1
+            // 一：每次将堆顶(最大元素)和尾部元素(--i)进行交换
             // 二：尾部前边的数据重新构建为堆，再次执行 一、二
-            // 直到所有元素都执行结束
+            //     直到所有元素都执行结束
             for (int i = list.Count - 1; i >= 0; --i)
             {
                 // 将堆顶元素与末尾元素进行交换
@@ -35,7 +36,7 @@ namespace DataStruct.Sort
                 list[0] = list[i];
                 list[i] = temp;
 
-                // 从第 0 个节点开始下虑
+                // 将新的堆顶元素下虑
                 heap.PercolateDown(list, 0, i);
             }
         }
