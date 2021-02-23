@@ -14,7 +14,6 @@ namespace DataStruct.Log
         private static int[] spArr = null;
         public static void Log(int[] arr)
         {
-
             for (int i = 0; i < arr.Length; ++i)
             {
                 LogChild(arr, i);
@@ -42,11 +41,10 @@ namespace DataStruct.Log
                 int spCount = 0;
                 while (count > 0)
                 {
-                    index = list[0];
-                    list.RemoveAt(0);
+                    index = list[lineCount - count];
                     --count;
 
-                    for (int i = 0; i < spArr[index] - spCount; ++i)
+                    for (int i = 0; i < spArr[index] - spCount - 1; ++i)
                     {
                         Console.Write(" ");
                     }
@@ -66,18 +64,14 @@ namespace DataStruct.Log
                     }
                 }
 
-                if (count == 0)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine();
-                    Console.WriteLine();
+                Console.WriteLine();
 
-                    while (lineCount > 0 && list.Count > 0)
-                    {
-                        --lineCount;
-                        //DrawLineToChild(arr, list[0]);
-                        //list.RemoveAt(0);
-                    }
+                DrawLineToChild(arr, list, lineCount);
+
+                while (lineCount > 0 && list.Count > 0)
+                {
+                    --lineCount;
+                    list.RemoveAt(0);
                 }
             }
         }
@@ -123,9 +117,83 @@ namespace DataStruct.Log
             return highLc >= highRc ? ++highLc : ++highRc;
         }
 
-        private static void DrawLineToChild(int[] arr, int index)
+        private static void DrawLineToChild(int[] arr, List<int> list, int lineCount)
         {
+            int i = 0;
+            int writeIndex = 0;
+            int index = 0;
 
+            StringBuilder sb1 = new StringBuilder();
+            StringBuilder sb2 = new StringBuilder();
+            StringBuilder sb3 = new StringBuilder();
+            while (i < lineCount && list.Count > i)
+            {
+                index = list[i];
+                int lc = index * 2 + 1;
+                int leftSpace = (arr.Length > lc) ? spArr[lc] : spArr[index];
+
+                int rc = index * 2 + 2;
+                int rightSpace = (arr.Length > rc) ? spArr[rc] : spArr[index];
+
+                while (writeIndex < totalWidth)
+                {
+                    ++writeIndex;
+                    string split = (writeIndex < leftSpace || writeIndex > rightSpace + 1) ? " " : "-";
+                    sb1.Append(split);
+                    if (writeIndex == leftSpace && arr.Length > lc)
+                    {
+                        sb2.Append("|");
+                        sb3.Append(arr[lc].ToString());
+                    }
+                    else if (writeIndex == rightSpace && arr.Length > rc)
+                    {
+                        sb2.Append("|");
+                        sb3.Append(arr[rc].ToString());
+                    }
+                    else
+                    {
+                        sb2.Append(" ");
+                        sb3.Append(" ");
+                    }
+
+                    if (writeIndex >= rightSpace)
+                    {
+                        break;
+                    }
+                }
+
+                ++i;
+            }
+            Console.WriteLine(sb1.ToString());
+            Console.WriteLine(sb2.ToString());
+            Console.WriteLine(sb3.ToString());
+        }
+
+        private static int DrawLineToChild(int[] arr, int index, int space)
+        {
+            int lc = index * 2 + 1;
+            int leftSpace = (arr.Length > lc) ? spArr[lc] : spArr[index];
+
+            int rc = index * 2 + 2;
+            int rightSpace = (arr.Length > rc) ? spArr[rc] : spArr[index];
+
+            if (leftSpace == rightSpace)
+            {
+                return 0;
+            }
+
+            for (int i = 0; i < totalWidth - space; ++i)
+            {
+                if (i <= leftSpace || i > rightSpace + 1)
+                {
+                    Console.Write(" ");
+                }
+                else
+                {
+                    Console.Write("-");
+                }
+            }
+            return rightSpace;
         }
 
         private static void LogChild(int[] arr, int index)
