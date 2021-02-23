@@ -90,8 +90,6 @@ namespace DataStruct.Log
                 spArr[index] = spArr[parentIndex] + offset;
             }
 
-            Console.WriteLine(arr[index] + "   " + spArr[index]);
-
             offset = totalWidth / (int)Math.Pow(2, deep) / 2;
             int lc = index * 2 + 1;
             NodePos(arr, lc, deep + 1, offset * -1);
