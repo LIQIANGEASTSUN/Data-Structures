@@ -38,6 +38,7 @@ namespace DataStruct.Log
             while (list.Count > 0)
             {
                 int count = list.Count;
+                int lineCount = count;
                 int spCount = 0;
                 while (count > 0)
                 {
@@ -51,12 +52,6 @@ namespace DataStruct.Log
                     }
                     Console.Write(arr[index]);
                     spCount = spArr[index];
-                    if (count == 0)
-                    {
-                        Console.WriteLine();
-                        Console.WriteLine();
-                        Console.WriteLine();
-                    }
 
                     int lc = index * 2 + 1;
                     if (arr.Length > lc)
@@ -68,6 +63,20 @@ namespace DataStruct.Log
                     if (arr.Length > rc)
                     {
                         list.Add(rc);
+                    }
+                }
+
+                if (count == 0)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    Console.WriteLine();
+
+                    while (lineCount > 0 && list.Count > 0)
+                    {
+                        --lineCount;
+                        //DrawLineToChild(arr, list[0]);
+                        //list.RemoveAt(0);
                     }
                 }
             }
@@ -112,6 +121,11 @@ namespace DataStruct.Log
             int highRc = highRc = High(arr, rc);
 
             return highLc >= highRc ? ++highLc : ++highRc;
+        }
+
+        private static void DrawLineToChild(int[] arr, int index)
+        {
+
         }
 
         private static void LogChild(int[] arr, int index)
