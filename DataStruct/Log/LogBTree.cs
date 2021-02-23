@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DataStruct.Log
 {
-    class LogHeap
+    class LogBTree<T>
     {
-        private static int width = 10;
+        private static int width = 12;
         private static int totalWidth = 0;
         private static int[] spArr = null;
-        public static void Log(int[] arr)
+        public static void Log(LogNode<T>[] arr)
         {
-            int high = High(arr, 0);
-            totalWidth = 2 * high * width;
+            totalWidth = 2 * High(arr, 0) * width;
 
             spArr = new int[arr.Length];
             NodePos(arr, 0, 1, 0);
@@ -22,9 +19,9 @@ namespace DataStruct.Log
             Draw(arr, 0);
         }
 
-        private static void NodePos(int[] arr, int index, int deep, int offset)
+        private static void NodePos(LogNode<T>[] arr, int index, int deep, int offset)
         {
-            if (index >= arr.Length)
+            if (index < 0 || index >= arr.Length)
             {
                 return;
             }
@@ -35,35 +32,33 @@ namespace DataStruct.Log
             }
             else
             {
-                int parentIndex = (index - 1) >> 1;
+                int parentIndex = arr[index].ParentIndex();
                 spArr[index] = spArr[parentIndex] + offset;
             }
 
             offset = totalWidth / (int)Math.Pow(2, deep) / 2;
-            int lc = index * 2 + 1;
+            int lc = arr[index].LeftChildIndex();
             NodePos(arr, lc, deep + 1, offset * -1);
 
-            int rc = index * 2 + 2;
+            int rc = arr[index].RightChildIndex();
             NodePos(arr, rc, deep + 1, offset);
         }
 
-        private static int High(int[] arr, int index)
+        private static int High(LogNode<T>[] arr, int index)
         {
-            if (index >= arr.Length)
+            if (index < 0 || index >= arr.Length)
             {
                 return 0;
             }
-
-            int lc = index * 2 + 1;
+            int lc = arr[index].LeftChildIndex();
             int highLc = High(arr, lc);
 
-            int rc = index * 2 + 2;
+            int rc = arr[index].RightChildIndex();
             int highRc = highRc = High(arr, rc);
-
             return highLc >= highRc ? ++highLc : ++highRc;
         }
 
-        private static void Draw(int[] arr, int index)
+        private static void Draw(LogNode<T>[] arr, int index)
         {
             List<int> list = new List<int>();
             list.Add(0);
@@ -84,22 +79,25 @@ namespace DataStruct.Log
                 {
                     index = list[lineCount - count];
                     --count;
+                    if (index < 0)
+                    {
+                        continue;
+                    }
 
-                    int lc = index * 2 + 1;
-                    if (arr.Length > lc)
+                    int lc = arr[index].LeftChildIndex();
+                    if (arr.Length > lc && lc >= 0)
                     {
                         list.Add(lc);
                     }
 
-                    int rc = index * 2 + 2;
-                    if (arr.Length > rc)
+                    int rc = arr[index].RightChildIndex();
+                    if (arr.Length > rc && rc >= 0)
                     {
                         list.Add(rc);
                     }
                 }
 
                 DrawLineToChild(arr, list, lineCount);
-
                 while (lineCount > 0 && list.Count > 0)
                 {
                     --lineCount;
@@ -108,7 +106,7 @@ namespace DataStruct.Log
             }
         }
 
-        private static void DrawLineToChild(int[] arr, List<int> list, int lineCount)
+        private static void DrawLineToChild(LogNode<T>[] arr, List<int> list, int lineCount)
         {
             int i = 0;
             int writeIndex = 0;
@@ -119,29 +117,26 @@ namespace DataStruct.Log
             StringBuilder sb3 = new StringBuilder();
             while (i < lineCount && list.Count > i)
             {
-                index = list[i];
-                int lc = index * 2 + 1;
-                int leftSpace = (arr.Length > lc) ? spArr[lc] : spArr[index];
+                index = list[i++];
+                int lc = arr[index].LeftChildIndex();
+                int leftSpace = (arr.Length > lc && lc >= 0) ? spArr[lc] : spArr[index];
 
-                int rc = index * 2 + 2;
-                int rightSpace = (arr.Length > rc) ? spArr[rc] : spArr[index];
+                int rc = arr[index].RightChildIndex();
+                int rightSpace = (arr.Length > rc && rc >= 0) ? spArr[rc] : spArr[index];
 
-                while (writeIndex < totalWidth)
+                while (writeIndex < totalWidth && writeIndex < rightSpace && leftSpace != rightSpace)
                 {
-                    if (leftSpace == rightSpace)
-                    {
-                        break;
-                    }
                     ++writeIndex;
                     string split = (writeIndex < leftSpace || writeIndex > rightSpace + 1) ? " " : "-";
                     sb1.Append(split);
-                    if (writeIndex == leftSpace && arr.Length > lc)
+   
+                    if (writeIndex == leftSpace && arr.Length > lc && lc >= 0)
                     {
                         sb2.Append("|");
                         sb3.Append(" ");
                         Replace(sb3, arr[lc], writeIndex);
                     }
-                    else if (writeIndex == rightSpace && arr.Length > rc)
+                    else if (writeIndex == rightSpace && arr.Length > rc && rc >= 0)
                     {
                         sb2.Append("|");
                         sb3.Append(" ");
@@ -152,21 +147,14 @@ namespace DataStruct.Log
                         sb2.Append(" ");
                         sb3.Append(" ");
                     }
-
-                    if (writeIndex >= rightSpace)
-                    {
-                        break;
-                    }
                 }
-
-                ++i;
             }
             Console.WriteLine(sb1.ToString());
             Console.WriteLine(sb2.ToString());
             Console.WriteLine(sb3.ToString());
         }
 
-        private static void Replace(StringBuilder sb, int value, int index)
+        private static void Replace(StringBuilder sb, LogNode<T> value, int index)
         {
             int count = 0;
             while (count < value.ToString().Length)
@@ -177,5 +165,4 @@ namespace DataStruct.Log
             sb.Append(value.ToString());
         }
     }
-
 }

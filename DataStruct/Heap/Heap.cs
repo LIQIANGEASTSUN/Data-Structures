@@ -31,15 +31,23 @@ namespace DataStruct.Heap
             Insert(10);
             Insert(16);
 
-            LogHeap.Log(list.ToArray());
+            HeapHelper<int>.Log(list);
         }
 
         public void TestHeapCreate()
         {
+            Random random = new Random();
             list = new List<int>() { 4, 6, 8, 5, 9, 3, 1, 0, 20, 10, 16 };
+            for (int i = 0; i < 10; ++i)
+            {
+                int value = random.Next(10, 500);
+                Console.WriteLine(value);
+                list.Add(value);
+            }
             HeapCreate();
 
-            LogHeap.Log(list.ToArray());
+            Console.WriteLine();
+            HeapHelper<int>.Log(list);
         }
 
         private int Parent(int index)
