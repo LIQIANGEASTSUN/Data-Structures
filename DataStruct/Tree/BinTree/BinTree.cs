@@ -166,19 +166,15 @@ namespace DataStruct.BinTree
             stack.Push(node);
             while (stack.Count > 0)
             {
-                while(null != node)
-                {
-                    Console.Write(node.Value.ToString() + "    ");
-                    if ((node = node.LeftChild) != null)
-                    {
-                        stack.Push(node);
-                    }
-                }
-
                 node = stack.Pop();
-                if (null != node && ((node = node.RightChild) != null))
+                Console.Write(node.Value.ToString() + "    ");
+                if (node.HasRChild())
                 {
-                    stack.Push(node);
+                    stack.Push(node.RightChild);
+                }
+                if(node.HasLChild())
+                {
+                    stack.Push(node.LeftChild);
                 }
             }
         }
@@ -204,11 +200,7 @@ namespace DataStruct.BinTree
                 }
 
                 node = stack.Pop();
-                if(null != node)
-                {
-                    Console.Write(node.Value.ToString() + "    ");
-                }
-
+                Console.Write(node.Value.ToString() + "    ");
                 if (null != node && ((node = node.RightChild) != null))
                 {
                     stack.Push(node);
@@ -224,29 +216,48 @@ namespace DataStruct.BinTree
                 return;
             }
 
+            StringBuilder sb = new StringBuilder();
             Stack<BinNode<T>> stack = new Stack<BinNode<T>>();
             stack.Push(node);
             while (stack.Count > 0)
             {
-                while (null != node)
+                while (null != node && (null != node.LeftChild))
                 {
-                    if ((node = node.LeftChild) != null)
                     {
+                        node = node.LeftChild;
                         stack.Push(node);
+                        sb.AppendLine("1 push:" + node.Value.ToString());
                     }
                 }
 
-                node = stack.Pop();
+                if (null != node && null != node.RightChild)
+                {
+                    node = node.RightChild;
+                    stack.Push(node.RightChild);
+                    sb.AppendLine("2 push:" + node.Value.ToString());
+                    continue;
+                }
+
                 if (null != node)
                 {
                     Console.Write(node.Value.ToString() + "    ");
+                    sb.AppendLine("write===:" + node.Value.ToString());
                 }
-
+                node = stack.Pop();
+                if (null != node)
+                {
+                    sb.AppendLine("pop:" + node.Value.ToString());
+                }
                 if (null != node && ((node = node.RightChild) != null))
                 {
                     stack.Push(node);
+                    sb.AppendLine("3 push:" + node.Value.ToString());
                 }
+
             }
+
+            Console.WriteLine();
+            Console.WriteLine(sb.ToString());
         }
         #endregion
 
