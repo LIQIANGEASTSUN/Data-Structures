@@ -30,6 +30,8 @@ namespace DataStruct.BinTree
 
             binTree.TraversePre(binTree.Root);
             Console.WriteLine();
+
+            binTree.TraversePre2(binTree.Root);
             Console.WriteLine();
             Console.WriteLine();
 
@@ -175,6 +177,34 @@ namespace DataStruct.BinTree
                 if(node.HasLChild())
                 {
                     stack.Push(node.LeftChild);
+                }
+            }
+        }
+
+        public void TraversePre2(BinNode<T> node)
+        {
+            if (null == node)
+            {
+                return;
+            }
+
+            Stack<BinNode<T>> stack = new Stack<BinNode<T>>();
+            stack.Push(node);
+            while (stack.Count > 0)
+            {
+                while (null != node)
+                {
+                    Console.Write(node.Value.ToString() + "    ");
+                    if ((node = node.LeftChild) != null)
+                    {
+                        stack.Push(node);
+                    }
+                }
+
+                node = stack.Pop();
+                if (null != node && ((node = node.RightChild) != null))
+                {
+                    stack.Push(node);
                 }
             }
         }
