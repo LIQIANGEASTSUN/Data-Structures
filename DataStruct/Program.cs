@@ -13,11 +13,11 @@ namespace DataStruct
         static void Main(string[] args)
         {
             Heap.Heap heap = new Heap.Heap();
-            ////heap.TestInsert();
+            //heap.TestInsert();
             heap.TestHeapCreate();
 
             Console.WriteLine();
-            BSTree<int>.Test();
+            //BSTree<int>.Test();
 
             Console.ReadLine();
         }

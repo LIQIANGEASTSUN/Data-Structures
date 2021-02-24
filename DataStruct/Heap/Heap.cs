@@ -41,7 +41,6 @@ namespace DataStruct.Heap
             for (int i = 0; i < 10; ++i)
             {
                 int value = random.Next(10, 500);
-                Console.WriteLine(value);
                 list.Add(value);
             }
             HeapCreate();
