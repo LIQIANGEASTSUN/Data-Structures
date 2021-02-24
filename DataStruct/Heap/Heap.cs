@@ -38,7 +38,7 @@ namespace DataStruct.Heap
         {
             Random random = new Random();
             list = new List<int>() { 4, 6, 8, 5, 9, 3, 1, 0, 20, 10, 16 };
-            for (int i = 0; i < 10; ++i)
+            for (int i = 0; i < 30; ++i)
             {
                 int value = random.Next(10, 500);
                 list.Add(value);
