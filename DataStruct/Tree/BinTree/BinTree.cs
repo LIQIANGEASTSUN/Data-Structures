@@ -24,18 +24,32 @@ namespace DataStruct.BinTree
 
             BinTreeLogHelper<int>.Log(binTree.Root);
 
+            Console.WriteLine("先序遍历");
             binTree.TraversePreRecursion(binTree.Root);
             Console.WriteLine();
 
             binTree.TraversePre(binTree.Root);
             Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
 
+            Console.WriteLine("中序遍历");
             binTree.TraverseiInRecursion(binTree.Root);
             Console.WriteLine();
 
+            binTree.TraverseIn(binTree.Root);
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+
+            Console.WriteLine("后序遍历");
             binTree.TraverseiPostRecursion(binTree.Root);
             Console.WriteLine();
 
+            binTree.TraversePost(binTree.Root);
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
 
         }
     }
@@ -153,6 +167,64 @@ namespace DataStruct.BinTree
             while (stack.Count > 0)
             {
                 while(null != node)
+                {
+                    Console.Write(node.Value.ToString() + "    ");
+                    if ((node = node.LeftChild) != null)
+                    {
+                        stack.Push(node);
+                    }
+                }
+
+                node = stack.Pop();
+                if (null != node && ((node = node.RightChild) != null))
+                {
+                    stack.Push(node);
+                }
+            }
+        }
+
+        //中序遍历：先左->跟->右  迭代实现
+        public void TraverseIn(BinNode<T> node)
+        {
+            if (null == node)
+            {
+                return;
+            }
+
+            Stack<BinNode<T>> stack = new Stack<BinNode<T>>();
+            stack.Push(node);
+            while (stack.Count > 0)
+            {
+                while (null != node)
+                {
+                    Console.Write(node.Value.ToString() + "    ");
+                    if ((node = node.LeftChild) != null)
+                    {
+                        stack.Push(node);
+                    }
+                }
+
+                node = stack.Pop();
+                if (null != node && ((node = node.RightChild) != null))
+                {
+                    stack.Push(node);
+                }
+            }
+        }
+
+        //后序遍历：先左->右->跟  迭代实现
+        public void TraversePost(BinNode<T> node)
+        {
+            if (null == node)
+            {
+                return;
+            }
+
+            Stack<BinNode<T>> stack = new Stack<BinNode<T>>();
+            stack.Push(node);
+            while (stack.Count > 0)
+            {
+                while (null != node)
                 {
                     Console.Write(node.Value.ToString() + "    ");
                     if ((node = node.LeftChild) != null)
