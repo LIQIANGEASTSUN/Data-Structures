@@ -30,6 +30,9 @@ namespace DataStruct.BinTree
             binTree.TraversePre(binTree.Root);
             Console.WriteLine();
 
+
+            binTree.TraversePre(null);
+            Console.WriteLine();
         }
     }
 
@@ -128,26 +131,18 @@ namespace DataStruct.BinTree
                 {
                     Console.Write(node.Value.ToString() + "    ");
                     node = node.LeftChild;
-                    stack.Push(node);
-
-                    sb.AppendLine("1 push:" + ((null != node) ? node.Value.ToString() : "null"));
+                    if (null != node)
+                    {
+                        stack.Push(node);
+                    }
                 }
 
-                if (null == node)
+                node = stack.Pop();
+                if (null != node && ((node = node.RightChild) != null))
                 {
-                    node = stack.Pop();
-                    sb.AppendLine("2 pop:" + ((null != node) ? node.Value.ToString() : "null"));
-                }
-                if (null != node)
-                {
-                    node = node.RightChild;
                     stack.Push(node);
-                    sb.AppendLine("2 push:" + ((null != node) ? node.Value.ToString() : "null"));
                 }
             }
-
-            Console.WriteLine();
-            Console.WriteLine(sb.ToString());
         }
 
         public virtual void Release()
