@@ -7,30 +7,34 @@ namespace DataStruct.BTree
     {
         public static void Test()
         {
+            int[] arr = new int[] { 10, 8, 15, 17, 20, 19, 21, 12, 6, 9, 16, 22,};
+            for (int i = 0; i < arr.Length; ++i)
+            {
+                
+            }
+            TestRemove(arr, 5);
+        }
+
+        private static void TestRemove(int[] arr, int removeIndex)
+        {
             BSTree<int> bSTree = new BSTree<int>();
 
-            BinNode<int> node = bSTree.Insert(18);
-            bSTree.Insert(10);
-            bSTree.Insert(8);
-            bSTree.Insert(15);
-            bSTree.Insert(17);
-            bSTree.Insert(20);
-            bSTree.Insert(19);
-            bSTree.Insert(21);
-            bSTree.Insert(12);
-            bSTree.Insert(6);
-            bSTree.Insert(9);
-            bSTree.Insert(16);
-            bSTree.Insert(22);
+            for (int i = 0; i < arr.Length; ++i)
+            {
+                bSTree.Insert(arr[i]);
+            }
+  
+            BinTreeLogHelper<int>.Log(bSTree.Root);
 
+            Console.WriteLine("Remove:" + arr[removeIndex]);
+            bSTree.Remove(arr[removeIndex]);
             BinTreeLogHelper<int>.Log(bSTree.Root);
 
             Console.WriteLine();
-            bSTree.Remove(20);
-            BinTreeLogHelper<int>.Log(bSTree.Root);
-
-            BinNode<int> succ = bSTree.NodeSucc(node);
-            int a = 0;
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
         }
     }
 
@@ -76,11 +80,13 @@ namespace DataStruct.BTree
             BinNode<T> succ = null; // 实际要删除节点的接替者
             if (!node.HasLChild())      // 如果节点没有左孩子，则直接以其有孩子代替
             {
-                succ = node.RightChild;
+                node = node.RightChild;
+                succ = node;
             }
             else if (!node.HasRChild()) // 如果节点没有右孩子，则直接以其左孩子代替
             {
-                succ = node.LeftChild;
+                node = node.LeftChild;
+                succ = node;
             }
             else
             {
@@ -102,14 +108,18 @@ namespace DataStruct.BTree
             }
 
             _hot = w.ParentNode;//要删除节点的父节点
-            if (node.IsLChild())
-            {
-                _hot.LeftChild = succ;
-            }
-            else if (node.IsRChild())
-            {
-                _hot.RightChild = succ;
-            }
+            //if (w.IsLChild())
+            //{
+            //    _hot.LeftChild = succ;
+            //}
+            //else if (w.IsRChild())
+            //{
+            //    _hot.RightChild = succ;
+            //}
+            //else
+            //{
+            //    Root = succ;
+            //}
 
             if (null != succ)
             {
