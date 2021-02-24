@@ -8,15 +8,24 @@ namespace DataStruct.BTree
         public static void Test()
         {
             BSTree<int> bSTree = new BSTree<int>();
-            bSTree.Insert(8);
-            bSTree.Insert(5);
-            bSTree.Insert(3);
-            bSTree.Insert(6);
-            bSTree.Insert(10);
-            bSTree.Insert(9);
-            bSTree.Insert(11);
-            bSTree.Insert(7);
 
+            bSTree.Insert(18);
+            bSTree.Insert(10);
+            bSTree.Insert(8);
+            bSTree.Insert(15);
+            bSTree.Insert(20);
+            bSTree.Insert(19);
+            bSTree.Insert(21);
+            bSTree.Insert(12);
+            bSTree.Insert(6);
+            bSTree.Insert(9);
+            bSTree.Insert(16);
+            bSTree.Insert(22);
+
+            BinTreeLogHelper<int>.Log(bSTree.Root);
+
+            Console.WriteLine();
+            bSTree.Remove(22);
             BinTreeLogHelper<int>.Log(bSTree.Root);
         }
     }
@@ -51,10 +60,54 @@ namespace DataStruct.BTree
             return node;
         }
 
-        public override bool Remove(BinNode<T> binNode)
+        public bool Remove(T t)
         {
-            binNode = null;
+            BinNode<T> node = Search(t);
+            if (null == node)
+            {
+                return false;
+            }
+
+            BinNode<T> succ = null;
+            if (!node.HasLChild())      // 如果节点没有左孩子，则直接以其有孩子代替
+            {
+                succ = node.RightChild;
+            }
+            else if (!node.HasRChild()) // 如果节点没有右孩子，则直接以其左孩子代替
+            {
+                succ = node.LeftChild;
+            }
+            else
+            {
+
+            }
+
+            _hot = node.ParentNode;//要删除节点的父节点
+            if (null != succ)
+            {
+                succ.ParentNode = _hot;
+            }
+
             return false;
+        }
+
+        // 节点的直接后继
+        private BinNode<T> NodeSucc(BinNode<T> node)
+        {
+            if (node.HasRChild())
+            {
+                node = node.RightChild;
+                while (node.HasLChild())
+                {
+                    node = node.LeftChild;
+                }
+            }
+            else
+            {
+
+            }
+
+            return null;
         }
 
         public virtual BinNode<T> Search(T t)
