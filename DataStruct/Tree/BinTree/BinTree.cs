@@ -246,48 +246,30 @@ namespace DataStruct.BinTree
                 return;
             }
 
-            StringBuilder sb = new StringBuilder();
+            List<BinNode<T>> list = new List<BinNode<T>>();
             Stack<BinNode<T>> stack = new Stack<BinNode<T>>();
             stack.Push(node);
             while (stack.Count > 0)
             {
-                while (null != node && (null != node.LeftChild))
-                {
-                    {
-                        node = node.LeftChild;
-                        stack.Push(node);
-                        sb.AppendLine("1 push:" + node.Value.ToString());
-                    }
-                }
-
-                if (null != node && null != node.RightChild)
-                {
-                    node = node.RightChild;
-                    stack.Push(node.RightChild);
-                    sb.AppendLine("2 push:" + node.Value.ToString());
-                    continue;
-                }
-
-                if (null != node)
-                {
-                    Console.Write(node.Value.ToString() + "    ");
-                    sb.AppendLine("write===:" + node.Value.ToString());
-                }
                 node = stack.Pop();
-                if (null != node)
+                list.Insert(0, node);
+                if (node.HasLChild())
                 {
-                    sb.AppendLine("pop:" + node.Value.ToString());
+                    stack.Push(node.LeftChild);
                 }
-                if (null != node && ((node = node.RightChild) != null))
+                if (node.HasRChild())
                 {
-                    stack.Push(node);
-                    sb.AppendLine("3 push:" + node.Value.ToString());
+                    stack.Push(node.RightChild);
                 }
+            }
 
+            for (int i = 0; i < list.Count; ++i)
+            {
+                BinNode<T> temp = list[i];
+                Console.Write(temp.Value.ToString() + "    ");
             }
 
             Console.WriteLine();
-            Console.WriteLine(sb.ToString());
         }
         #endregion
 
