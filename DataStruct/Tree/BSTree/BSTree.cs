@@ -28,33 +28,26 @@ namespace DataStruct.BTree
     {
         private BinNode<T> _hot;
 
+        public BSTree()
+        {
+
+        }
+
         public virtual BinNode<T> Insert(T t)
         {
-            BinNode<T> node = null;
             if (null == Root)
             {
-                node = new BinNode<T>(t);
-                Root = node;
+                Root = new BinNode<T>(t);
+                return Root;
             }
-            node = Search(t);
+
+            BinNode<T> node = Search(t);
             if (null != node)
             {
                 return node;
             }
 
-            node = new BinNode<T>(t, _hot);
-            if (node.Value.CompareTo(_hot.Value) > 0)
-            {
-                _hot.RightChild = node;
-            }
-            else
-            {
-                _hot.LeftChild = node;
-            }
-            if (null == Root)
-            {
-            }
-
+            node = (t.CompareTo(_hot.Value) > 0) ? _hot.InsertAsRc(t) : _hot.InsertAsLc(t);
             return node;
         }
 
