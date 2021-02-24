@@ -4,13 +4,17 @@ using System.Text;
 
 namespace DataStruct.Log
 {
-    class LogBTree<T>
+    class LogBinTree<T>
     {
         private static int width = 12;
         private static int totalWidth = 0;
         private static int[] spArr = null;
         public static void Log(LogNode<T>[] arr)
         {
+            if (arr.Length <= 0)
+            {
+                return;
+            }
             totalWidth = 2 * High(arr, 0) * width;
 
             spArr = new int[arr.Length];

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataStruct.BinaryTree
+namespace DataStruct.BinTree
 {
     public class BTreeLogNode<T> : LogNode<T> where T : IComparable<T>
     {
@@ -36,17 +36,17 @@ namespace DataStruct.BinaryTree
         }
     }
 
-    class BTreeLogHelper<T> where T : IComparable<T>
+    class BinTreeLogHelper<T> where T : IComparable<T>
     {
 
-        public static void Log(BTNode<T> rootNode)
+        public static void Log(BinNode<T> rootNode)
         {
             List<BTreeLogNode<T>> logNodeList = new List<BTreeLogNode<T>>();
             GetLogNode(rootNode, null, false, logNodeList);
-            LogBTree<T>.Log(logNodeList.ToArray());
+            LogBinTree<T>.Log(logNodeList.ToArray());
         }
 
-        private static void GetLogNode(BTNode<T> node, BTreeLogNode<T> parent, bool left, List<BTreeLogNode<T>> logNodeList)
+        private static void GetLogNode(BinNode<T> node, BTreeLogNode<T> parent, bool left, List<BTreeLogNode<T>> logNodeList)
         {
             if (null == node)
             {

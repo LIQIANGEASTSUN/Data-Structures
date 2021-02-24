@@ -1,16 +1,9 @@
-﻿using DataStruct.BinaryTree;
+﻿using DataStruct.BinTree;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataStruct.BTree
 {
-    /// <summary>
-    /// 二叉搜索树
-    /// </summary>
-    public class BSTree<T> : BTree<T> where T : IComparable<T>
+    public class BSTreeTest
     {
         public static void Test()
         {
@@ -24,17 +17,23 @@ namespace DataStruct.BTree
             bSTree.Insert(11);
             bSTree.Insert(7);
 
-            BTreeLogHelper<int>.Log(bSTree.Root);
+            BinTreeLogHelper<int>.Log(bSTree.Root);
         }
+    }
 
-        private BTNode<T> _hot;
+    /// <summary>
+    /// 二叉搜索树
+    /// </summary>
+    public class BSTree<T> : BinTree<T> where T : IComparable<T>
+    {
+        private BinNode<T> _hot;
 
-        public override BTNode<T> Insert(T t)
+        public virtual BinNode<T> Insert(T t)
         {
-            BTNode<T> node = null;
+            BinNode<T> node = null;
             if (null == Root)
             {
-                node = new BTNode<T>(t);
+                node = new BinNode<T>(t);
                 Root = node;
             }
             node = Search(t);
@@ -43,7 +42,7 @@ namespace DataStruct.BTree
                 return node;
             }
 
-            node = new BTNode<T>(t, _hot);
+            node = new BinNode<T>(t, _hot);
             if (node.Value.CompareTo(_hot.Value) > 0)
             {
                 _hot.RightChild = node;
@@ -59,12 +58,13 @@ namespace DataStruct.BTree
             return node;
         }
 
-        public override bool Remove(T t)
+        public override bool Remove(BinNode<T> binNode)
         {
+            binNode = null;
             return false;
         }
 
-        public override BTNode<T> Search(T t)
+        public virtual BinNode<T> Search(T t)
         {
             if (null == Root || t.CompareTo(Root.Value) == 0)
             {
@@ -75,7 +75,7 @@ namespace DataStruct.BTree
             _hot = Root;
             while (null != _hot)
             {
-                BTNode<T> c = _hot.Value.CompareTo(t) > 0 ? _hot.LeftChild : _hot.RightChild;
+                BinNode<T> c = _hot.Value.CompareTo(t) > 0 ? _hot.LeftChild : _hot.RightChild;
                 if (null == c || c.Value.CompareTo(t) == 0)
                 {
                     return c;

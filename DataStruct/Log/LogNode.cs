@@ -15,6 +15,6 @@ namespace DataStruct.Log
         public abstract int LeftChildIndex();
         public abstract int RightChildIndex();
 
-        public abstract string ToString();
+        public abstract new string ToString();
     }
 }

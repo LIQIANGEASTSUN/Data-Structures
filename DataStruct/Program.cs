@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataStruct.BTree;
-using DataStruct.Heap;
 
 namespace DataStruct
 {
@@ -12,14 +7,28 @@ namespace DataStruct
     {
         static void Main(string[] args)
         {
-            Heap.Heap heap = new Heap.Heap();
-            //heap.TestInsert();
-            heap.TestHeapCreate();
 
-            Console.WriteLine();
-            //BSTree<int>.Test();
+            BinTreeTest();
 
             Console.ReadLine();
+        }
+
+        // 堆测试
+        private static void HeapTest()
+        {
+            DataStruct.Heap.Heap heap = new DataStruct.Heap.Heap();
+            heap.TestInsert();
+            heap.TestHeapCreate();
+        }
+
+        private static void BinTreeTest()
+        {
+            DataStruct.BinTree.BinTreeTest.Test();
+        }
+
+        private static void BSTreeTest()
+        {
+            BTree.BSTreeTest.Test();
         }
     }
 }

@@ -53,7 +53,7 @@ namespace DataStruct.Heap
                 arr[i] = heapLogNode;
             }
 
-            LogBTree<int>.Log(arr);
+            LogBinTree<int>.Log(arr);
         }
     }
 

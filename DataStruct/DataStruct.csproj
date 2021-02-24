@@ -43,13 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BTree\BSTree.cs" />
-    <Compile Include="BTree\BTree.cs" />
-    <Compile Include="BTree\BTreeLogHelper.cs" />
+    <Compile Include="Tree\BinTree\BinNode.cs" />
+    <Compile Include="Tree\BSTree\BSTree.cs" />
+    <Compile Include="Tree\BinTree\BinTree.cs" />
+    <Compile Include="Tree\BinTree\BinTreeLogHelper.cs" />
     <Compile Include="Heap\Heap.cs" />
     <Compile Include="Heap\HeapHelper.cs" />
     <Compile Include="Log\LogArr.cs" />
-    <Compile Include="Log\LogBTree.cs" />
+    <Compile Include="Log\LogBinTree.cs" />
     <Compile Include="Log\LogNode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
