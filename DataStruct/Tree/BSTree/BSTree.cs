@@ -9,10 +9,11 @@ namespace DataStruct.BTree
         {
             BSTree<int> bSTree = new BSTree<int>();
 
-            bSTree.Insert(18);
+            BinNode<int> node = bSTree.Insert(18);
             bSTree.Insert(10);
             bSTree.Insert(8);
             bSTree.Insert(15);
+            bSTree.Insert(17);
             bSTree.Insert(20);
             bSTree.Insert(19);
             bSTree.Insert(21);
@@ -25,8 +26,11 @@ namespace DataStruct.BTree
             BinTreeLogHelper<int>.Log(bSTree.Root);
 
             Console.WriteLine();
-            bSTree.Remove(22);
+            bSTree.Remove(20);
             BinTreeLogHelper<int>.Log(bSTree.Root);
+
+            BinNode<int> succ = bSTree.NodeSucc(node);
+            int a = 0;
         }
     }
 
@@ -68,7 +72,8 @@ namespace DataStruct.BTree
                 return false;
             }
 
-            BinNode<T> succ = null;
+            BinNode<T> w = node;    // 实际要被删除的节点
+            BinNode<T> succ = null; // 实际要删除节点的接替者
             if (!node.HasLChild())      // 如果节点没有左孩子，则直接以其有孩子代替
             {
                 succ = node.RightChild;
@@ -79,10 +84,33 @@ namespace DataStruct.BTree
             }
             else
             {
+                w = NodeSucc(node);
+                T temp = w.Value;
+                w.Value = node.Value;
+                node.Value = temp;
 
+                BinNode<T> u = w.ParentNode;
+                succ = w.RightChild;
+                if (u == node)
+                {
+                    u.RightChild = succ;
+                }
+                else
+                {
+                    u.LeftChild = succ;
+                }
             }
 
-            _hot = node.ParentNode;//要删除节点的父节点
+            _hot = w.ParentNode;//要删除节点的父节点
+            if (node.IsLChild())
+            {
+                _hot.LeftChild = succ;
+            }
+            else if (node.IsRChild())
+            {
+                _hot.RightChild = succ;
+            }
+
             if (null != succ)
             {
                 succ.ParentNode = _hot;
@@ -92,7 +120,7 @@ namespace DataStruct.BTree
         }
 
         // 节点的直接后继
-        private BinNode<T> NodeSucc(BinNode<T> node)
+        public BinNode<T> NodeSucc(BinNode<T> node)
         {
             if (node.HasRChild())
             {
@@ -104,10 +132,14 @@ namespace DataStruct.BTree
             }
             else
             {
-
+                node = node.LeftChild;
+                while (null != node && node.HasRChild())
+                {
+                    node = node.RightChild;
+                }
             }
 
-            return null;
+            return node;
         }
 
         public virtual BinNode<T> Search(T t)
