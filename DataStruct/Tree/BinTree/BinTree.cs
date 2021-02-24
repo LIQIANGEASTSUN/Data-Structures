@@ -53,6 +53,12 @@ namespace DataStruct.BinTree
             Console.WriteLine();
             Console.WriteLine();
 
+            Console.WriteLine("层序遍历");
+            binTree.TraverseLevel(binTree.Root);
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+
         }
     }
 
@@ -153,6 +159,12 @@ namespace DataStruct.BinTree
             TraverseiPostRecursion(node.RightChild);
             Console.Write(node.Value.ToString() + "    ");
         }
+
+        // 层序遍历：按层从上到下，每层从左到右依次遍历
+        public void TraverseiLevelRecursion(BinNode<T> node)
+        {
+
+        }
         #endregion
 
         #region Iteration
@@ -246,13 +258,13 @@ namespace DataStruct.BinTree
                 return;
             }
 
-            List<BinNode<T>> list = new List<BinNode<T>>();
+            Stack<BinNode<T>> result = new Stack<BinNode<T>>();
             Stack<BinNode<T>> stack = new Stack<BinNode<T>>();
             stack.Push(node);
             while (stack.Count > 0)
             {
                 node = stack.Pop();
-                list.Insert(0, node);
+                result.Push(node);
                 if (node.HasLChild())
                 {
                     stack.Push(node.LeftChild);
@@ -263,13 +275,32 @@ namespace DataStruct.BinTree
                 }
             }
 
-            for (int i = 0; i < list.Count; ++i)
+            while (result.Count > 0)
             {
-                BinNode<T> temp = list[i];
+                BinNode<T> temp = result.Pop();
                 Console.Write(temp.Value.ToString() + "    ");
             }
 
             Console.WriteLine();
+        }
+
+        public void TraverseLevel(BinNode<T> node)
+        {
+            Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
+            queue.Enqueue(node);
+            while (queue.Count > 0)
+            {
+                node = queue.Dequeue();
+                Console.Write(node.Value.ToString() + "    ");
+                if (node.HasLChild())
+                {
+                    queue.Enqueue(node.LeftChild);
+                }
+                if (node.HasRChild())
+                {
+                    queue.Enqueue(node.RightChild);
+                }
+            }
         }
         #endregion
 
