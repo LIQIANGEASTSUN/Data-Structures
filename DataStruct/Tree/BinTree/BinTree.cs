@@ -30,9 +30,13 @@ namespace DataStruct.BinTree
             binTree.TraversePre(binTree.Root);
             Console.WriteLine();
 
-
-            binTree.TraversePre(null);
+            binTree.TraverseiInRecursion(binTree.Root);
             Console.WriteLine();
+
+            binTree.TraverseiPostRecursion(binTree.Root);
+            Console.WriteLine();
+
+
         }
     }
 
@@ -94,6 +98,7 @@ namespace DataStruct.BinTree
             return node.InsertAsRc(t);
         }
 
+        #region Recursion
         //先序遍历：先跟->左->右  递归实现
         public void TraversePreRecursion(BinNode<T> node)
         {
@@ -103,16 +108,38 @@ namespace DataStruct.BinTree
             }
 
             Console.Write(node.Value.ToString() + "    ");
-            if (node.HasLChild())
-            {
-                TraversePreRecursion(node.LeftChild);
-            }
-            if (node.HasRChild())
-            {
-                TraversePreRecursion(node.RightChild);
-            }
+            TraversePreRecursion(node.LeftChild);
+            TraversePreRecursion(node.RightChild);
         }
 
+        //中序遍历：先左->跟->右  递归实现
+        public void TraverseiInRecursion(BinNode<T> node)
+        {
+            if (null == node)
+            {
+                return;
+            }
+
+            TraverseiInRecursion(node.LeftChild);
+            Console.Write(node.Value.ToString() + "    ");
+            TraverseiInRecursion(node.RightChild);
+        }
+
+        //后序遍历：先左->右->跟  递归实现
+        public void TraverseiPostRecursion(BinNode<T> node)
+        {
+            if (null == node)
+            {
+                return;
+            }
+
+            TraverseiPostRecursion(node.LeftChild);
+            TraverseiPostRecursion(node.RightChild);
+            Console.Write(node.Value.ToString() + "    ");
+        }
+        #endregion
+
+        #region Iteration
         //先序遍历：先跟->左->右  迭代实现
         public void TraversePre(BinNode<T> node)
         {
@@ -123,8 +150,6 @@ namespace DataStruct.BinTree
 
             Stack<BinNode<T>> stack = new Stack<BinNode<T>>();
             stack.Push(node);
-
-            StringBuilder sb = new StringBuilder();
             while (stack.Count > 0)
             {
                 while(null != node)
@@ -143,6 +168,7 @@ namespace DataStruct.BinTree
                 }
             }
         }
+        #endregion
 
         public virtual void Release()
         {
