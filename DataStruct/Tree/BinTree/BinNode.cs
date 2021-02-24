@@ -133,16 +133,5 @@ namespace DataStruct.BinTree
             }
             return node1.Value.CompareTo(node2.Value) != 0;
         }
-
-        public static bool operator > (BinNode<T> node1, BinNode<T> node2)
-        {
-            return null != node1 && null != node2 && node1.Value.CompareTo(node2.Value) > 0;
-        }
-
-        public static bool operator < (BinNode<T> node1, BinNode<T> node2)
-        {
-            return null != node1 && null != node2 && node1.Value.CompareTo(node2.Value) < 0;
-        }
-
     }
 }

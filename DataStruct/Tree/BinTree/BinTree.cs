@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace DataStruct.BinTree
 {
@@ -22,11 +24,12 @@ namespace DataStruct.BinTree
 
             BinTreeLogHelper<int>.Log(binTree.Root);
 
-            binTree.Remove(node6);
-            BinTreeLogHelper<int>.Log(binTree.Root);
+            binTree.TraversePreRecursion(binTree.Root);
+            Console.WriteLine();
 
-            binTree.Remove(node2);
-            BinTreeLogHelper<int>.Log(binTree.Root);
+            binTree.TraversePre(binTree.Root);
+            Console.WriteLine();
+
         }
     }
 
@@ -86,6 +89,65 @@ namespace DataStruct.BinTree
         public virtual BinNode<T> InsertAsRc(BinNode<T> node, T t)
         {
             return node.InsertAsRc(t);
+        }
+
+        //先序遍历：先跟->左->右  递归实现
+        public void TraversePreRecursion(BinNode<T> node)
+        {
+            if (null == node)
+            {
+                return;
+            }
+
+            Console.Write(node.Value.ToString() + "    ");
+            if (node.HasLChild())
+            {
+                TraversePreRecursion(node.LeftChild);
+            }
+            if (node.HasRChild())
+            {
+                TraversePreRecursion(node.RightChild);
+            }
+        }
+
+        //先序遍历：先跟->左->右  迭代实现
+        public void TraversePre(BinNode<T> node)
+        {
+            if (null == node)
+            {
+                return;
+            }
+
+            Stack<BinNode<T>> stack = new Stack<BinNode<T>>();
+            stack.Push(node);
+
+            StringBuilder sb = new StringBuilder();
+            while (stack.Count > 0)
+            {
+                while(null != node)
+                {
+                    Console.Write(node.Value.ToString() + "    ");
+                    node = node.LeftChild;
+                    stack.Push(node);
+
+                    sb.AppendLine("1 push:" + ((null != node) ? node.Value.ToString() : "null"));
+                }
+
+                if (null == node)
+                {
+                    node = stack.Pop();
+                    sb.AppendLine("2 pop:" + ((null != node) ? node.Value.ToString() : "null"));
+                }
+                if (null != node)
+                {
+                    node = node.RightChild;
+                    stack.Push(node);
+                    sb.AppendLine("2 push:" + ((null != node) ? node.Value.ToString() : "null"));
+                }
+            }
+
+            Console.WriteLine();
+            Console.WriteLine(sb.ToString());
         }
 
         public virtual void Release()
