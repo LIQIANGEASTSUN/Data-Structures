@@ -197,7 +197,6 @@ namespace DataStruct.BinTree
             {
                 while (null != node)
                 {
-                    Console.Write(node.Value.ToString() + "    ");
                     if ((node = node.LeftChild) != null)
                     {
                         stack.Push(node);
@@ -205,6 +204,11 @@ namespace DataStruct.BinTree
                 }
 
                 node = stack.Pop();
+                if(null != node)
+                {
+                    Console.Write(node.Value.ToString() + "    ");
+                }
+
                 if (null != node && ((node = node.RightChild) != null))
                 {
                     stack.Push(node);
@@ -226,7 +230,6 @@ namespace DataStruct.BinTree
             {
                 while (null != node)
                 {
-                    Console.Write(node.Value.ToString() + "    ");
                     if ((node = node.LeftChild) != null)
                     {
                         stack.Push(node);
@@ -234,6 +237,11 @@ namespace DataStruct.BinTree
                 }
 
                 node = stack.Pop();
+                if (null != node)
+                {
+                    Console.Write(node.Value.ToString() + "    ");
+                }
+
                 if (null != node && ((node = node.RightChild) != null))
                 {
                     stack.Push(node);
