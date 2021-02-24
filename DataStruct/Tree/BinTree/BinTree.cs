@@ -130,8 +130,7 @@ namespace DataStruct.BinTree
                 while(null != node)
                 {
                     Console.Write(node.Value.ToString() + "    ");
-                    node = node.LeftChild;
-                    if (null != node)
+                    if ((node = node.LeftChild) != null)
                     {
                         stack.Push(node);
                     }
