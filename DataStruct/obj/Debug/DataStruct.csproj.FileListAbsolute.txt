@@ -5,10 +5,9 @@ G:\Project\DataStruct\DataStruct\obj\Debug\DataStruct.csprojAssemblyReference.ca
 G:\Project\DataStruct\DataStruct\obj\Debug\DataStruct.csproj.CoreCompileInputs.cache
 G:\Project\DataStruct\DataStruct\obj\Debug\DataStruct.exe
 G:\Project\DataStruct\DataStruct\obj\Debug\DataStruct.pdb
-G:\Project\Git\Data-Structures\DataStruct\obj\Debug\DataStruct.csprojAssemblyReference.cache
-G:\Project\Git\Data-Structures\DataStruct\obj\Debug\DataStruct.csproj.CoreCompileInputs.cache
-G:\Project\Git\Data-Structures\DataStruct\obj\Debug\DataStruct.exe
-G:\Project\Git\Data-Structures\DataStruct\obj\Debug\DataStruct.pdb
 G:\Project\Git\Data-Structures\DataStruct\bin\Debug\DataStruct.exe.config
 G:\Project\Git\Data-Structures\DataStruct\bin\Debug\DataStruct.exe
 G:\Project\Git\Data-Structures\DataStruct\bin\Debug\DataStruct.pdb
+G:\Project\Git\Data-Structures\DataStruct\obj\Debug\DataStruct.csproj.CoreCompileInputs.cache
+G:\Project\Git\Data-Structures\DataStruct\obj\Debug\DataStruct.exe
+G:\Project\Git\Data-Structures\DataStruct\obj\Debug\DataStruct.pdb

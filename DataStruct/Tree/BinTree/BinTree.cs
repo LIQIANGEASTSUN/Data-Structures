@@ -24,41 +24,44 @@ namespace DataStruct.BinTree
 
             BinTreeLogHelper<int>.Log(binTree.Root);
 
-            Console.WriteLine("先序遍历");
-            binTree.TraversePreRecursion(binTree.Root);
-            Console.WriteLine();
+            //Console.WriteLine("先序遍历");
+            //binTree.TraversePreRecursion(binTree.Root);
+            //Console.WriteLine();
 
-            binTree.TraversePre(binTree.Root);
-            Console.WriteLine();
+            //binTree.TraversePre(binTree.Root);
+            //Console.WriteLine();
 
-            binTree.TraversePre2(binTree.Root);
-            Console.WriteLine();
-            Console.WriteLine();
+            //binTree.TraversePre2(binTree.Root);
+            //Console.WriteLine();
+            //Console.WriteLine();
 
-            Console.WriteLine("中序遍历");
-            binTree.TraverseiInRecursion(binTree.Root);
-            Console.WriteLine();
+            //Console.WriteLine("中序遍历");
+            //binTree.TraverseiInRecursion(binTree.Root);
+            //Console.WriteLine();
 
-            binTree.TraverseIn(binTree.Root);
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
+            //binTree.TraverseIn(binTree.Root);
+            //Console.WriteLine();
+            //Console.WriteLine();
+            //Console.WriteLine();
 
-            Console.WriteLine("后序遍历");
-            binTree.TraverseiPostRecursion(binTree.Root);
-            Console.WriteLine();
+            //Console.WriteLine("后序遍历");
+            //binTree.TraverseiPostRecursion(binTree.Root);
+            //Console.WriteLine();
 
-            binTree.TraversePost(binTree.Root);
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
+            //binTree.TraversePost(binTree.Root);
+            //Console.WriteLine();
+            //Console.WriteLine();
+            //Console.WriteLine();
 
-            Console.WriteLine("层序遍历");
-            binTree.TraverseLevel(binTree.Root);
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
+            //Console.WriteLine("层序遍历");
+            //binTree.TraverseLevel(binTree.Root);
+            //Console.WriteLine();
+            //Console.WriteLine();
+            //Console.WriteLine();
 
+
+            Log.LogBinTreeTest<int> log = new Log.LogBinTreeTest<int>();
+            log.TraverseIn(binTree.Root);
         }
     }
 

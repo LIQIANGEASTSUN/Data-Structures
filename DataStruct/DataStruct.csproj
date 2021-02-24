@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Log\LogBinTreeTest.cs" />
     <Compile Include="Tree\BinTree\BinNode.cs" />
     <Compile Include="Tree\BSTree\BSTree.cs" />
     <Compile Include="Tree\BinTree\BinTree.cs" />

@@ -8,7 +8,7 @@ namespace DataStruct
         static void Main(string[] args)
         {
             //HeapTest();
-            //BinTreeTest();
+            BinTreeTest();
 
             Console.ReadLine();
         }
