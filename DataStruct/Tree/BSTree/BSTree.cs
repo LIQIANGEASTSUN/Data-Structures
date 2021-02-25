@@ -8,30 +8,44 @@ namespace DataStruct.BTree
     {
         public static void Test()
         {
-            int[] arr = new int[] { 10, 8, 15, 17, 20, 19, 21, 12, 13, 6, 9, 16, 22,};
+            int[] arr = new int[] { 10, 8, 15, 17, 20, 19, 21, 12, 13, 6, 9, 16, 22, };
             //for (int i = 0; i < arr.Length; ++i)
             //{
             //    TestRemove(arr, i);
             //}
 
-            BSTree<int> bSTree = new BSTree<int>();
-            for (int i = 0; i < arr.Length; ++i)
             {
-                bSTree.Insert(arr[i]);
-            }
-            BinTreeLogHelper<int>.Log(bSTree.Root, false);
-            Console.WriteLine();
-            Console.WriteLine();
-
-            for (int i = 0; i < arr.Length; ++i)
-            {
-                Console.WriteLine("Remove:" + arr[i]);
-                bSTree.Remove(arr[i]);
+                BSTree<int> bSTree = new BSTree<int>();
+                for (int i = 0; i < arr.Length; ++i)
+                {
+                    bSTree.Insert(arr[i]);
+                }
                 BinTreeLogHelper<int>.Log(bSTree.Root, false);
                 Console.WriteLine();
                 Console.WriteLine();
-                Console.WriteLine();
+
+                for (int i = 0; i < arr.Length; ++i)
+                {
+                    Console.WriteLine("Remove:" + arr[i]);
+                    bSTree.Remove(arr[i]);
+                    BinTreeLogHelper<int>.Log(bSTree.Root, false);
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    Console.WriteLine();
+                    LogBinTreeCheck<int>.Check(bSTree.TraverseLevel(bSTree.Root));
+                    Console.WriteLine();
+                }
             }
+
+            //{
+            //    BSTree<int> bSTree = new BSTree<int>();
+            //    bSTree.Insert(10);
+            //    BinTreeLogHelper<int>.Log(bSTree.Root, false);
+            //    Console.WriteLine();
+
+            //    bSTree.Remove(10);
+            //    BinTreeLogHelper<int>.Log(bSTree.Root, false);
+            //}
         }
 
         //删除叶子节点失败
@@ -99,34 +113,36 @@ namespace DataStruct.BTree
                 return false;
             }
 
-            BinNode<T> w = node;    // 实际要被删除的节点
-            BinNode<T> succ = null; // 实际要删除节点的接替者
             if (!node.HasLChild())      // 如果节点没有左孩子，则直接以其右孩子代替
             {
-                succ = node.RightChild;
-                Replace(succ, node);
+                Replace(node.RightChild, node); // 令node的右孩子替换node
             }
             else if (!node.HasRChild()) // 如果节点没有右孩子，则直接以其左孩子代替
             {
-                succ = node.LeftChild;
-                Replace(succ, node);
+                Replace(node.LeftChild, node); // 令 node 的左孩子替换node
             }
             else
             {
-                w = NodeSucc(node);
-                T temp = w.Value;
-                w.Value = node.Value;
+                //BinNode<T> w = node;              // 要被删除的节点
+                //BinNode<T> succ = NodeSucc(node); // 要删除节点的直接后继
+                //w = succ;
+                //T temp = w.Value;
+                //w.Value = node.Value;
+                //node.Value = temp;
+
+                BinNode<T> succ = NodeSucc(node); // 要删除节点的直接后继
+                T temp = succ.Value;
+                succ.Value = node.Value;
                 node.Value = temp;
 
-                BinNode<T> u = w.ParentNode;
-                succ = w.RightChild;
+                BinNode<T> u = succ.ParentNode;
                 if (u == node)
                 {
-                    u.InsertAsRc(succ);
+                    u.InsertAsRc(succ.RightChild);  //令实际要删除节点的右孩子作为 u 的右孩子
                 }
                 else
                 {
-                    u.InsertAsLc(succ);
+                    u.InsertAsLc(succ.RightChild); // 令实际要删除节点的右孩子作为 u 的左孩子
                 }
             }
 
@@ -138,6 +154,10 @@ namespace DataStruct.BTree
             if (beReplace.IsRoot())
             {
                 Root = node;
+                if (null != Root)
+                {
+                    Root.ParentNode = null;
+                }
                 return;
             }
 

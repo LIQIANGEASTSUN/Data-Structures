@@ -33,6 +33,10 @@ namespace DataStruct.Log
                     success = (node.Value.CompareTo(node.ParentNode.RightChild.Value) == 0);
                     //Console.WriteLine(node.Value.ToString() + " is:" + node.ParentNode.Value.ToString() + " Rc  " + success);
                 }
+                else if (!node.ParentNode.HasChild())
+                {
+                    success = false;
+                }
 
                 if (!success)
                 {

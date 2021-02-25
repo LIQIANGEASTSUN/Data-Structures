@@ -287,6 +287,10 @@ namespace DataStruct.BinTree
         public List<BinNode<T>> TraverseLevel(BinNode<T> node)
         {
             List<BinNode<T>> list = new List<BinNode<T>>();
+            if (null == node)
+            {
+                return list;
+            }
 
             Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
             queue.Enqueue(node);
