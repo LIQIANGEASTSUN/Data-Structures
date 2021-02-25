@@ -1,6 +1,7 @@
 ﻿using DataStruct.BinTree;
 using DataStruct.Log;
 using System;
+using System.Collections.Generic;
 
 namespace DataStruct.BTree
 {
@@ -23,6 +24,12 @@ namespace DataStruct.BTree
                 BinTreeLogHelper<int>.Log(bSTree.Root, false);
                 Console.WriteLine();
                 Console.WriteLine();
+                List<BinNode<int>> list = bSTree.TraverseLevel(bSTree.Root);
+                for (int i = 0; i < list.Count; ++i)
+                {
+                    Console.WriteLine("heigh:" + list[i].Value.ToString() + "  heigh:" + list[i].Height);
+                }
+                Console.WriteLine();
 
                 for (int i = 0; i < arr.Length; ++i)
                 {
@@ -33,6 +40,19 @@ namespace DataStruct.BTree
                     Console.WriteLine();
                     Console.WriteLine();
                     LogBinTreeCheck<int>.Check(bSTree.TraverseLevel(bSTree.Root));
+                    Console.WriteLine();
+
+                    list = bSTree.TraverseLevel(bSTree.Root);
+
+                    Console.WriteLine();
+                    if (i == 4)
+                    {
+                        for (int n = 0; n < list.Count; ++n)
+                        {
+                            Console.WriteLine(list[n].Value.ToString() + "  heigh:" + list[n].Height);
+                        }
+                    }
+  
                     Console.WriteLine();
                 }
             }
@@ -102,6 +122,7 @@ namespace DataStruct.BTree
             }
 
             node = (t.CompareTo(_hot.Value) > 0) ? _hot.InsertAsRc(t) : _hot.InsertAsLc(t);
+            UpdateHeight(node);
             return node;
         }
 
@@ -123,17 +144,15 @@ namespace DataStruct.BTree
             }
             else
             {
-                //BinNode<T> w = node;              // 要被删除的节点
-                //BinNode<T> succ = NodeSucc(node); // 要删除节点的直接后继
-                //w = succ;
-                //T temp = w.Value;
-                //w.Value = node.Value;
-                //node.Value = temp;
-
                 BinNode<T> succ = NodeSucc(node); // 要删除节点的直接后继
                 T temp = succ.Value;
                 succ.Value = node.Value;
                 node.Value = temp;
+
+                // 此处问题需要解决
+                int tempHeight = succ.Height;
+                succ.Height = node.Height;
+                node.Height = tempHeight;
 
                 BinNode<T> u = succ.ParentNode;
                 if (u == node)
@@ -146,10 +165,11 @@ namespace DataStruct.BTree
                 }
             }
 
+            UpdateHeight(_hot);
             return false;
         }
 
-        public void Replace(BinNode<T> node, BinNode<T> beReplace)
+        private void Replace(BinNode<T> node, BinNode<T> beReplace)
         {
             if (beReplace.IsRoot())
             {
@@ -176,7 +196,7 @@ namespace DataStruct.BTree
         }
 
         // 节点的直接后继
-        public BinNode<T> NodeSucc(BinNode<T> node)
+        private BinNode<T> NodeSucc(BinNode<T> node)
         {
             if (node.HasRChild())
             {
@@ -219,8 +239,6 @@ namespace DataStruct.BTree
 
             return _hot;
         }
-
-
 
 
     }

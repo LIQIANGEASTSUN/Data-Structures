@@ -12,16 +12,40 @@ namespace DataStruct.BinTree
         {
             BinTree<int> binTree = new BinTree<int>();
 
+            Console.WriteLine("insert:" + 8);
             BinNode<int> root = binTree.InsertAsRoot(8);
-            BinNode<int> node1 = root.InsertAsLc(5);
-            BinNode<int> node2 = root.InsertAsRc(10);
-            BinNode<int> node3 = node1.InsertAsLc(3);
-            BinNode<int> node4 = node1.InsertAsRc(6);
-            BinNode<int> node5 = node4.InsertAsRc(7);
 
-            BinNode<int> node6 = node2.InsertAsLc(9);
-            BinNode<int> node7 = node2.InsertAsRc(11);
+            Console.WriteLine("insert:" + 5);
+            BinNode<int> node1 = binTree.InsertAsLc(root, 5);
 
+            Console.WriteLine("insert:" + 10);
+            BinNode<int> node2 = binTree.InsertAsRc(root, 10);
+
+            Console.WriteLine("insert:" + 3);
+            BinNode<int> node3 = binTree.InsertAsLc(node1, 3);
+
+            Console.WriteLine("insert:" + 6);
+            BinNode<int> node4 = binTree.InsertAsRc(node1, 6);
+
+            Console.WriteLine("insert:" + 7);
+            BinNode<int> node5 = binTree.InsertAsRc(node4, 7);
+
+            Console.WriteLine("insert:" + 9);
+            BinNode<int> node6 = binTree.InsertAsLc(node2, 9);
+
+            Console.WriteLine("insert:" + 11);
+            BinNode<int> node7 = binTree.InsertAsRc(node2, 11);
+
+            BinTreeLogHelper<int>.Log(binTree.Root);
+
+            Console.WriteLine();
+            List<BinNode<int>> list = binTree.TraverseLevel(binTree.Root);
+            for (int i = 0; i < list.Count; ++i)
+            {
+                Console.WriteLine("heigh:" + list[i].Value.ToString() + "  heigh:" + list[i].Height);
+            }
+
+            binTree.Remove(node2);
             BinTreeLogHelper<int>.Log(binTree.Root);
 
             Console.WriteLine("先序遍历");
@@ -54,11 +78,14 @@ namespace DataStruct.BinTree
             Console.WriteLine();
 
             Console.WriteLine("层序遍历");
-            binTree.TraverseLevel(binTree.Root);
+            list = binTree.TraverseLevel(binTree.Root);
+            for (int i = 0; i < list.Count; ++i)
+            {
+                Console.WriteLine("heigh:" + list[i].Value.ToString() + "  heigh:" + list[i].Height);
+            }
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
-
         }
     }
 
@@ -101,23 +128,30 @@ namespace DataStruct.BinTree
                 node.ParentNode.RightChild = null;
             }
 
+            UpdateHeight(node.ParentNode);
+
             return true;
         }
 
         public virtual BinNode<T> InsertAsRoot(T t)
         {
             _root = new BinNode<T>(t);
+            UpdateHeight(_root);
             return _root;
         }
 
         public virtual BinNode<T> InsertAsLc(BinNode<T> node, T t)
         {
-            return node.InsertAsLc(t);
+            node.InsertAsLc(t);
+            UpdateHeight(node);
+            return node.LeftChild;
         }
 
         public virtual BinNode<T> InsertAsRc(BinNode<T> node, T t)
         {
-            return node.InsertAsRc(t);
+            node.InsertAsRc(t);
+            UpdateHeight(node);
+            return node.RightChild;
         }
 
         #region Recursion
@@ -297,7 +331,7 @@ namespace DataStruct.BinTree
             while (queue.Count > 0)
             {
                 node = queue.Dequeue();
-                Console.Write(node.Value.ToString() + "    ");
+                Console.Write(node.Value.ToString() + "   ");
                 list.Add(node);
                 if (node.HasLChild())
                 {
@@ -311,6 +345,20 @@ namespace DataStruct.BinTree
             return list;
         }
         #endregion
+
+        protected void UpdateHeight(BinNode<T> node)
+        {
+            while (null != node)
+            {
+                node.Height = 1 + Math.Max(NodeHeight(node.LeftChild), NodeHeight(node.RightChild));
+                node = node.ParentNode;
+            }
+        }
+
+        private int NodeHeight(BinNode<T> node)
+        {
+            return (null != node) ? node.Height : -1;
+        }
 
         public virtual void Release()
         {
