@@ -96,6 +96,20 @@ namespace DataStruct.BTree
                             Console.WriteLine(list[n].Value.ToString() + "  deep:" + list[n].Deep + "    Error Error Error Error Error Error");
                         }
                     }
+
+                    list = bSTree.TraverseLevel(bSTree.Root);
+                    Console.WriteLine();
+
+                    for (int n = 0; n < list.Count; ++n)
+                    {
+                        BinNode<int> node = list[n];
+                        int heigh = node.Height;
+                        bSTree.UpdateHeight(node);
+                        if (heigh != node.Height)
+                        {
+                            Console.WriteLine(list[n].Value.ToString() + "  heigh:" + list[n].Height + "    Error Error Error Error Error Error");
+                        }
+                    }
                 }
                 BinTreeLogHelper<int>.Log(bSTree.Root, false);
                 Console.WriteLine();
@@ -144,6 +158,20 @@ namespace DataStruct.BTree
                         if (deep != list[n].Deep)
                         {
                             Console.WriteLine(list[n].Value.ToString() + "  deep:" + list[n].Deep + "  heigh:" + list[n].Height + "    Error Error Error Error Error Error");
+                        }
+                    }
+
+                    list = bSTree.TraverseLevel(bSTree.Root);
+                    Console.WriteLine();
+
+                    for (int n = 0; n < list.Count; ++n)
+                    {
+                        BinNode<int> node = list[n];
+                        int heigh = node.Height;
+                        bSTree.UpdateHeight(node);
+                        if (heigh != node.Height)
+                        {
+                            Console.WriteLine(list[n].Value.ToString() + "  heigh:" + list[n].Height + "    Error Error Error Error Error Error");
                         }
                     }
 
