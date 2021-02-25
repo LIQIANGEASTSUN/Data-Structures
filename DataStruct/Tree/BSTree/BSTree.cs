@@ -233,12 +233,12 @@ namespace DataStruct.BTree
             if (!node.HasLChild())      // 如果节点没有左孩子，则直接以其右孩子代替
             {
                 Replace(node.RightChild, node); // 令node的右孩子替换node
-                _hot = node.ParentNode;
+                _hot = node.RightChild != null ? node.RightChild : node;
             }
             else if (!node.HasRChild()) // 如果节点没有右孩子，则直接以其左孩子代替
             {
                 Replace(node.LeftChild, node); // 令 node 的左孩子替换node
-                _hot = node.ParentNode;
+                _hot = node.LeftChild != null ? node.LeftChild : node;
             }
             else
             {
