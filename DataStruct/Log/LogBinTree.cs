@@ -138,13 +138,13 @@ namespace DataStruct.Log
                     {
                         sb2.Append("|");
                         sb3.Append(" ");
-                        Replace(sb3, arr[lc], writeIndex);
+                        Replace(sb3, arr, lc);
                     }
                     else if (writeIndex == rightSpace && arr.Length > rc && rc >= 0)
                     {
                         sb2.Append("|");
                         sb3.Append(" ");
-                        Replace(sb3, arr[rc], writeIndex);
+                        Replace(sb3, arr, rc);
                     }
                     else
                     {
@@ -158,8 +158,9 @@ namespace DataStruct.Log
             Console.WriteLine(sb3.ToString());
         }
 
-        private static void Replace(StringBuilder sb, LogNode<T> value, int index)
+        private static void Replace(StringBuilder sb, LogNode<T>[] arr, int index)
         {
+            LogNode<T> value = arr[index];
             int count = 0;
             while (count < value.ToString().Length)
             {

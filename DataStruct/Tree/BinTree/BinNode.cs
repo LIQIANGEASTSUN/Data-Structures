@@ -65,16 +65,28 @@ namespace DataStruct.BinTree
         // 作为当前节点的左孩子插入新节点
         public BinNode<T> InsertAsLc(T t)
         {
-            _leftChild = new BinNode<T>(t);
-            _leftChild.ParentNode = this;
+            BinNode<T> node = new BinNode<T>(t);
+            return InsertAsLc(node);
+        }
+
+        public BinNode<T> InsertAsLc(BinNode<T> node)
+        {
+            _leftChild = node;
+            node.ParentNode = this;
             return _leftChild;
         }
 
         // 作为当前节点的右孩子插入新节点
         public BinNode<T> InsertAsRc(T t)
         {
-            _rightChild = new BinNode<T>(t);
-            _rightChild.ParentNode = this;
+            BinNode<T> node = new BinNode<T>(t);
+            return InsertAsRc(node);
+        }
+
+        public BinNode<T> InsertAsRc(BinNode<T> node)
+        {
+            _rightChild = node;
+            node.ParentNode = this;
             return _rightChild;
         }
 

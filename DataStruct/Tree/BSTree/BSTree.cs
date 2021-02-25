@@ -7,14 +7,15 @@ namespace DataStruct.BTree
     {
         public static void Test()
         {
-            int[] arr = new int[] { 10, 8, 15, 17, 20, 19, 21, 12, 6, 9, 16, 22,};
+            int[] arr = new int[] { 10, 8, 15, 17, 20, 19, 21, 12, 13, 6, 9, 16, 22,};
             for (int i = 0; i < arr.Length; ++i)
             {
                 
             }
-            TestRemove(arr, 5);
+            TestRemove(arr, 0);
         }
 
+        //删除叶子节点失败
         private static void TestRemove(int[] arr, int removeIndex)
         {
             BSTree<int> bSTree = new BSTree<int>();
@@ -78,15 +79,15 @@ namespace DataStruct.BTree
 
             BinNode<T> w = node;    // 实际要被删除的节点
             BinNode<T> succ = null; // 实际要删除节点的接替者
-            if (!node.HasLChild())      // 如果节点没有左孩子，则直接以其有孩子代替
+            if (!node.HasLChild())      // 如果节点没有左孩子，则直接以其右孩子代替
             {
-                node = node.RightChild;
-                succ = node;
+                succ = node.RightChild;
+                Replace(succ, node);
             }
             else if (!node.HasRChild()) // 如果节点没有右孩子，则直接以其左孩子代替
             {
-                node = node.LeftChild;
-                succ = node;
+                succ = node.LeftChild;
+                Replace(succ, node);
             }
             else
             {
@@ -99,34 +100,34 @@ namespace DataStruct.BTree
                 succ = w.RightChild;
                 if (u == node)
                 {
-                    u.RightChild = succ;
+                    u.InsertAsRc(succ);
                 }
                 else
                 {
-                    u.LeftChild = succ;
+                    u.InsertAsLc(succ);
                 }
             }
 
-            _hot = w.ParentNode;//要删除节点的父节点
-            //if (w.IsLChild())
-            //{
-            //    _hot.LeftChild = succ;
-            //}
-            //else if (w.IsRChild())
-            //{
-            //    _hot.RightChild = succ;
-            //}
-            //else
-            //{
-            //    Root = succ;
-            //}
+            return false;
+        }
 
-            if (null != succ)
+        public void Replace(BinNode<T> node, BinNode<T> beReplace)
+        {
+            if (beReplace.IsRoot())
             {
-                succ.ParentNode = _hot;
+                Root = node;
+                return;
             }
 
-            return false;
+            node.ParentNode = beReplace.ParentNode;
+            if (beReplace.IsRChild())
+            {
+                beReplace.ParentNode.RightChild = node;
+            }
+            else
+            {
+                beReplace.ParentNode.LeftChild = node;
+            }
         }
 
         // 节点的直接后继
@@ -173,5 +174,9 @@ namespace DataStruct.BTree
 
             return _hot;
         }
+
+
+
+
     }
 }
