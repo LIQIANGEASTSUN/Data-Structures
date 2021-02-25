@@ -72,7 +72,10 @@ namespace DataStruct.BinTree
         public BinNode<T> InsertAsLc(BinNode<T> node)
         {
             _leftChild = node;
-            node.ParentNode = this;
+            if (null != node)
+            {
+                node.ParentNode = this;
+            }
             return _leftChild;
         }
 
@@ -86,7 +89,10 @@ namespace DataStruct.BinTree
         public BinNode<T> InsertAsRc(BinNode<T> node)
         {
             _rightChild = node;
-            node.ParentNode = this;
+            if(null != node)
+            {
+                node.ParentNode = this;
+            }
             return _rightChild;
         }
 

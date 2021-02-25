@@ -39,11 +39,11 @@ namespace DataStruct.BinTree
     class BinTreeLogHelper<T> where T : IComparable<T>
     {
 
-        public static void Log(BinNode<T> rootNode)
+        public static void Log(BinNode<T> rootNode, bool showParent = false)
         {
             List<BTreeLogNode<T>> logNodeList = new List<BTreeLogNode<T>>();
             GetLogNode(rootNode, null, false, logNodeList);
-            LogBinTree<T>.Log(logNodeList.ToArray());
+            LogBinTree<T>.Log(logNodeList.ToArray(), showParent);
         }
 
         private static void GetLogNode(BinNode<T> node, BTreeLogNode<T> parent, bool left, List<BTreeLogNode<T>> logNodeList)

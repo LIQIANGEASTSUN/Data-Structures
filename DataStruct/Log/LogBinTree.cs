@@ -9,12 +9,14 @@ namespace DataStruct.Log
         private static int width = 12;
         private static int totalWidth = 0;
         private static int[] spArr = null;
-        public static void Log(LogNode<T>[] arr)
+        private static bool _showParent = false;
+        public static void Log(LogNode<T>[] arr, bool showParent = false)
         {
             if (arr.Length <= 0)
             {
                 return;
             }
+            _showParent = showParent;
             totalWidth = 2 * High(arr, 0) * width;
 
             spArr = new int[arr.Length];
@@ -160,14 +162,30 @@ namespace DataStruct.Log
 
         private static void Replace(StringBuilder sb, LogNode<T>[] arr, int index)
         {
+            if (index < 0 || index >= arr.Length)
+            {
+                return;
+            }
             LogNode<T> value = arr[index];
+            string msg = value.ToString();
+
+            int parentIndex = arr[index].ParentIndex();
+            if (_showParent && arr[index].ParentIndex() >= 0 && arr[index].ParentIndex() < arr.Length)
+            {
+                msg = string.Format("{0}({1})", msg, arr[parentIndex].ToString());
+            }
+
             int count = 0;
-            while (count < value.ToString().Length)
+            while (count < msg.Length)
             {
                 ++count;
-                sb.Remove(sb.ToString().Length - 1, 1);
+                int length = sb.ToString().Length;
+                if (length > 1)
+                {
+                    sb.Remove(length - 1, 1);
+                }
             }
-            sb.Append(value.ToString());
+            sb.Append(msg);
         }
     }
 }

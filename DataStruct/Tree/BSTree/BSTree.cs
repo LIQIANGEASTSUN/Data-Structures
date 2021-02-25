@@ -1,4 +1,5 @@
 ﻿using DataStruct.BinTree;
+using DataStruct.Log;
 using System;
 
 namespace DataStruct.BTree
@@ -8,11 +9,29 @@ namespace DataStruct.BTree
         public static void Test()
         {
             int[] arr = new int[] { 10, 8, 15, 17, 20, 19, 21, 12, 13, 6, 9, 16, 22,};
+            //for (int i = 0; i < arr.Length; ++i)
+            //{
+            //    TestRemove(arr, i);
+            //}
+
+            BSTree<int> bSTree = new BSTree<int>();
             for (int i = 0; i < arr.Length; ++i)
             {
-                
+                bSTree.Insert(arr[i]);
             }
-            TestRemove(arr, 0);
+            BinTreeLogHelper<int>.Log(bSTree.Root, false);
+            Console.WriteLine();
+            Console.WriteLine();
+
+            for (int i = 0; i < arr.Length; ++i)
+            {
+                Console.WriteLine("Remove:" + arr[i]);
+                bSTree.Remove(arr[i]);
+                BinTreeLogHelper<int>.Log(bSTree.Root, false);
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+            }
         }
 
         //删除叶子节点失败
@@ -29,7 +48,10 @@ namespace DataStruct.BTree
 
             Console.WriteLine("Remove:" + arr[removeIndex]);
             bSTree.Remove(arr[removeIndex]);
-            BinTreeLogHelper<int>.Log(bSTree.Root);
+            BinTreeLogHelper<int>.Log(bSTree.Root, false);
+
+            Console.WriteLine();
+            LogBinTreeCheck<int>.Check(bSTree.TraverseLevel(bSTree.Root));
 
             Console.WriteLine();
             Console.WriteLine();
@@ -119,7 +141,10 @@ namespace DataStruct.BTree
                 return;
             }
 
-            node.ParentNode = beReplace.ParentNode;
+            if (null != node)
+            {
+                node.ParentNode = beReplace.ParentNode;
+            }
             if (beReplace.IsRChild())
             {
                 beReplace.ParentNode.RightChild = node;

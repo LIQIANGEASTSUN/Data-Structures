@@ -284,14 +284,17 @@ namespace DataStruct.BinTree
             Console.WriteLine();
         }
 
-        public void TraverseLevel(BinNode<T> node)
+        public List<BinNode<T>> TraverseLevel(BinNode<T> node)
         {
+            List<BinNode<T>> list = new List<BinNode<T>>();
+
             Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
             queue.Enqueue(node);
             while (queue.Count > 0)
             {
                 node = queue.Dequeue();
                 Console.Write(node.Value.ToString() + "    ");
+                list.Add(node);
                 if (node.HasLChild())
                 {
                     queue.Enqueue(node.LeftChild);
@@ -301,6 +304,7 @@ namespace DataStruct.BinTree
                     queue.Enqueue(node.RightChild);
                 }
             }
+            return list;
         }
         #endregion
 
