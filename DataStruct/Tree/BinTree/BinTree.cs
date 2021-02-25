@@ -349,7 +349,7 @@ namespace DataStruct.BinTree
         }
         #endregion
 
-        public void UpdateHeight(BinNode<T> node)
+        protected void UpdateHeight(BinNode<T> node)
         {
             while (null != node)
             {
