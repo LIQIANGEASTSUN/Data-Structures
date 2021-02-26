@@ -129,7 +129,6 @@ namespace DataStruct.BinTree
             }
 
             UpdateHeightAbove(node.ParentNode);
-            UpdateDeep(node.ParentNode);
             return true;
         }
 
@@ -137,7 +136,6 @@ namespace DataStruct.BinTree
         {
             _root = new BinNode<T>(t);
             UpdateHeightAbove(_root);
-            UpdateDeep(_root);
             return _root;
         }
 
@@ -145,7 +143,6 @@ namespace DataStruct.BinTree
         {
             node.InsertAsLc(t);
             UpdateHeightAbove(node);
-            UpdateDeep(node);
             return node.LeftChild;
         }
 
@@ -153,7 +150,6 @@ namespace DataStruct.BinTree
         {
             node.InsertAsRc(t);
             UpdateHeightAbove(node);
-            UpdateDeep(node);
             return node.RightChild;
         }
 
@@ -368,28 +364,6 @@ namespace DataStruct.BinTree
         protected int NodeHeight(BinNode<T> node)
         {
             return (null != node) ? node.Height : -1;
-        }
-
-        protected void UpdateDeep(BinNode<T> node)
-        {
-            Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
-            queue.Enqueue(node);
-            while (queue.Count > 0)
-            {
-                node = queue.Dequeue();
-                if (null == node)
-                {
-                    continue;
-                }
-                node.Deep = NodeDeep(node.ParentNode) + 1;
-                queue.Enqueue(node.RightChild);
-                queue.Enqueue(node.LeftChild);
-            }
-        }
-
-        private int NodeDeep(BinNode<T> node)
-        {
-            return (null != node) ? node.Deep : -1;
         }
 
         public virtual void Release()

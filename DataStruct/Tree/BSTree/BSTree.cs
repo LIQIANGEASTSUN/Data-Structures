@@ -147,18 +147,7 @@ namespace DataStruct.BSTree
                     Console.WriteLine();
                     for (int n = 0; n < list.Count; ++n)
                     {
-                        Console.WriteLine(list[n].Value.ToString() + "  heigh:" + list[n].Height + "  deep:" + list[n].Deep);
-                        BinNode<int> node = list[n];
-                        int deep = -1;
-                        while (null != node)
-                        {
-                            ++deep;
-                            node = node.ParentNode;
-                        }
-                        if (deep != list[n].Deep)
-                        {
-                            Console.WriteLine(list[n].Value.ToString() + "  deep:" + list[n].Deep + "  heigh:" + list[n].Height + "    Error Error Error Error Error Error");
-                        }
+                        Console.WriteLine(list[n].Value.ToString() + "  heigh:" + list[n].Height);
                     }
 
                     list = bSTree.TraverseLevel(bSTree.Root);
@@ -239,7 +228,6 @@ namespace DataStruct.BSTree
             node = Insert(t, _hot);
 
             UpdateHeightAbove(node);
-            UpdateDeep(node);
             return node;
         }
 
@@ -302,7 +290,6 @@ namespace DataStruct.BSTree
             //Console.WriteLine("Remove Update:" + t.ToString() + "     " + _hot.Value);
 
             UpdateHeightAbove(updateNode);
-            UpdateDeep(updateNode);
             return true;
         }
 

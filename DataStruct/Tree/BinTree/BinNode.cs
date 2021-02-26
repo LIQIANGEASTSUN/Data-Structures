@@ -13,7 +13,6 @@ namespace DataStruct.BinTree
         private BinNode<T> _leftChild;
         private BinNode<T> _rightChild;
         private int _height;
-        private int _deep;
 
         public BinNode(T value)
         {
@@ -54,12 +53,6 @@ namespace DataStruct.BinTree
         {
             get { return _height; }
             set { _height = value; }
-        }
-
-        public int Deep
-        {
-            get { return _deep; }
-            set { _deep = value; }
         }
 
         // 作为当前节点的左孩子插入新节点
