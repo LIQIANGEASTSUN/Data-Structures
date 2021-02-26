@@ -128,7 +128,7 @@ namespace DataStruct.BinTree
                 node.ParentNode.RightChild = null;
             }
 
-            UpdateHeight(node.ParentNode);
+            UpdateHeightAbove(node.ParentNode);
             UpdateDeep(node.ParentNode);
             return true;
         }
@@ -136,7 +136,7 @@ namespace DataStruct.BinTree
         public virtual BinNode<T> InsertAsRoot(T t)
         {
             _root = new BinNode<T>(t);
-            UpdateHeight(_root);
+            UpdateHeightAbove(_root);
             UpdateDeep(_root);
             return _root;
         }
@@ -144,7 +144,7 @@ namespace DataStruct.BinTree
         public virtual BinNode<T> InsertAsLc(BinNode<T> node, T t)
         {
             node.InsertAsLc(t);
-            UpdateHeight(node);
+            UpdateHeightAbove(node);
             UpdateDeep(node);
             return node.LeftChild;
         }
@@ -152,7 +152,7 @@ namespace DataStruct.BinTree
         public virtual BinNode<T> InsertAsRc(BinNode<T> node, T t)
         {
             node.InsertAsRc(t);
-            UpdateHeight(node);
+            UpdateHeightAbove(node);
             UpdateDeep(node);
             return node.RightChild;
         }
@@ -349,9 +349,10 @@ namespace DataStruct.BinTree
         }
         #endregion
 
-        protected void UpdateHeight(BinNode<T> node)
+        // 更新高度
+        protected void UpdateHeightAbove(BinNode<T> node)
         {
-            while (null != node)
+            while (null != node) // 从node出发，覆盖历代祖先
             {
                 node.Height = 1 + Math.Max(NodeHeight(node.LeftChild), NodeHeight(node.RightChild));
                 node = node.ParentNode;

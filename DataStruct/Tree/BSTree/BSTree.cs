@@ -249,7 +249,7 @@ namespace DataStruct.BSTree
             }
             //Console.WriteLine("Insert Update:" + t.ToString() + "     " + node.Value);
 
-            UpdateHeight(node);
+            UpdateHeightAbove(node);
             UpdateDeep(node);
             return node;
         }
@@ -298,7 +298,7 @@ namespace DataStruct.BSTree
 
             //Console.WriteLine("Remove Update:" + t.ToString() + "     " + _hot.Value);
 
-            UpdateHeight(updateNode);
+            UpdateHeightAbove(updateNode);
             UpdateDeep(updateNode);
             return true;
         }
