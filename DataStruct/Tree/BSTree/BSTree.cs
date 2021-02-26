@@ -75,41 +75,41 @@ namespace DataStruct.BTree
                 for (int i = 0; i < arr.Length; ++i)
                 {
                     bSTree.Insert(arr[i]);
-                    BinTreeLogHelper<int>.Log(bSTree.Root, false);
+                    //BinTreeLogHelper<int>.Log(bSTree.Root, false);
 
-                    Console.WriteLine();
-                    list = bSTree.TraverseLevel(bSTree.Root);
-                    Console.WriteLine();
+                    //Console.WriteLine();
+                    //list = bSTree.TraverseLevel(bSTree.Root);
+                    //Console.WriteLine();
 
-                    for (int n = 0; n < list.Count; ++n)
-                    {
-                        BinNode<int> node = list[n];
-                        Console.WriteLine(list[n].Value.ToString() + "   heigh:" + list[n].Height + "   deep:" + list[n].Deep);
-                        int deep = -1;
-                        while (null != node)
-                        {
-                            ++deep;
-                            node = node.ParentNode;
-                        }
-                        if (deep != list[n].Deep)
-                        {
-                            Console.WriteLine(list[n].Value.ToString() + "  deep:" + list[n].Deep + "    Error Error Error Error Error Error");
-                        }
-                    }
+                    //for (int n = 0; n < list.Count; ++n)
+                    //{
+                    //    BinNode<int> node = list[n];
+                    //    Console.WriteLine(list[n].Value.ToString() + "   heigh:" + list[n].Height + "   deep:" + list[n].Deep);
+                    //    int deep = -1;
+                    //    while (null != node)
+                    //    {
+                    //        ++deep;
+                    //        node = node.ParentNode;
+                    //    }
+                    //    if (deep != list[n].Deep)
+                    //    {
+                    //        Console.WriteLine(list[n].Value.ToString() + "  deep:" + list[n].Deep + "    Error Error Error Error Error Error");
+                    //    }
+                    //}
 
-                    list = bSTree.TraverseLevel(bSTree.Root);
-                    Console.WriteLine();
+                    //list = bSTree.TraverseLevel(bSTree.Root);
+                    //Console.WriteLine();
 
-                    for (int n = 0; n < list.Count; ++n)
-                    {
-                        BinNode<int> node = list[n];
-                        int heigh = node.Height;
-                        //bSTree.UpdateHeight(node);
-                        if (heigh != node.Height)
-                        {
-                            Console.WriteLine(list[n].Value.ToString() + "  heigh:" + list[n].Height + "    Error Error Error Error Error Error");
-                        }
-                    }
+                    //for (int n = 0; n < list.Count; ++n)
+                    //{
+                    //    BinNode<int> node = list[n];
+                    //    int heigh = node.Height;
+                    //    //bSTree.UpdateHeight(node);
+                    //    if (heigh != node.Height)
+                    //    {
+                    //        Console.WriteLine(list[n].Value.ToString() + "  heigh:" + list[n].Height + "    Error Error Error Error Error Error");
+                    //    }
+                    //}
                 }
                 BinTreeLogHelper<int>.Log(bSTree.Root, false);
                 Console.WriteLine();
@@ -231,19 +231,24 @@ namespace DataStruct.BTree
 
         public virtual BinNode<T> Insert(T t)
         {
+            BinNode<T> node;
             if (null == Root)
             {
-                Root = new BinNode<T>(t);
-                return Root;
+                node = new BinNode<T>(t);
+                Root = node;
             }
-
-            BinNode<T> node = Search(t);
-            if (null != node)
+            else
             {
-                return node;
-            }
+                node = Search(t);
+                if (null != node)
+                {
+                    return node;
+                }
 
-            node = (t.CompareTo(_hot.Value) > 0) ? _hot.InsertAsRc(t) : _hot.InsertAsLc(t);
+                node = (t.CompareTo(_hot.Value) > 0) ? _hot.InsertAsRc(t) : _hot.InsertAsLc(t);
+            }
+            //Console.WriteLine("Insert Update:" + t.ToString() + "     " + node.Value);
+
             UpdateHeight(node);
             UpdateDeep(node);
             return node;
@@ -286,6 +291,8 @@ namespace DataStruct.BTree
                 }
                 _hot = u;
             }
+
+            //Console.WriteLine("Remove Update:" + t.ToString() + "     " + _hot.Value);
 
             UpdateHeight(_hot);
             UpdateDeep(_hot);
