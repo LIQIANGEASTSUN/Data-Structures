@@ -231,27 +231,30 @@ namespace DataStruct.BSTree
 
         public virtual BinNode<T> Insert(T t)
         {
-            BinNode<T> node;
-            if (null == Root)
+            BinNode<T> node = Search(t);
+            if (null != node)
             {
-                node = new BinNode<T>(t);
-                Root = node;
+                return node;
             }
-            else
-            {
-                node = Search(t);
-                if (null != node)
-                {
-                    return node;
-                }
-                
-                node = (t.CompareTo(_hot.Value) > 0) ? _hot.InsertAsRc(t) : _hot.InsertAsLc(t);
-            }
-            //Console.WriteLine("Insert Update:" + t.ToString() + "     " + node.Value);
+            node = Insert(t, _hot);
 
             UpdateHeightAbove(node);
             UpdateDeep(node);
             return node;
+        }
+
+        protected BinNode<T> Insert(T t, BinNode<T> parent)
+        {
+            if (null == parent)
+            {
+                Root = new BinNode<T>(t);
+                return Root;
+            }
+            else
+            {
+                BinNode<T> node = (t.CompareTo(parent.Value) > 0) ? parent.InsertAsRc(t) : parent.InsertAsLc(t);
+                return node;
+            }
         }
 
         public virtual bool Remove(T t)

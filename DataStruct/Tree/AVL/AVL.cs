@@ -81,7 +81,13 @@ namespace DataStruct.Tree.AVL
     {
         public override BinNode<T> Insert(T t)
         {
-            BinNode<T> node = base.Insert(t);
+            BinNode<T> node = Search(t);
+            if (null != node)
+            {
+                return node;
+            }
+            node = Insert(t, _hot);
+
             BinTreeLogHelper<T>.Log(Root, false);
 
             for (BinNode<T> g = _hot; null != g; g = g.ParentNode)
@@ -104,7 +110,7 @@ namespace DataStruct.Tree.AVL
                 }
                 else
                 {
-                    UpdateHeightAbove(g);
+                    UpdateHeight(g);
                     UpdateDeep(g);
                 }
             }

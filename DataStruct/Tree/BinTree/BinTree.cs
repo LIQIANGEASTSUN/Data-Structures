@@ -354,9 +354,15 @@ namespace DataStruct.BinTree
         {
             while (null != node) // 从node出发，覆盖历代祖先
             {
-                node.Height = 1 + Math.Max(NodeHeight(node.LeftChild), NodeHeight(node.RightChild));
+                UpdateHeight(node);
                 node = node.ParentNode;
             }
+        }
+
+        protected int UpdateHeight(BinNode<T> node)
+        {
+            node.Height = 1 + Math.Max(NodeHeight(node.LeftChild), NodeHeight(node.RightChild));
+            return node.Height;
         }
 
         protected int NodeHeight(BinNode<T> node)
