@@ -81,12 +81,14 @@ namespace DataStruct.Tree.AVL
     {
         public override BinNode<T> Insert(T t)
         {
-            BinNode<T> node = Search(t);
-            if (null != node)
-            {
-                return node;
-            }
-            node = Insert(t, _hot);
+            //BinNode<T> node = Search(t);
+            //if (null != node)
+            //{
+            //    return node;
+            //}
+            //node = Insert(t, _hot);
+
+            BinNode<T> node = base.Insert(t);
 
             BinTreeLogHelper<T>.Log(Root, false);
 
@@ -106,6 +108,9 @@ namespace DataStruct.Tree.AVL
                     {
                         g.ParentNode.RightChild = RotateAt(TallerChild(TallerChild(g)));
                     }
+
+                    UpdateHeight(g);
+
                     break;
                 }
                 else
