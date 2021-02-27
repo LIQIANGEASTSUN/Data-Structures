@@ -355,7 +355,7 @@ namespace DataStruct.BinTree
             }
         }
 
-        protected int UpdateHeight(BinNode<T> node)
+        public int UpdateHeight(BinNode<T> node)
         {
             node.Height = 1 + Math.Max(NodeHeight(node.LeftChild), NodeHeight(node.RightChild));
             return node.Height;

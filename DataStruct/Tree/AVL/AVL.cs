@@ -20,58 +20,58 @@ namespace DataStruct.Tree.AVL
             {
                 Console.WriteLine("Insert:" + arr[i]);
                 aVL.Insert(arr[i]);
+                //Console.WriteLine("===============================================");
+                //BinTreeLogHelper<int>.Log(aVL.Root, true);
+
+                //Console.WriteLine("===============================================");
+                //List<BinNode<int>> list = aVL.TraverseLevel(aVL.Root);
+                //Console.WriteLine();
+
+                //for (int n = 0; n < list.Count; ++n)
+                //{
+                //    BinNode<int> node = list[n];
+                //    Console.WriteLine(list[n].Value.ToString() + "   heigh:" + list[n].Height);
+                //    int deep = -1;
+                //    while (null != node)
+                //    {
+                //        ++deep;
+                //        node = node.ParentNode;
+                //    }
+                //    //if (deep != list[n].Deep)
+                //    //{
+                //    //    Console.WriteLine(list[n].Value.ToString() + "  deep:" + list[n].Deep + "    Error Error Error Error Error Error");
+                //    //}
+                //}
+            }
+
+            BinTreeLogHelper<int>.Log(aVL.Root, false);
+            Console.WriteLine("===============================================");
+
+            Console.WriteLine("Star Remove ===================================");
+            for (int i = 0; i < arr.Length; ++i)
+            {
+                Console.WriteLine("Remove:" + arr[i]);
+                aVL.Remove(arr[i]);
                 Console.WriteLine("===============================================");
-                BinTreeLogHelper<int>.Log(aVL.Root, true);
+                BinTreeLogHelper<int>.Log(aVL.Root, false);
 
                 Console.WriteLine("===============================================");
                 List<BinNode<int>> list = aVL.TraverseLevel(aVL.Root);
                 Console.WriteLine();
 
-                for (int n = 0; n < list.Count; ++n)
+                Console.WriteLine();
+                for (int n = list.Count - 1; n >= 0; --n)
                 {
                     BinNode<int> node = list[n];
-                    Console.WriteLine(list[n].Value.ToString() + "   heigh:" + list[n].Height);
-                    int deep = -1;
-                    while (null != node)
-                    {
-                        ++deep;
-                        node = node.ParentNode;
-                    }
-                    //if (deep != list[n].Deep)
+                    int heigh = node.Height;
+                    aVL.UpdateHeight(node);
+                    //if (heigh == node.Height)
                     //{
-                    //    Console.WriteLine(list[n].Value.ToString() + "  deep:" + list[n].Deep + "    Error Error Error Error Error Error");
+                    //    Console.WriteLine(list[n].Value.ToString() + "  heigh:" + list[n].Height + "    Error Error Error Error Error Error");
                     //}
+                    Console.WriteLine(list[n].Value.ToString() + "  heigh:" + heigh + "   " + (node.Height == heigh));
                 }
             }
-
-            //Console.WriteLine("Star Remove ===================================");
-            //for (int i = 0; i < arr.Length; ++i)
-            //{
-            //    Console.WriteLine("Remove:" + arr[i]);
-            //    aVL.Remove(arr[i]);
-            //    Console.WriteLine("===============================================");
-            //    BinTreeLogHelper<int>.Log(aVL.Root, false);
-
-            //    Console.WriteLine("===============================================");
-            //    List<BinNode<int>> list = aVL.TraverseLevel(aVL.Root);
-            //    Console.WriteLine();
-
-            //    for (int n = 0; n < list.Count; ++n)
-            //    {
-            //        BinNode<int> node = list[n];
-            //        Console.WriteLine(list[n].Value.ToString() + "   heigh:" + list[n].Height);
-            //        int deep = -1;
-            //        while (null != node)
-            //        {
-            //            ++deep;
-            //            node = node.ParentNode;
-            //        }
-            //        //if (deep != list[n].Deep)
-            //        //{
-            //        //    Console.WriteLine(list[n].Value.ToString() + "  deep:" + list[n].Deep + "    Error Error Error Error Error Error");
-            //        //}
-            //    }
-            //}
         }
 
     }
@@ -87,8 +87,6 @@ namespace DataStruct.Tree.AVL
                 return node;
             }
             node = Insert(t, _hot);
-
-            BinTreeLogHelper<T>.Log(Root, true);
 
             for (BinNode<T> g = _hot; null != g; g = g.ParentNode)
             {
@@ -122,20 +120,44 @@ namespace DataStruct.Tree.AVL
 
         public override bool Remove(T t)
         {
-            if (!base.Remove(t))
+            BinNode<T> node = Search(t);
+            if (null == node)
             {
                 return false;
             }
+            Remove(node, ref _hot);
+
+            BinTreeLogHelper<T>.Log(Root, false);
+            Console.WriteLine("平衡前");
 
             BinNode<T> g = _hot;
-            while (null != g)  //从_hot出发向上，逐层检查各代祖先g
+            while(null != g)  //从_hot出发向上，逐层检查各代祖先g
             { 
                 if (!AvlBalanced(g)) //一旦发现g失衡，则（采用“3 + 4”算法）使之复衡，并将该子树联至
                 {
-                    g = RotateAt(TallerChild(TallerChild(g)));  //原父亲
+                    if (g.IsRoot())
+                    {
+                        Root = RotateAt(TallerChild(TallerChild(g)));  //原父亲
+                        g = Root;
+                    }
+                    else if (g.IsLChild())
+                    {
+                        g.ParentNode.LeftChild = RotateAt(TallerChild(TallerChild(g)));  //原父亲
+                        g = g.ParentNode.LeftChild;
+                        //UpdateHeightAbove(g.ParentNode.LeftChild);
+                    }
+                    else
+                    {
+                        g.ParentNode.RightChild = RotateAt(TallerChild(TallerChild(g)));  //原父亲
+                        g = g.ParentNode.RightChild;
+                        //UpdateHeightAbove(g.ParentNode.RightChild);
+                    }
+                }
+                else
+                {
+                    UpdateHeight(g);
                 }
 
-                UpdateHeightAbove(g); // 并更新其高度（注意：即便g未失衡，高度亦可能降低）
                 g = g.ParentNode;
             }
 
