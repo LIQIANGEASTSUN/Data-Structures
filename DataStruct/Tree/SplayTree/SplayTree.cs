@@ -13,45 +13,44 @@ namespace DataStruct.Tree.SplayTree
             SplayTree<int> splayTree = new SplayTree<int>();
 
             //int[] arr = new int[] { 10, 8, 15, 17, 20, 19, 21, 12, 13, 6, 9, 16, 22, };
-            //int[] arr = new int[] { 10, 20, 8, 19, 15, 17, 21};
+            int[] arr = new int[] { 10, 20, 8, 19, 15, 17, 21};
             //int[] arr = new int[] { 10, 20, 8, 19};
-            //for (int i = 0; i < arr.Length; ++i)
-            //{
-            //    Console.WriteLine("Insert:" + arr[i]);
-            //    splayTree.Insert(arr[i]);
-            //    BinTreeLogHelper<int>.Log(splayTree.Root, true);
-            //    Console.WriteLine();
+            for (int i = 0; i < arr.Length; ++i)
+            {
+                Console.WriteLine("Insert:" + arr[i]);
+                splayTree.Insert(arr[i]);
+                BinTreeLogHelper<int>.Log(splayTree.Root, true);
+                Console.WriteLine();
 
-            //    List<BinNode<int>> list = new List<BinNode<int>>();
-            //    list = splayTree.TraverseLevel(splayTree.Root);
-            //    for (int j = 0; j < list.Count; ++j)
-            //    {
-            //        BinNode<int> ttt = list[j];
+                List<BinNode<int>> list = new List<BinNode<int>>();
+                list = splayTree.TraverseLevel(splayTree.Root);
+                for (int j = 0; j < list.Count; ++j)
+                {
+                    BinNode<int> ttt = list[j];
 
-            //        int data = ttt.Value;
-            //        while (ttt.ParentNode != null)
-            //        {
-            //            ttt = ttt.ParentNode;
-            //            if (data == ttt.Value)
-            //            {
-            //                int a = 0;
-            //            }
-            //        }
-            //    }
-            //}
+                    int data = ttt.Value;
+                    while (ttt.ParentNode != null)
+                    {
+                        ttt = ttt.ParentNode;
+                        if (data == ttt.Value)
+                        {
+                            int a = 0;
+                        }
+                    }
+                }
+            }
 
-            BinNode<int> root = splayTree.Insert(8);
-            BinNode<int> node10 = new BinNode<int>(10);
-            root.InsertAsRc(node10);
+            //BinNode<int> root = splayTree.Insert(8);
+            //BinNode<int> node10 = new BinNode<int>(10);
+            //root.InsertAsRc(node10);
 
-            BinNode<int> node20 = new BinNode<int>(20);
-            node10.InsertAsRc(node20);
+            //BinNode<int> node20 = new BinNode<int>(20);
+            //node10.InsertAsRc(node20);
 
-            BinTreeLogHelper<int>.Log(splayTree.Root, true);
+            //BinTreeLogHelper<int>.Log(splayTree.Root, true);
 
-            splayTree.Search(19);
-            BinTreeLogHelper<int>.Log(splayTree.Root, true);
-
+            //splayTree.Search(19);
+            //BinTreeLogHelper<int>.Log(splayTree.Root, true);
 
         }
     }
@@ -235,7 +234,7 @@ namespace DataStruct.Tree.SplayTree
                 }
                 else if (p.IsRChild())
                 {
-                    AttachAsRChild(g, p.RightChild);
+                    AttachAsRChild(g, p.LeftChild);
                     AttachAsRChild(p, v.LeftChild);
                     AttachAsLChild(p, g);
                     AttachAsLChild(v, p);
@@ -294,6 +293,7 @@ namespace DataStruct.Tree.SplayTree
             if (null != lc)
             {
                 lc.ParentNode = parent;
+                Console.WriteLine(parent.Value.ToString() + "  LeftChild:" + lc.Value.ToString());
             }
         }
 
@@ -303,6 +303,11 @@ namespace DataStruct.Tree.SplayTree
             if (null != rc)
             {
                 rc.ParentNode = parent;
+                Console.WriteLine(parent.Value.ToString() + "  RightChild:" + rc.Value.ToString());
+                if (parent.Value.ToString().CompareTo("8") == 0 && rc.Value.ToString().CompareTo("20") == 0)
+                {
+                    int a = 0;
+                }
             }
         }
 
