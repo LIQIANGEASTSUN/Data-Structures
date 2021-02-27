@@ -13,18 +13,48 @@ namespace DataStruct.Tree.SplayTree
             SplayTree<int> splayTree = new SplayTree<int>();
 
             //int[] arr = new int[] { 10, 8, 15, 17, 20, 19, 21, 12, 13, 6, 9, 16, 22, };
-            int[] arr = new int[] { 10, 8, 15, 17, 20, 19, 21};
-            for (int i = 0; i < arr.Length; ++i)
-            {
-                Console.WriteLine("Insert:" + arr[i]);
-                splayTree.Insert(arr[i]);
-                BinTreeLogHelper<int>.Log(splayTree.Root, false);
-                Console.WriteLine();
-            }
+            //int[] arr = new int[] { 10, 20, 8, 19, 15, 17, 21};
+            //int[] arr = new int[] { 10, 20, 8, 19};
+            //for (int i = 0; i < arr.Length; ++i)
+            //{
+            //    Console.WriteLine("Insert:" + arr[i]);
+            //    splayTree.Insert(arr[i]);
+            //    BinTreeLogHelper<int>.Log(splayTree.Root, true);
+            //    Console.WriteLine();
+
+            //    List<BinNode<int>> list = new List<BinNode<int>>();
+            //    list = splayTree.TraverseLevel(splayTree.Root);
+            //    for (int j = 0; j < list.Count; ++j)
+            //    {
+            //        BinNode<int> ttt = list[j];
+
+            //        int data = ttt.Value;
+            //        while (ttt.ParentNode != null)
+            //        {
+            //            ttt = ttt.ParentNode;
+            //            if (data == ttt.Value)
+            //            {
+            //                int a = 0;
+            //            }
+            //        }
+            //    }
+            //}
+
+            BinNode<int> root = splayTree.Insert(8);
+            BinNode<int> node10 = new BinNode<int>(10);
+            root.InsertAsRc(node10);
+
+            BinNode<int> node20 = new BinNode<int>(20);
+            node10.InsertAsRc(node20);
+
+            BinTreeLogHelper<int>.Log(splayTree.Root, true);
+
+            splayTree.Search(19);
+            BinTreeLogHelper<int>.Log(splayTree.Root, true);
+
 
         }
     }
-
 
     /// <summary>
     /// 伸展树
@@ -40,7 +70,8 @@ namespace DataStruct.Tree.SplayTree
         {
             BinNode<T> node = base.Search(t);
 
-            Root = Splay((null != node) ? node : _hot);// 将最后一个被访问的节点伸展至跟
+            BinNode<T> temp = (null != node) ? node : _hot;
+            Root = Splay(temp);// 将最后一个被访问的节点伸展至跟
 
             return Root;
         }
@@ -62,43 +93,64 @@ namespace DataStruct.Tree.SplayTree
                 return Root;
             }
 
-            node = Root;// 创建新节点，以下调整 <=7 个指针以完成局部重构
+            if (object.Equals(t, 19))
+            {
+                return Root;
+            }
 
-            if (Root.Value.CompareTo(t) == 0)  //插入新根，以t和t->rc为左、右孩子
+            BinNode<T> tempRoot = Root;
+            BinNode<T> newNode = new BinNode<T>(t);
+            tempRoot.ParentNode = newNode;
+            // 创建新节点，以下调整 <=7 个指针以完成局部重构
+            if (Root.Value.CompareTo(t) < 0)  //插入新根，以Root和Root.RC为左、右孩子
             {
                 //2 + 3个
-                BinNode<T> newNode = new BinNode<T>(t);
-                newNode.LeftChild = node;
-                newNode.RightChild = node.RightChild;
-
+                BinNode<T> rootRightChild = tempRoot.RightChild;
+                newNode.LeftChild = tempRoot;
+                newNode.RightChild = rootRightChild;
+                if (null != rootRightChild)
+                {
+                    rootRightChild.ParentNode = newNode;
+                    tempRoot.RightChild = null;
+                }
                 Root = newNode; 
-                node.ParentNode = Root;
-
-                if (node.HasRChild())
-                {
-                    node.RightChild.ParentNode = Root;
-                    node.RightChild = null;
-                } //<= 2个
+                 //<= 2个
             }
-            else  //插入新根，以t.LeftChild和t为左、右孩子
+            else  //插入新根，以Root.LeftChild和Root为左、右孩子
             {
+                BinNode<T> rootLeftChild = tempRoot.LeftChild;
+                newNode.LeftChild = rootLeftChild;
+                newNode.RightChild = tempRoot;
 
                 //2 + 3个
-                BinNode<T> newNode = new BinNode<T>(t);
-                newNode.LeftChild = node.LeftChild;
-                newNode.RightChild = node;
-
-                Root = newNode;
-                node.ParentNode = Root;
-
-                if (node.HasLChild())
+                if (null != rootLeftChild)
                 {
-                    node.LeftChild.ParentNode = Root;
-                    node.LeftChild = null;
-                } //<= 2个
+                    rootLeftChild.ParentNode = newNode;
+                    tempRoot.LeftChild = null;
+                }
+                Root = newNode;
+                //<= 2个
             }
+
+            CheckNode(Root);
+            CheckNode(newNode);
+
             UpdateHeightAbove(node); //更新t及其祖先（实际上只有_root一个）的高度
             return Root; //新节点必然置于树根，返回之
+        }
+
+        private void CheckNode(BinNode<T> node)
+        {
+            BinNode<T> temp = node;
+            T rootData = temp.Value;
+            while (temp.ParentNode != null)
+            {
+                temp = temp.ParentNode;
+                if (rootData.CompareTo(temp.Value) == 0)
+                {
+                    int a = 0;
+                }
+            }
         }
 
         /// <summary>
