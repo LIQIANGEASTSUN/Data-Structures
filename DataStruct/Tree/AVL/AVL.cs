@@ -21,7 +21,7 @@ namespace DataStruct.Tree.AVL
                 Console.WriteLine("Insert:" + arr[i]);
                 aVL.Insert(arr[i]);
                 Console.WriteLine("===============================================");
-                BinTreeLogHelper<int>.Log(aVL.Root, false);
+                BinTreeLogHelper<int>.Log(aVL.Root, true);
 
                 Console.WriteLine("===============================================");
                 List<BinNode<int>> list = aVL.TraverseLevel(aVL.Root);
@@ -44,34 +44,34 @@ namespace DataStruct.Tree.AVL
                 }
             }
 
-            Console.WriteLine("Star Remove ===================================");
-            for (int i = 0; i < arr.Length; ++i)
-            {
-                Console.WriteLine("Remove:" + arr[i]);
-                aVL.Remove(arr[i]);
-                Console.WriteLine("===============================================");
-                BinTreeLogHelper<int>.Log(aVL.Root, false);
+            //Console.WriteLine("Star Remove ===================================");
+            //for (int i = 0; i < arr.Length; ++i)
+            //{
+            //    Console.WriteLine("Remove:" + arr[i]);
+            //    aVL.Remove(arr[i]);
+            //    Console.WriteLine("===============================================");
+            //    BinTreeLogHelper<int>.Log(aVL.Root, false);
 
-                Console.WriteLine("===============================================");
-                List<BinNode<int>> list = aVL.TraverseLevel(aVL.Root);
-                Console.WriteLine();
+            //    Console.WriteLine("===============================================");
+            //    List<BinNode<int>> list = aVL.TraverseLevel(aVL.Root);
+            //    Console.WriteLine();
 
-                for (int n = 0; n < list.Count; ++n)
-                {
-                    BinNode<int> node = list[n];
-                    Console.WriteLine(list[n].Value.ToString() + "   heigh:" + list[n].Height);
-                    int deep = -1;
-                    while (null != node)
-                    {
-                        ++deep;
-                        node = node.ParentNode;
-                    }
-                    //if (deep != list[n].Deep)
-                    //{
-                    //    Console.WriteLine(list[n].Value.ToString() + "  deep:" + list[n].Deep + "    Error Error Error Error Error Error");
-                    //}
-                }
-            }
+            //    for (int n = 0; n < list.Count; ++n)
+            //    {
+            //        BinNode<int> node = list[n];
+            //        Console.WriteLine(list[n].Value.ToString() + "   heigh:" + list[n].Height);
+            //        int deep = -1;
+            //        while (null != node)
+            //        {
+            //            ++deep;
+            //            node = node.ParentNode;
+            //        }
+            //        //if (deep != list[n].Deep)
+            //        //{
+            //        //    Console.WriteLine(list[n].Value.ToString() + "  deep:" + list[n].Deep + "    Error Error Error Error Error Error");
+            //        //}
+            //    }
+            //}
         }
 
     }
@@ -88,7 +88,7 @@ namespace DataStruct.Tree.AVL
             }
             node = Insert(t, _hot);
 
-            BinTreeLogHelper<T>.Log(Root, false);
+            BinTreeLogHelper<T>.Log(Root, true);
 
             for (BinNode<T> g = _hot; null != g; g = g.ParentNode)
             {
@@ -101,10 +101,12 @@ namespace DataStruct.Tree.AVL
                     else if (g.IsLChild())
                     {
                         g.ParentNode.LeftChild = RotateAt(TallerChild(TallerChild(g)));
+                        UpdateHeightAbove(g.ParentNode.LeftChild);
                     }
                     else
                     {
                         g.ParentNode.RightChild = RotateAt(TallerChild(TallerChild(g)));
+                        UpdateHeightAbove(g.ParentNode.RightChild);
                     }
 
                     break;
@@ -192,7 +194,6 @@ namespace DataStruct.Tree.AVL
             if (null != T1)
             {
                 T1.ParentNode = a;
-                UpdateHeightAbove(a);
             }
 
             c.LeftChild = T2;
@@ -205,7 +206,6 @@ namespace DataStruct.Tree.AVL
             if (null != T3)
             {
                 T3.ParentNode = c;
-                UpdateHeightAbove(c);
             }
 
             b.LeftChild = a;
@@ -213,7 +213,10 @@ namespace DataStruct.Tree.AVL
 
             b.RightChild = c;
             c.ParentNode = b;
-            UpdateHeightAbove(b);
+
+            UpdateHeight(a);
+            UpdateHeight(c);
+            UpdateHeight(b);
 
             return b;
         }
