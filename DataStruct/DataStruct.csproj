@@ -67,6 +67,7 @@
     <Compile Include="Sort\RadixSort.cs" />
     <Compile Include="Sort\SelectionSort.cs" />
     <Compile Include="Sort\ShellSort.cs" />
+    <Compile Include="Tree\SplayTree\SplayTree.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
