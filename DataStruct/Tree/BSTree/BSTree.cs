@@ -219,6 +219,11 @@ namespace DataStruct.BSTree
 
         }
 
+        /// <summary>
+        /// 插入
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public virtual BinNode<T> Insert(T t)
         {
             BinNode<T> node = Search(t);
@@ -232,6 +237,12 @@ namespace DataStruct.BSTree
             return node;
         }
 
+        /// <summary>
+        /// 插入，仅内部调用
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="parent"></param>
+        /// <returns></returns>
         protected BinNode<T> Insert(T t, BinNode<T> parent)
         {
             if (null == parent)
@@ -246,6 +257,9 @@ namespace DataStruct.BSTree
             }
         }
 
+        /// <summary>
+        /// 删除
+        /// </summary>
         public virtual bool Remove(T t)
         {
             BinNode<T> node = Search(t);
@@ -260,6 +274,11 @@ namespace DataStruct.BSTree
             return true;
         }
 
+        /// <summary>
+        /// 删除,仅内部调用
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="hot"></param>
         protected void Remove(BinNode<T> node, ref BinNode<T> hot)
         {
             if (!node.HasLChild())      // 如果节点没有左孩子，则直接以其右孩子代替
@@ -292,6 +311,11 @@ namespace DataStruct.BSTree
             }
         }
 
+        /// <summary>
+        /// 替换节点：将 beReplace 节点替换为 node
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="beReplace">被替换的节点</param>
         private void Replace(BinNode<T> node, BinNode<T> beReplace)
         {
             if (beReplace.IsRoot())
@@ -318,7 +342,11 @@ namespace DataStruct.BSTree
             }
         }
 
-        // 节点的直接后继
+        /// <summary>
+        /// 节点的直接后继
+        /// 如果有右孩子，则取右孩子及子孙后代中最小者
+        /// 否则，取左孩子及子孙后代中最大者
+        /// </summary>
         private BinNode<T> NodeSucc(BinNode<T> node)
         {
             if (node.HasRChild())
@@ -341,6 +369,11 @@ namespace DataStruct.BSTree
             return node;
         }
 
+        /// <summary>
+        /// 查询：返回查询结果，如果存在则 _hot 为查询结果的父节点
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public virtual BinNode<T> Search(T t)
         {
             if (null == Root || t.CompareTo(Root.Value) == 0)

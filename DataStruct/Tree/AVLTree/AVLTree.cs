@@ -66,6 +66,9 @@ namespace DataStruct.Tree.AVLTree
     /// <typeparam name="T"></typeparam>
     class AVLTree<T> : BSTree<T> where T : IComparable<T>
     {
+        /// <summary>
+        /// 插入
+        /// </summary>
         public override BinNode<T> Insert(T t)
         {
             BinNode<T> node = Search(t);
@@ -105,6 +108,9 @@ namespace DataStruct.Tree.AVLTree
             return node;
         }
 
+        /// <summary>
+        /// 删除
+        /// </summary>
         public override bool Remove(T t)
         {
             BinNode<T> node = Search(t);
