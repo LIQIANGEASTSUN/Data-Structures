@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DataStruct.BinTree;
 using DataStruct.BSTree;
 
 namespace DataStruct.Tree.AVL
 {
-
     public class AVLTest
     {
-
         public static void Test()
         {
             AVL<int> aVL = new AVL<int>();
@@ -73,9 +68,7 @@ namespace DataStruct.Tree.AVL
                 }
             }
         }
-
     }
-
 
     class AVL<T> : BSTree<T> where T : IComparable<T>
     {
@@ -127,9 +120,6 @@ namespace DataStruct.Tree.AVL
             }
             Remove(node, ref _hot);
 
-            BinTreeLogHelper<T>.Log(Root, false);
-            Console.WriteLine("平衡前");
-
             BinNode<T> g = _hot;
             while(null != g)  //从_hot出发向上，逐层检查各代祖先g
             { 
@@ -144,13 +134,11 @@ namespace DataStruct.Tree.AVL
                     {
                         g.ParentNode.LeftChild = RotateAt(TallerChild(TallerChild(g)));  //原父亲
                         g = g.ParentNode.LeftChild;
-                        //UpdateHeightAbove(g.ParentNode.LeftChild);
                     }
                     else
                     {
                         g.ParentNode.RightChild = RotateAt(TallerChild(TallerChild(g)));  //原父亲
                         g = g.ParentNode.RightChild;
-                        //UpdateHeightAbove(g.ParentNode.RightChild);
                     }
                 }
                 else
@@ -162,85 +150,6 @@ namespace DataStruct.Tree.AVL
             }
 
             return true;
-        }
-
-        // BST 节点旋转变换统一算法(3节点 + 4子树)，返回调整之后局部子树根节点的位置
-        // 注意：尽管子树根会正确指向上层节点（如果存在），但反向的联接须由上层函数完成
-        protected BinNode<T> RotateAt(BinNode<T> v)
-        {
-            if (null == v)
-            {
-                return v;
-            }
-
-            BinNode<T> p = v.ParentNode;
-            BinNode<T> g = p.ParentNode; // 视v、p和g相对位置分四种情况
-
-            if (p.IsLChild())
-            {
-                if (v.IsLChild())
-                {
-                    p.ParentNode = g.ParentNode; // 向上联接
-                    return Connect34(v, p, g, v.LeftChild, v.RightChild, p.RightChild, g.RightChild);
-                }
-                else
-                {
-                    v.ParentNode = g.ParentNode; // 向上联接
-                    return Connect34(p, v, g, p.LeftChild, v.LeftChild, v.RightChild, g.RightChild);
-                }
-            }
-            else
-            {
-                if (v.IsRChild())
-                {
-                    p.ParentNode = g.ParentNode;// 向上联接
-                    return Connect34(g, p, v, g.LeftChild, p.LeftChild, v.LeftChild, v.RightChild);
-                }
-                else
-                {
-                    v.ParentNode = g.ParentNode;// 向上联接
-                    return Connect34(g, v, p, g.LeftChild, v.LeftChild, v.RightChild, p.RightChild);
-                }
-            }
-        }
-
-        protected BinNode<T> Connect34(BinNode<T> a, BinNode<T> b, BinNode<T> c, BinNode<T> T0, BinNode<T> T1, BinNode<T> T2, BinNode<T> T3)
-        {
-            a.LeftChild = T0;
-            if (null != T0)
-            {
-                T0.ParentNode = a;
-            }
-
-            a.RightChild = T1;
-            if (null != T1)
-            {
-                T1.ParentNode = a;
-            }
-
-            c.LeftChild = T2;
-            if (null != T2)
-            {
-                T2.ParentNode = c;
-            }
-
-            c.RightChild = T3;
-            if (null != T3)
-            {
-                T3.ParentNode = c;
-            }
-
-            b.LeftChild = a;
-            a.ParentNode = b;
-
-            b.RightChild = c;
-            c.ParentNode = b;
-
-            UpdateHeight(a);
-            UpdateHeight(c);
-            UpdateHeight(b);
-
-            return b;
         }
 
         /// <summary>
@@ -284,11 +193,5 @@ namespace DataStruct.Tree.AVL
                 return node.IsLChild() ? node.LeftChild : node.RightChild;
             }
         }
-
-        //public BinNode<T> TallerChild(BinNode<T> x)
-        //{
-        //    return NodeHeight(x.LeftChild) > NodeHeight(x.RightChild) ? x.LeftChild : (NodeHeight(x.LeftChild) < NodeHeight(x.RightChild) ? x.RightChild : ( x.IsLeaf() ? x.LeftChild : x.RightChild));
-        //}
-
     }
 }

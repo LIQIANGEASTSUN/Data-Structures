@@ -363,5 +363,91 @@ namespace DataStruct.BSTree
             return _hot;
         }
 
+        /// <summary>
+        /// BST 节点旋转变换统一算法(3节点 + 4子树)，返回调整之后局部子树根节点的位置
+        /// 注意：尽管子树根会正确指向上层节点（如果存在），但反向的联接须由上层函数完成
+        /// </summary>
+        protected BinNode<T> RotateAt(BinNode<T> v)
+        {
+            if (null == v)
+            {
+                return v;
+            }
+
+            BinNode<T> p = v.ParentNode;
+            BinNode<T> g = p.ParentNode; // 视v、p和g相对位置分四种情况
+
+            if (p.IsLChild())
+            {
+                if (v.IsLChild())
+                {
+                    p.ParentNode = g.ParentNode; // 向上联接
+                    return Connect34(v, p, g, v.LeftChild, v.RightChild, p.RightChild, g.RightChild);
+                }
+                else
+                {
+                    v.ParentNode = g.ParentNode; // 向上联接
+                    return Connect34(p, v, g, p.LeftChild, v.LeftChild, v.RightChild, g.RightChild);
+                }
+            }
+            else
+            {
+                if (v.IsRChild())
+                {
+                    p.ParentNode = g.ParentNode;// 向上联接
+                    return Connect34(g, p, v, g.LeftChild, p.LeftChild, v.LeftChild, v.RightChild);
+                }
+                else
+                {
+                    v.ParentNode = g.ParentNode;// 向上联接
+                    return Connect34(g, v, p, g.LeftChild, v.LeftChild, v.RightChild, p.RightChild);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 按照 "3 + 4" 结构联接3个节点及其4棵子树，返回重组之后的局子树根节点位置(即b)
+        /// 子树根节点与上层节点之间的双向联接，均须由上层调用者完成
+        /// 可用于AVL 和 RedBlack 的局部平衡调整
+        /// </summary>
+        /// <returns></returns>
+        protected BinNode<T> Connect34(BinNode<T> a, BinNode<T> b, BinNode<T> c, BinNode<T> T0, BinNode<T> T1, BinNode<T> T2, BinNode<T> T3)
+        {
+            a.LeftChild = T0;
+            if (null != T0)
+            {
+                T0.ParentNode = a;
+            }
+
+            a.RightChild = T1;
+            if (null != T1)
+            {
+                T1.ParentNode = a;
+            }
+
+            c.LeftChild = T2;
+            if (null != T2)
+            {
+                T2.ParentNode = c;
+            }
+
+            c.RightChild = T3;
+            if (null != T3)
+            {
+                T3.ParentNode = c;
+            }
+
+            b.LeftChild = a;
+            a.ParentNode = b;
+
+            b.RightChild = c;
+            c.ParentNode = b;
+
+            UpdateHeight(a);
+            UpdateHeight(c);
+            UpdateHeight(b);
+
+            return b;
+        }
     }
 }
