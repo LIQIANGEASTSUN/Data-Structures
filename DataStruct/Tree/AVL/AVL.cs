@@ -15,28 +15,18 @@ namespace DataStruct.Tree.AVL
             {
                 Console.WriteLine("Insert:" + arr[i]);
                 aVL.Insert(arr[i]);
-                //Console.WriteLine("===============================================");
-                //BinTreeLogHelper<int>.Log(aVL.Root, true);
+                Console.WriteLine("===============================================");
+                BinTreeLogHelper<int>.Log(aVL.Root, false);
 
-                //Console.WriteLine("===============================================");
-                //List<BinNode<int>> list = aVL.TraverseLevel(aVL.Root);
-                //Console.WriteLine();
+                Console.WriteLine("===============================================");
+                List<BinNode<int>> list = aVL.TraverseLevel(aVL.Root);
+                Console.WriteLine();
 
-                //for (int n = 0; n < list.Count; ++n)
-                //{
-                //    BinNode<int> node = list[n];
-                //    Console.WriteLine(list[n].Value.ToString() + "   heigh:" + list[n].Height);
-                //    int deep = -1;
-                //    while (null != node)
-                //    {
-                //        ++deep;
-                //        node = node.ParentNode;
-                //    }
-                //    //if (deep != list[n].Deep)
-                //    //{
-                //    //    Console.WriteLine(list[n].Value.ToString() + "  deep:" + list[n].Deep + "    Error Error Error Error Error Error");
-                //    //}
-                //}
+                for (int n = 0; n < list.Count; ++n)
+                {
+                    BinNode<int> node = list[n];
+                    Console.WriteLine(list[n].Value.ToString() + "   heigh:" + list[n].Height);
+                }
             }
 
             BinTreeLogHelper<int>.Log(aVL.Root, false);
@@ -176,7 +166,7 @@ namespace DataStruct.Tree.AVL
             return -1 <= BalFac(node) && BalFac(node) <= 1; 
         }
 
-        // 在 左、右 孩子中去更高者
+        // 在 左、右 孩子中取更高者
         protected BinNode<T> TallerChild(BinNode<T> node)
         {
             int balFac = BalFac(node);
