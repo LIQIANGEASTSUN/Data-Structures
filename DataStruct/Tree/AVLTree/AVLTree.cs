@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using DataStruct.BinTree;
 using DataStruct.BSTree;
 
-namespace DataStruct.Tree.AVL
+namespace DataStruct.Tree.AVLTree
 {
     public class AVLTest
     {
         public static void Test()
         {
-            AVL<int> aVL = new AVL<int>();
+            AVLTree<int> aVLTree = new AVLTree<int>();
             int[] arr = new int[] { 10, 8, 15, 17, 20, 19, 21, 12, 13, 6, 9, 16, 22, };
             for (int i = 0; i < arr.Length; ++i)
             {
                 Console.WriteLine("Insert:" + arr[i]);
-                aVL.Insert(arr[i]);
+                aVLTree.Insert(arr[i]);
                 Console.WriteLine("===============================================");
-                BinTreeLogHelper<int>.Log(aVL.Root, false);
+                BinTreeLogHelper<int>.Log(aVLTree.Root, false);
 
                 Console.WriteLine("===============================================");
-                List<BinNode<int>> list = aVL.TraverseLevel(aVL.Root);
+                List<BinNode<int>> list = aVLTree.TraverseLevel(aVLTree.Root);
                 Console.WriteLine();
 
                 for (int n = 0; n < list.Count; ++n)
@@ -29,19 +29,19 @@ namespace DataStruct.Tree.AVL
                 }
             }
 
-            BinTreeLogHelper<int>.Log(aVL.Root, false);
+            BinTreeLogHelper<int>.Log(aVLTree.Root, false);
             Console.WriteLine("===============================================");
 
             Console.WriteLine("Star Remove ===================================");
             for (int i = 0; i < arr.Length; ++i)
             {
                 Console.WriteLine("Remove:" + arr[i]);
-                aVL.Remove(arr[i]);
+                aVLTree.Remove(arr[i]);
                 Console.WriteLine("===============================================");
-                BinTreeLogHelper<int>.Log(aVL.Root, false);
+                BinTreeLogHelper<int>.Log(aVLTree.Root, false);
 
                 Console.WriteLine("===============================================");
-                List<BinNode<int>> list = aVL.TraverseLevel(aVL.Root);
+                List<BinNode<int>> list = aVLTree.TraverseLevel(aVLTree.Root);
                 Console.WriteLine();
 
                 Console.WriteLine();
@@ -49,7 +49,7 @@ namespace DataStruct.Tree.AVL
                 {
                     BinNode<int> node = list[n];
                     int heigh = node.Height;
-                    aVL.UpdateHeight(node);
+                    aVLTree.UpdateHeight(node);
                     //if (heigh == node.Height)
                     //{
                     //    Console.WriteLine(list[n].Value.ToString() + "  heigh:" + list[n].Height + "    Error Error Error Error Error Error");
@@ -60,7 +60,11 @@ namespace DataStruct.Tree.AVL
         }
     }
 
-    class AVL<T> : BSTree<T> where T : IComparable<T>
+    /// <summary>
+    /// 二叉搜索树
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    class AVLTree<T> : BSTree<T> where T : IComparable<T>
     {
         public override BinNode<T> Insert(T t)
         {

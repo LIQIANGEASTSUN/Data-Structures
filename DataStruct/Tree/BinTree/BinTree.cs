@@ -89,7 +89,10 @@ namespace DataStruct.BinTree
         }
     }
 
-    // 二叉树
+    /// <summary>
+    /// 二叉树
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class BinTree<T> where T : IComparable<T>
     {
         private BinNode<T> _root = null;

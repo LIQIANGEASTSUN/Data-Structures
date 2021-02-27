@@ -36,7 +36,7 @@ namespace DataStruct
 
         private static void AVLTest()
         {
-            Tree.AVL.AVLTest.Test();
+            Tree.AVLTree.AVLTest.Test();
         }
 
     }

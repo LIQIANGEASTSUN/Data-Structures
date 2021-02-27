@@ -45,7 +45,7 @@
   <ItemGroup>
     <Compile Include="Log\LogBinTreeCheck.cs" />
     <Compile Include="Log\LogBinTreeTest.cs" />
-    <Compile Include="Tree\AVL\AVL.cs" />
+    <Compile Include="Tree\AVLTree\AVLTree.cs" />
     <Compile Include="Tree\BinTree\BinNode.cs" />
     <Compile Include="Tree\BSTree\BSTree.cs" />
     <Compile Include="Tree\BinTree\BinTree.cs" />
