@@ -40,18 +40,17 @@ namespace DataStruct.Tree.AVL
             {
                 if (!AvlBalanced(g))
                 {
-                    BinNode<T> n = RotateAt(TallerChild(TallerChild(g)));
                     if (g.IsRoot())
                     {
-                        Root = n;
+                        Root = RotateAt(TallerChild(TallerChild(g)));
                     }
                     else if (g.IsLChild())
                     {
-                        g.ParentNode.LeftChild = n;
+                        g.ParentNode.LeftChild = RotateAt(TallerChild(TallerChild(g)));
                     }
                     else
                     {
-                        g.ParentNode.RightChild = n;
+                        g.ParentNode.RightChild = RotateAt(TallerChild(TallerChild(g)));
                     }
                     break;
                 }
@@ -162,7 +161,7 @@ namespace DataStruct.Tree.AVL
             c.ParentNode = b;
             UpdateHeight(b);
 
-            return null;
+            return b;
         }
 
         /// <summary>
@@ -190,29 +189,27 @@ namespace DataStruct.Tree.AVL
         }
 
         // 在 左、右 孩子中去更高者
-        //protected BinNode<T> TallerChild(BinNode<T> node)
-        //{
-        //    int balFac = BalFac(node);
-        //    if (balFac > 0) // 左高
-        //    {
-        //        return node.LeftChild;
-        //    }
-        //    else if (balFac < 0) // 右高
-        //    {
-        //        return node.RightChild;
-        //    }
-        //    else // 等高：与父亲x同侧者
-        //    {
-        //        return node.IsLChild() ? node.LeftChild : node.RightChild;
-        //    }
-        //}
-
-        public BinNode<T> TallerChild(BinNode<T> x)
+        protected BinNode<T> TallerChild(BinNode<T> node)
         {
-            return NodeHeight(x.LeftChild) > NodeHeight(x.RightChild) ? x.LeftChild : (NodeHeight(x.LeftChild) < NodeHeight(x.RightChild) ? x.RightChild : ( x.IsLeaf() ? x.LeftChild : x.RightChild));
+            int balFac = BalFac(node);
+            if (balFac > 0) // 左高
+            {
+                return node.LeftChild;
+            }
+            else if (balFac < 0) // 右高
+            {
+                return node.RightChild;
+            }
+            else // 等高：与父亲x同侧者
+            {
+                return node.IsLChild() ? node.LeftChild : node.RightChild;
+            }
         }
 
-    
-             
+        //public BinNode<T> TallerChild(BinNode<T> x)
+        //{
+        //    return NodeHeight(x.LeftChild) > NodeHeight(x.RightChild) ? x.LeftChild : (NodeHeight(x.LeftChild) < NodeHeight(x.RightChild) ? x.RightChild : ( x.IsLeaf() ? x.LeftChild : x.RightChild));
+        //}
+
     }
 }
