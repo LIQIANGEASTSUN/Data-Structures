@@ -9,7 +9,9 @@ namespace DataStruct
         {
             //HeapTest();
             //BinTreeTest();
-            BSTreeTest();
+            //BSTreeTest();
+
+            AVLTest();
 
             Console.ReadLine();
         }
@@ -29,7 +31,13 @@ namespace DataStruct
 
         private static void BSTreeTest()
         {
-            BTree.BSTreeTest.Test();
+            BSTree.BSTreeTest.Test();
         }
+
+        private static void AVLTest()
+        {
+            Tree.AVL.AVLTest.Test();
+        }
+
     }
 }

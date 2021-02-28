@@ -3,7 +3,7 @@ using DataStruct.Log;
 using System;
 using System.Collections.Generic;
 
-namespace DataStruct.BTree
+namespace DataStruct.BSTree
 {
     public class BSTreeTest
     {
@@ -222,7 +222,7 @@ namespace DataStruct.BTree
     /// </summary>
     public class BSTree<T> : BinTree<T> where T : IComparable<T>
     {
-        private BinNode<T> _hot;
+        protected BinNode<T> _hot;
 
         public BSTree()
         {
@@ -244,7 +244,7 @@ namespace DataStruct.BTree
                 {
                     return node;
                 }
-
+                
                 node = (t.CompareTo(_hot.Value) > 0) ? _hot.InsertAsRc(t) : _hot.InsertAsLc(t);
             }
             //Console.WriteLine("Insert Update:" + t.ToString() + "     " + node.Value);
@@ -254,7 +254,7 @@ namespace DataStruct.BTree
             return node;
         }
 
-        public bool Remove(T t)
+        public virtual bool Remove(T t)
         {
             BinNode<T> node = Search(t);
             if (null == node)
@@ -262,16 +262,19 @@ namespace DataStruct.BTree
                 return false;
             }
 
+            BinNode<T> updateNode = null;
             BinNode<T> succ = null;
             if (!node.HasLChild())      // 如果节点没有左孩子，则直接以其右孩子代替
             {
                 Replace(node.RightChild, node); // 令node的右孩子替换node
-                _hot = node.RightChild != null ? node.RightChild : node;
+                updateNode = node.RightChild != null ? node.RightChild : node;
+                _hot = node.ParentNode;
             }
             else if (!node.HasRChild()) // 如果节点没有右孩子，则直接以其左孩子代替
             {
                 Replace(node.LeftChild, node); // 令 node 的左孩子替换node
-                _hot = node.LeftChild != null ? node.LeftChild : node;
+                updateNode = node.LeftChild != null ? node.LeftChild : node;
+                _hot = node.ParentNode;
             }
             else
             {
@@ -290,13 +293,14 @@ namespace DataStruct.BTree
                     u.InsertAsLc(succ.RightChild); // 令实际要删除节点的右孩子作为 u 的左孩子
                 }
                 _hot = u;
+                updateNode = u;
             }
 
             //Console.WriteLine("Remove Update:" + t.ToString() + "     " + _hot.Value);
 
-            UpdateHeight(_hot);
-            UpdateDeep(_hot);
-            return false;
+            UpdateHeight(updateNode);
+            UpdateDeep(updateNode);
+            return true;
         }
 
         private void Replace(BinNode<T> node, BinNode<T> beReplace)
@@ -369,7 +373,6 @@ namespace DataStruct.BTree
 
             return _hot;
         }
-
 
     }
 }

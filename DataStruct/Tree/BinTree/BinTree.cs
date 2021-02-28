@@ -358,7 +358,7 @@ namespace DataStruct.BinTree
             }
         }
 
-        private int NodeHeight(BinNode<T> node)
+        protected int NodeHeight(BinNode<T> node)
         {
             return (null != node) ? node.Height : -1;
         }
