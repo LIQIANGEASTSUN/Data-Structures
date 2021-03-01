@@ -8,29 +8,54 @@ namespace DataStruct.Tree.BTree
 {
     public class BTreeTest
     {
+        private static BTree<int> bTree;
         public static void Test()
         {
-            BTree<int> bTree = new BTree<int>(4);
+            TestInit();
+            bTree.TraverseLevel(bTree.Root);
+
+            Console.WriteLine();
+
+            TestInsert(bTree);
+            bTree.TraverseLevel(bTree.Root);
+        }
+
+        private static void TestInit()
+        {
+            bTree = new BTree<int>(4);
 
             BTNode<int> root = new BTNode<int>();
-            root.Key = new List<int>() { 53, 75};
+            root.Key = new List<int>() { 53, 75 };
 
             bTree.Root = root;
 
             #region Level1
             BTNode<int> node1 = new BTNode<int>();
-            node1.Key = new List<int>() { 19, 36};
+            node1.Key = new List<int>() { 19, 36 };
+            node1.Child.Add(null);
+            node1.Child.Add(null);
 
             BTNode<int> node2 = new BTNode<int>();
-            node2.Key = new List<int>() { 63, 69};
+            node2.Key = new List<int>() { 63, 69 };
+            node2.Child.Add(null);
+            node2.Child.Add(null);
 
             BTNode<int> node3 = new BTNode<int>();
-            node3.Key = new List<int>() { 84, 92};
+            node3.Key = new List<int>() { 84, 92 };
+            node3.Child.Add(null);
+            node3.Child.Add(null);
 
-            root.AddChild(node1);
+            root.Child[0] = (node1);
+            node1.ParentNode = root;
             root.AddChild(node2);
             root.AddChild(node3);
             #endregion
+
+            int a = 0; 
+            if (a == 0)
+            {
+                return;
+            }
 
             #region Level2
             BTNode<int> node4 = new BTNode<int>();
@@ -60,8 +85,6 @@ namespace DataStruct.Tree.BTree
             node2.AddChild(node8);
             node2.AddChild(node9);
 
-
-
             BTNode<int> node10 = new BTNode<int>();
             node10.Key = new List<int>() { 77, 79 };
 
@@ -79,9 +102,94 @@ namespace DataStruct.Tree.BTree
 
             bTree.TraverseLevel(bTree.Root);
 
+            TestSearch(bTree);
+            Console.WriteLine();
+
+        }
+
+        private static void TestSearch(BTree<int> bTree)
+        {
+            TestSearch(bTree, 53);
+
+            TestSearch(bTree, 36);
+
+            TestSearch(bTree, 17);
+
+            TestSearch(bTree, 31);
+
+            TestSearch(bTree, 49);
+
+            TestSearch(bTree, 63);
+
+            TestSearch(bTree, 59);
+
+            TestSearch(bTree, 66);
+
+            TestSearch(bTree, 71);
+
+            TestSearch(bTree, 73);
+
+            TestSearch(bTree, 92);
+
+            TestSearch(bTree, 79);
+
+            TestSearch(bTree, 89);
+
+            TestSearch(bTree, 93);
+
+            TestSearch(bTree, 99);
+
+            //TestSearch(bTree, 12);
+
+            //TestSearch(bTree, 37);
+
+            //TestSearch(bTree, 55);
+
+            //TestSearch(bTree, 68);
+
+            //TestSearch(bTree, 90);
+
+
             Console.WriteLine();
         }
 
+        private static void TestSearch(BTree<int> bTree, int value)
+        {
+            StringBuilder sb = new StringBuilder();
+            BTNode<int> node = null;
+
+            sb.AppendLine("Search: " + value);
+            node = bTree.Search(value);
+
+            if (null != node)
+            {
+                sb.AppendLine("Search success:");
+                for (int i = 0; i < node.Key.Count; ++i)
+                {
+                    sb.Append(node.Key[i].ToString() + "  ");
+                }
+            }
+            else
+            {
+                sb.Append("Search Fail");
+            }
+            Console.WriteLine(sb.ToString());
+            Console.WriteLine();
+        }
+
+        private static void TestInsert(BTree<int> bTree)
+        {
+            bTree.Insert(13);
+
+            bTree.Insert(25);
+
+            bTree.Insert(39);
+
+            bTree.Insert(40);
+
+            bTree.Insert(55);
+
+        }
     }
 
     // B-树
@@ -115,22 +223,26 @@ namespace DataStruct.Tree.BTree
                 int index = -1;
                 for (int i = 0; i < v.Key.Count; ++i)
                 {
-                    if (v.Key[i].CompareTo(t) == 0)
+                    int compare = v.Key[i].CompareTo(t);
+                    if (compare <= 0)
                     {
                         index = i;
-                        break;
+                        if (compare == 0)
+                        {
+                            break;
+                        }
                     }
                 }
 
                 // 若成功，则返回
-                if (index >= 0)
+                if (index >= 0 && v.Key[index].CompareTo(t) == 0)
                 {
                     return v;
                 }
 
                 _hot = v;
                 // 沿引用转至对应的下层子树，并载入其根
-                v = v.Child[index + 1];
+                v = v.Child.Count > (index + 1) ? v.Child[index + 1] : null;
             }
             // 若因 null == v 而退出,则意味着抵达外部节点
             return null; // 失败
@@ -148,15 +260,28 @@ namespace DataStruct.Tree.BTree
             }
 
             int index = -1;
+            //for (int i = 0; i < _hot.Key.Count; ++i)
+            //{
+            //    T value = _hot.Key[i];
+            //    int compare = value.CompareTo(t);
+            //    if (compare > 0)
+            //    {
+            //        break;
+            //    }
+            //    ++index;
+            //}
+
             for (int i = 0; i < _hot.Key.Count; ++i)
             {
-                T value = _hot.Key[i];
-                int compare = value.CompareTo(t);
-                if (compare > 0)
+                int compare = _hot.Key[i].CompareTo(t);
+                if (compare <= 0)
                 {
-                    break;
+                    index = i;
+                    if (compare == 0)
+                    {
+                        break;
+                    }
                 }
-                ++index;
             }
 
             _hot.Key.Insert(index + 1, t);      // 将新关键码插至对应的位置

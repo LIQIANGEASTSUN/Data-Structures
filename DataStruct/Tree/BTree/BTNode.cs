@@ -14,7 +14,7 @@ namespace DataStruct.Tree.BTree
         {
             key = new List<T>();
             child = new List<BTNode<T>>();
-            child.Add(null);
+            child.Insert(0, null);
         }
 
         public BTNode(T t, BTNode<T> lc, BTNode<T> rc)
