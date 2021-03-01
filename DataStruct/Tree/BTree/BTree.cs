@@ -22,7 +22,7 @@ namespace DataStruct.Tree.BTree
 
         private static void TestInit()
         {
-            bTree = new BTree<int>(4);
+            bTree = new BTree<int>(5);
 
             BTNode<int> root = new BTNode<int>();
             root.Key = new List<int>() { 53, 75 };
@@ -104,7 +104,6 @@ namespace DataStruct.Tree.BTree
 
             TestSearch(bTree);
             Console.WriteLine();
-
         }
 
         private static void TestSearch(BTree<int> bTree)
@@ -183,11 +182,11 @@ namespace DataStruct.Tree.BTree
 
             bTree.Insert(25);
 
-            bTree.Insert(39);
+            //bTree.Insert(39);
 
-            bTree.Insert(40);
+            //bTree.Insert(40);
 
-            bTree.Insert(55);
+            //bTree.Insert(55);
 
         }
     }
