@@ -76,8 +76,15 @@ namespace DataStruct.Tree.AVLTree
             {
                 return node;
             }
+
+            //按照二叉搜索树的方式将值插入
             node = Insert(t, _hot);
 
+            // 一：从 BinNode<T> g = _hot节点(新插入节点的父节点)开始,
+            // 二：如果节点 g 不平衡则旋转 g,使 g 平衡，到此结束
+            // 三：令  g = g.ParentNode 跳转到 二 继续执行
+            // 因为插入新节点只会导致一个节点失衡，所以一旦找到一个
+            // 不平衡的节点，使之平衡后则树恢复平衡，结束退出
             for (BinNode<T> g = _hot; null != g; g = g.ParentNode)
             {
                 if (!AvlBalanced(g))
@@ -118,8 +125,16 @@ namespace DataStruct.Tree.AVLTree
             {
                 return false;
             }
+
+            // 按照二叉搜索树删除节点
             Remove(node, ref _hot);
 
+            // 一：从 BinNode<T> g = _hot节点(新插入节点的父节点)开始,
+            // 二：如果节点 g 不平衡则旋转 g，使节点 g 平衡。
+            // 三：令 g = g.ParentNode,跳转到 二 继续执行
+            // 删除节点后失衡比较复杂，因为删除一个节点后可能会导致一
+            // 个节点失衡，旋转使其平衡后可能会导致其父节点再次失衡，
+            // 最坏情况会导致每次调整后其父节点会再次的失衡，直到跟节
             BinNode<T> g = _hot;
             while(null != g)  //从_hot出发向上，逐层检查各代祖先g
             { 
