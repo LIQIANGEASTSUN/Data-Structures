@@ -27,54 +27,53 @@ namespace DataStruct.Tree.BTree
             BTNode<int> node3 = new BTNode<int>();
             node3.Key = new List<int>() { 84, 92};
 
-            root.Child.Add(node1);
-            root.Child.Add(node2);
-            root.Child.Add(node3);
+            root.AddChild(node1);
+            root.AddChild(node2);
+            root.AddChild(node3);
             #endregion
 
             #region Level2
             BTNode<int> node4 = new BTNode<int>();
-            node4.Key = new List<int>() { 84, 92 };
+            node4.Key = new List<int>() { 13, 17 };
 
             BTNode<int> node5 = new BTNode<int>();
-            node5.Key = new List<int>() { 84, 92 };
+            node5.Key = new List<int>() { 27, 31 };
 
             BTNode<int> node6 = new BTNode<int>();
-            node6.Key = new List<int>() { 84, 92 };
+            node6.Key = new List<int>() { 38, 41, 49, 51 };
 
-            node1.Child.Add(node4);
-            node1.Child.Add(node5);
-            node1.Child.Add(node6);
-
+            node1.AddChild(node4);
+            node1.AddChild(node5);
+            node1.AddChild(node6);
 
 
             BTNode<int> node7 = new BTNode<int>();
-            node7.Key = new List<int>() { 84, 92 };
+            node7.Key = new List<int>() { 57, 59 };
 
             BTNode<int> node8 = new BTNode<int>();
-            node8.Key = new List<int>() { 84, 92 };
+            node8.Key = new List<int>() { 65, 66 };
 
             BTNode<int> node9 = new BTNode<int>();
-            node9.Key = new List<int>() { 84, 92 };
+            node9.Key = new List<int>() { 71, 73 };
 
-            node2.Child.Add(node7);
-            node2.Child.Add(node8);
-            node2.Child.Add(node9);
+            node2.AddChild(node7);
+            node2.AddChild(node8);
+            node2.AddChild(node9);
 
 
 
             BTNode<int> node10 = new BTNode<int>();
-            node10.Key = new List<int>() { 84, 92 };
+            node10.Key = new List<int>() { 77, 79 };
 
             BTNode<int> node11 = new BTNode<int>();
-            node11.Key = new List<int>() { 84, 92 };
+            node11.Key = new List<int>() { 89, 91 };
 
             BTNode<int> node12 = new BTNode<int>();
-            node12.Key = new List<int>() { 84, 92 };
+            node12.Key = new List<int>() { 93, 97, 99 };
 
-            node3.Child.Add(node10);
-            node3.Child.Add(node11);
-            node3.Child.Add(node12);
+            node3.AddChild(node10);
+            node3.AddChild(node11);
+            node3.AddChild(node12);
 
             #endregion
 
@@ -426,24 +425,57 @@ namespace DataStruct.Tree.BTree
                 return list;
             }
 
+            Queue<int> countQueue = new Queue<int>();
+
             Queue<BTNode<T>> queue = new Queue<BTNode<T>>();
             queue.Enqueue(node);
+
+            countQueue.Enqueue(0);
+
             while (queue.Count > 0)
             {
                 node = queue.Dequeue();
 
+                int count = countQueue.Dequeue();
+
+                if (count == 0)
+                {
+                    Console.WriteLine("====================================================");
+                    Console.WriteLine("");
+                }
+
+                if (null == node)
+                {
+                    continue;
+                }
+
                 StringBuilder sb = new StringBuilder();
+                if (null != node.ParentNode)
+                {
+                    for (int i = 0; i < node.ParentNode.Key.Count; ++i)
+                    {
+                        sb.Append(node.ParentNode.Key[i] + "   ");
+                    }
+                    sb.Append("Child:  ");
+                }
+                else
+                {
+                    sb.Append("Root:  ");
+                }
                 for (int i = 0; i < node.Key.Count; ++i)
                 {
                     sb.Append(node.Key[i] + "   ");
                 }
                 sb.AppendLine("");
-                Console.Write(sb.ToString() + "   ");
+                sb.AppendLine("");
+
+                Console.WriteLine(sb.ToString() + "   ");
 
                 list.Add(node);
                 for (int i = 0; i < node.Child.Count; ++i)
                 {
                     queue.Enqueue(node.Child[i]);
+                    countQueue.Enqueue(i);
                 }
             }
             return list;

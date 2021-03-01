@@ -52,5 +52,14 @@ namespace DataStruct.Tree.BTree
             get { return child; }
             set { child = value; }
         }
+
+        public void AddChild(BTNode<T> node)
+        {
+            Child.Add(node);
+            if (null != node)
+            {
+                node.parentNode = this;
+            }
+        }
     }
 }
