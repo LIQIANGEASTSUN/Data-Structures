@@ -218,7 +218,7 @@ namespace DataStruct.BSTree
     /// </summary>
     public class BSTree<T> : BinTree<T> where T : IComparable<T>
     {
-        protected BinNode<T> _hot;
+        protected BinNode<T> _hot; // search() 最后访问的非空节点位置
 
         public BSTree()
         {

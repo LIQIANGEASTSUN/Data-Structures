@@ -95,7 +95,7 @@ namespace DataStruct.BinTree
     /// <typeparam name="T"></typeparam>
     public class BinTree<T> where T : IComparable<T>
     {
-        private BinNode<T> _root = null;
+        private BinNode<T> _root = null;   // 跟节点
 
         public BinTree()
         {
