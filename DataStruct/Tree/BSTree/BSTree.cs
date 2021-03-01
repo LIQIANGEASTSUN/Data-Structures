@@ -11,8 +11,14 @@ namespace DataStruct.BSTree
         {
             List<BinNode<int>> list = new List<BinNode<int>>();
 
+            BSTree<int> bsTree = new BSTree<int>();
+            for (int i = 0; i < 9; ++i)
+            {
+                bsTree.Insert(i);
+            }
+            BinTreeLogHelper<int>.Log(bsTree.Root, false);
             //{
-            //    int[] aaaRR = new int[] { 16, 9, 6, 22 };
+            //    int[] aaaRR = new int[] { 16, 9, 6, 22 };s
             //    BSTree<int> bSTree = new BSTree<int>();
             //    for (int i = 0; i < aaaRR.Length; ++i)
             //    {

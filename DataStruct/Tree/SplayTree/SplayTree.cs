@@ -13,7 +13,7 @@ namespace DataStruct.Tree.SplayTree
         {
             SplayTree<int> splayTree = new SplayTree<int>();
 
-            int[] arr = new int[] { 22, 10, 8, 15, 17, 20, 19, 21, 12, 13, 6, 9, 16,};
+            int[] arr = new int[] { 22, 10, 8, 15, 17, 20, 19, 21, 12, 13};
             //int[] arr = new int[] { 10, 20, 8, 19, 15, 17, 21};
             //int[] arr = new int[] { 10, 20, 8, 19};
             for (int i = 0; i < arr.Length; ++i)
@@ -51,20 +51,12 @@ namespace DataStruct.Tree.SplayTree
 
             for (int i = 0; i < arr.Length; ++i)
             {
-                if (i == 2)
-                {
-                    int a = 0;
-                }
                 Console.WriteLine("Remove:" + arr[i]);
                 splayTree.Remove(arr[i]);
                 BinTreeLogHelper<int>.Log(splayTree.Root, false);
                 Console.WriteLine();
                 List<BinNode<int>> list = splayTree.TraverseLevel(splayTree.Root);
                 Console.WriteLine();
-                if (i == 2)
-                {
-                    break;
-                }
             }
 
             //BinNode<int> root = splayTree.Insert(8);
@@ -212,12 +204,6 @@ namespace DataStruct.Tree.SplayTree
 
             BinTreeLogHelper<T>.Log(Root, false);
             Console.WriteLine();    
-
-            if (t.ToString().CompareTo("8") == 0)
-            {
-                int a = 0;
-                return false;
-            }
 
             BinNode<T> tempRoot = Root; //assert: 经search()后节点e已被伸展至树根
             if (!Root.HasLChild())   //若无左子树，则直接删除
