@@ -10,27 +10,77 @@ namespace DataStruct.Tree.BTree
     {
         public static void Test()
         {
+            BTree<int> bTree = new BTree<int>(4);
 
-            BTNode<int> _hot = new BTNode<int>();
-            _hot.Key.Add(3);
-            _hot.Key.Add(5);
-            _hot.Key.Add(8);
-            _hot.Key.Add(10);
+            BTNode<int> root = new BTNode<int>();
+            root.Key = new List<int>() { 53, 75};
 
-            int t = 9;
-            int index = -1;
-            for (int i = 0; i < _hot.Key.Count; ++i)
-            {
-                int value = _hot.Key[i];
-                int compare = value.CompareTo(t);
-                if (compare > 0)
-                {
-                    break;
-                }
-                ++index;
-            }
+            bTree.Root = root;
 
-            Console.WriteLine("index:" + index);
+            #region Level1
+            BTNode<int> node1 = new BTNode<int>();
+            node1.Key = new List<int>() { 19, 36};
+
+            BTNode<int> node2 = new BTNode<int>();
+            node2.Key = new List<int>() { 63, 69};
+
+            BTNode<int> node3 = new BTNode<int>();
+            node3.Key = new List<int>() { 84, 92};
+
+            root.Child.Add(node1);
+            root.Child.Add(node2);
+            root.Child.Add(node3);
+            #endregion
+
+            #region Level2
+            BTNode<int> node4 = new BTNode<int>();
+            node4.Key = new List<int>() { 84, 92 };
+
+            BTNode<int> node5 = new BTNode<int>();
+            node5.Key = new List<int>() { 84, 92 };
+
+            BTNode<int> node6 = new BTNode<int>();
+            node6.Key = new List<int>() { 84, 92 };
+
+            node1.Child.Add(node4);
+            node1.Child.Add(node5);
+            node1.Child.Add(node6);
+
+
+
+            BTNode<int> node7 = new BTNode<int>();
+            node7.Key = new List<int>() { 84, 92 };
+
+            BTNode<int> node8 = new BTNode<int>();
+            node8.Key = new List<int>() { 84, 92 };
+
+            BTNode<int> node9 = new BTNode<int>();
+            node9.Key = new List<int>() { 84, 92 };
+
+            node2.Child.Add(node7);
+            node2.Child.Add(node8);
+            node2.Child.Add(node9);
+
+
+
+            BTNode<int> node10 = new BTNode<int>();
+            node10.Key = new List<int>() { 84, 92 };
+
+            BTNode<int> node11 = new BTNode<int>();
+            node11.Key = new List<int>() { 84, 92 };
+
+            BTNode<int> node12 = new BTNode<int>();
+            node12.Key = new List<int>() { 84, 92 };
+
+            node3.Child.Add(node10);
+            node3.Child.Add(node11);
+            node3.Child.Add(node12);
+
+            #endregion
+
+            bTree.TraverseLevel(bTree.Root);
+
+            Console.WriteLine();
         }
 
     }
@@ -366,6 +416,37 @@ namespace DataStruct.Tree.BTree
                 //release(v); //释放v
             }
             SolveUnderflow(p); //上升一层，如有必要则继续分裂——至多递归O(logn)层
+        }
+
+        public List<BTNode<T>> TraverseLevel(BTNode<T> node)
+        {
+            List<BTNode<T>> list = new List<BTNode<T>>();
+            if (null == node)
+            {
+                return list;
+            }
+
+            Queue<BTNode<T>> queue = new Queue<BTNode<T>>();
+            queue.Enqueue(node);
+            while (queue.Count > 0)
+            {
+                node = queue.Dequeue();
+
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < node.Key.Count; ++i)
+                {
+                    sb.Append(node.Key[i] + "   ");
+                }
+                sb.AppendLine("");
+                Console.Write(sb.ToString() + "   ");
+
+                list.Add(node);
+                for (int i = 0; i < node.Child.Count; ++i)
+                {
+                    queue.Enqueue(node.Child[i]);
+                }
+            }
+            return list;
         }
 
     }
