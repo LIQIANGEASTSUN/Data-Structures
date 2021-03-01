@@ -68,6 +68,7 @@ namespace DataStruct.BinTree
                     parent.rightChildIndex = logNode.index;
                 }
             }
+
             logNodeList.Add(logNode);
 
             if (null != node.LeftChild)

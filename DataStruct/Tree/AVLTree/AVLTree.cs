@@ -35,7 +35,6 @@ namespace DataStruct.Tree.AVLTree
             Console.WriteLine("Star Remove ===================================");
             for (int i = 0; i < arr.Length; ++i)
             {
-                Console.WriteLine("Remove:" + arr[i]);
                 aVLTree.Remove(arr[i]);
                 Console.WriteLine("===============================================");
                 BinTreeLogHelper<int>.Log(aVLTree.Root, false);

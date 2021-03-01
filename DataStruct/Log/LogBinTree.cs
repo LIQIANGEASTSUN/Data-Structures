@@ -16,6 +16,9 @@ namespace DataStruct.Log
             {
                 return;
             }
+
+            width = showParent ? 20 : 12;
+
             _showParent = showParent;
             totalWidth = 2 * High(arr, 0) * width;
 
@@ -166,6 +169,13 @@ namespace DataStruct.Log
             {
                 return;
             }
+
+            if (arr[index].t.ToString().CompareTo("20") == 0
+                || arr[index].t.ToString().CompareTo("19") == 0)
+            {
+                int a = 0;
+            }
+
             LogNode<T> value = arr[index];
             string msg = value.ToString();
 

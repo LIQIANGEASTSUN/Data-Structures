@@ -18,10 +18,10 @@ namespace DataStruct.Tree.SplayTree
             //int[] arr = new int[] { 10, 20, 8, 19};
             for (int i = 0; i < arr.Length; ++i)
             {
-                Console.WriteLine("Insert:" + arr[i]);
+                //Console.WriteLine("Insert:" + arr[i]);
                 splayTree.Insert(arr[i]);
-                BinTreeLogHelper<int>.Log(splayTree.Root, true);
-                Console.WriteLine();
+                //BinTreeLogHelper<int>.Log(splayTree.Root, true);
+                //Console.WriteLine();
 
                 List<BinNode<int>> list = new List<BinNode<int>>();
                 LogBinTreeCheck<int>.Check(list);
@@ -42,6 +42,29 @@ namespace DataStruct.Tree.SplayTree
                 //        }
                 //    }
                 //}
+            }
+
+            BinTreeLogHelper<int>.Log(splayTree.Root, false);
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+
+            for (int i = 0; i < arr.Length; ++i)
+            {
+                if (i == 2)
+                {
+                    int a = 0;
+                }
+                Console.WriteLine("Remove:" + arr[i]);
+                splayTree.Remove(arr[i]);
+                BinTreeLogHelper<int>.Log(splayTree.Root, false);
+                Console.WriteLine();
+                List<BinNode<int>> list = splayTree.TraverseLevel(splayTree.Root);
+                Console.WriteLine();
+                if (i == 2)
+                {
+                    break;
+                }
             }
 
             //BinNode<int> root = splayTree.Insert(8);
@@ -101,7 +124,6 @@ namespace DataStruct.Tree.SplayTree
                 return Root;
             }
   
-            Console.WriteLine("Insert:" + t.ToString() + "   root:" + (null != Root ? Root.Value.ToString() : (null)) + "   hot:" + (null != _hot ? _hot.Value.ToString() : "null") );
             BinNode<T> newNode = new BinNode<T>(t);
 
             // 创建新节点，以下调整 <=7 个指针以完成局部重构
@@ -188,8 +210,16 @@ namespace DataStruct.Tree.SplayTree
                 return false;
             }
 
+            BinTreeLogHelper<T>.Log(Root, false);
+            Console.WriteLine();    
 
-            BinNode<T> w = Root; //assert: 经search()后节点e已被伸展至树根
+            if (t.ToString().CompareTo("8") == 0)
+            {
+                int a = 0;
+                return false;
+            }
+
+            BinNode<T> tempRoot = Root; //assert: 经search()后节点e已被伸展至树根
             if (!Root.HasLChild())   //若无左子树，则直接删除
             { 
                 Root = Root.RightChild;
@@ -209,9 +239,10 @@ namespace DataStruct.Tree.SplayTree
                 Root.LeftChild = null; //暂时将左子树切除
                 Root = Root.RightChild;
                 Root.ParentNode = null; //只保留右子树
-                Search(w.Value); //以原树根为目标，做一次（必定失败的）查找
+                Search(tempRoot.Value); //以原树根为目标，做一次（必定失败的）查找
                                  ///// assert: 至此，右子树中最小节点必伸展至根，且（因无雷同节点）其左子树必空，于是
-                Root.LeftChild = lTree; lTree.ParentNode = Root; //只需将原左子树接回原位即可
+                Root.LeftChild = lTree;
+                lTree.ParentNode = Root; //只需将原左子树接回原位即可
             }
 
             if (null != Root)
@@ -324,10 +355,6 @@ namespace DataStruct.Tree.SplayTree
             {
                 rc.ParentNode = parent;
                 Console.WriteLine(parent.Value.ToString() + "  RightChild:" + rc.Value.ToString());
-                if (parent.Value.ToString().CompareTo("8") == 0 && rc.Value.ToString().CompareTo("20") == 0)
-                {
-                    int a = 0;
-                }
             }
         }
 
