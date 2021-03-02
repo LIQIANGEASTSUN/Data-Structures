@@ -14,10 +14,16 @@ namespace DataStruct.Tree.BTree
             TestInit();
             bTree.TraverseLevel(bTree.Root);
 
-            Console.WriteLine();
+            Console.WriteLine("Start Insert");
 
             TestInsert(bTree);
             bTree.TraverseLevel(bTree.Root);
+
+            Console.WriteLine();
+            Console.WriteLine("Start Remove");
+            TestRemove(bTree);
+            bTree.TraverseLevel(bTree.Root);
+
         }
 
         private static void TestInit()
@@ -182,12 +188,45 @@ namespace DataStruct.Tree.BTree
 
             bTree.Insert(25);
 
-            //bTree.Insert(39);
+            bTree.Insert(66);
+            bTree.Insert(67);
+            bTree.Insert(68);
 
-            //bTree.Insert(40);
+            bTree.Insert(39);
 
-            //bTree.Insert(55);
+            bTree.Insert(40);
 
+            bTree.Insert(55);
+
+            bTree.Insert(5);
+            bTree.Insert(40);
+            bTree.Insert(90);
+            bTree.Insert(30);
+            bTree.Insert(28);
+
+        }
+
+        private static void TestRemove(BTree<int> bTree)
+        {
+            bTree.Remove(13);
+
+            //bTree.Remove(25);
+
+            //bTree.Remove(66);
+            //bTree.Remove(67);
+            //bTree.Remove(68);
+
+            //bTree.Remove(39);
+
+            //bTree.Remove(40);
+
+            //bTree.Remove(55);
+
+            //bTree.Remove(5);
+            //bTree.Remove(40);
+            //bTree.Remove(90);
+            //bTree.Remove(30);
+            //bTree.Remove(28);
         }
     }
 
@@ -380,12 +419,17 @@ namespace DataStruct.Tree.BTree
             int index = -1;
             for (int i = 0; i < p.Key.Count; ++i)
             {
-                if (p.Key[i].CompareTo(v.Key[0]) == 0)
+                int compare = p.Key[i].CompareTo(v.Key[0]);
+                if (compare <= 0)
                 {
                     index = i;
-                    break;
+                    if (compare == 0)
+                    {
+                        break;
+                    }
                 }
             }
+
             int r = 1 + index; //p中指向u的指针的秩
 
             T key2 = v.Key[s];
@@ -556,6 +600,7 @@ namespace DataStruct.Tree.BTree
 
             countQueue.Enqueue(0);
 
+            int deep = 0;
             while (queue.Count > 0)
             {
                 node = queue.Dequeue();
@@ -564,8 +609,9 @@ namespace DataStruct.Tree.BTree
 
                 if (count == 0)
                 {
-                    Console.WriteLine("====================================================");
-                    Console.WriteLine("");
+                    //Console.WriteLine("====================================================");
+                    //Console.WriteLine("");
+                    Console.Write("++++++++");
                 }
 
                 if (null == node)
@@ -573,18 +619,24 @@ namespace DataStruct.Tree.BTree
                     continue;
                 }
 
+                if (deep != Deep(node))
+                {
+                    deep = Deep(node);
+                    Console.WriteLine("========================");
+                }
+
                 StringBuilder sb = new StringBuilder();
                 if (null != node.ParentNode)
                 {
                     for (int i = 0; i < node.ParentNode.Key.Count; ++i)
                     {
-                        sb.Append(node.ParentNode.Key[i] + "   ");
+                        sb.Append(node.ParentNode.Key[i] + ",");
                     }
-                    sb.Append("Child:  ");
+                    //sb.Append("Child:  ");
                 }
                 else
                 {
-                    sb.Append("Root:  ");
+                    //sb.Append("Root:  ");
                 }
                 for (int i = 0; i < node.Key.Count; ++i)
                 {
@@ -603,6 +655,17 @@ namespace DataStruct.Tree.BTree
                 }
             }
             return list;
+        }
+
+        private int Deep(BTNode<T> node)
+        {
+            int deep = -1;
+            while (null != node)
+            {
+                ++deep;
+                node = node.ParentNode;
+            }
+            return deep;
         }
 
     }
