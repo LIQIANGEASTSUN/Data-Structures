@@ -14,7 +14,14 @@ namespace DataStruct.Tree.BTree
             TestInit();
             bTree.TraverseLevel(bTree.Root);
 
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
             Console.WriteLine("Start Insert");
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
 
             TestInsert(bTree);
             bTree.TraverseLevel(bTree.Root);
@@ -210,23 +217,34 @@ namespace DataStruct.Tree.BTree
         {
             bTree.Remove(13);
 
-            //bTree.Remove(25);
+            bTree.Remove(25);
 
-            //bTree.Remove(66);
-            //bTree.Remove(67);
-            //bTree.Remove(68);
+            bTree.Remove(66);
+            bTree.Remove(67);
+            bTree.Remove(68);
 
-            //bTree.Remove(39);
+            bTree.Remove(39);
 
-            //bTree.Remove(40);
+            bTree.Remove(40);
 
-            //bTree.Remove(55);
+            bTree.Remove(55);
 
-            //bTree.Remove(5);
-            //bTree.Remove(40);
-            //bTree.Remove(90);
-            //bTree.Remove(30);
-            //bTree.Remove(28);
+            bTree.Remove(5);
+
+            bTree.Remove(40);
+            bTree.Remove(90);
+            bTree.Remove(30);
+            bTree.Remove(28);
+
+            bTree.Remove(53);
+            bTree.Remove(75);
+            bTree.Remove(19);
+            bTree.Remove(36);
+            bTree.Remove(63);
+            bTree.Remove(69);
+            bTree.Remove(84);
+            bTree.Remove(92);
+
         }
     }
 
@@ -449,7 +467,7 @@ namespace DataStruct.Tree.BTree
             BTNode<T> p = v.ParentNode;
             if (null == p)
             { //递归基：已到根节点，没有孩子的下限
-                if (v.Key.Count <= 0 && null == v.Child[0])
+                if (v.Key.Count <= 0 && null != v.Child[0])
                 {
                     //但倘若作为树根的v已不含关键码，却有（唯一的）非空孩子，则
                     /*DSA*/
@@ -611,7 +629,7 @@ namespace DataStruct.Tree.BTree
                 {
                     //Console.WriteLine("====================================================");
                     //Console.WriteLine("");
-                    Console.Write("++++++++");
+                    Console.Write("      ");
                 }
 
                 if (null == node)
@@ -622,30 +640,21 @@ namespace DataStruct.Tree.BTree
                 if (deep != Deep(node))
                 {
                     deep = Deep(node);
-                    Console.WriteLine("========================");
+                    Console.WriteLine("");
+                    Console.WriteLine("");
+                    Console.WriteLine("");
+                    Console.WriteLine("");
                 }
 
                 StringBuilder sb = new StringBuilder();
-                if (null != node.ParentNode)
-                {
-                    for (int i = 0; i < node.ParentNode.Key.Count; ++i)
-                    {
-                        sb.Append(node.ParentNode.Key[i] + ",");
-                    }
-                    //sb.Append("Child:  ");
-                }
-                else
-                {
-                    //sb.Append("Root:  ");
-                }
+                sb.Append("(");
                 for (int i = 0; i < node.Key.Count; ++i)
                 {
-                    sb.Append(node.Key[i] + "   ");
+                    sb.Append(node.Key[i] + ",");
                 }
-                sb.AppendLine("");
-                sb.AppendLine("");
+                sb.Append(")");
 
-                Console.WriteLine(sb.ToString() + "   ");
+                Console.Write(sb.ToString() + " ");
 
                 list.Add(node);
                 for (int i = 0; i < node.Child.Count; ++i)
