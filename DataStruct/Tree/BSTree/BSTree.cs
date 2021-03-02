@@ -155,7 +155,7 @@ namespace DataStruct.BSTree
                     {
                         BinNode<int> node = list[n];
                         int heigh = node.Height;
-                        bSTree.UpdateHeight(node);
+                        //bSTree.UpdateHeight(node);
                         if (heigh == node.Height)
                         {
                             Console.WriteLine(list[n].Value.ToString() + "  heigh:" + list[n].Height + "    Error Error Error Error Error Error");

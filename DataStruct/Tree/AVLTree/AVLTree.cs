@@ -48,7 +48,7 @@ namespace DataStruct.Tree.AVLTree
                 {
                     BinNode<int> node = list[n];
                     int heigh = node.Height;
-                    aVLTree.UpdateHeight(node);
+                    //aVLTree.UpdateHeight(node);
                     //if (heigh == node.Height)
                     //{
                     //    Console.WriteLine(list[n].Value.ToString() + "  heigh:" + list[n].Height + "    Error Error Error Error Error Error");

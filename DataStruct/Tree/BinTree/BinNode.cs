@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace DataStruct.BinTree
 {
+    public enum Color
+    {
+        Red, 
+        Black,
+    }
+
     public class BinNode<T> where T : IComparable<T>
     {
         private T _value;
@@ -13,6 +19,7 @@ namespace DataStruct.BinTree
         private BinNode<T> _leftChild;
         private BinNode<T> _rightChild;
         private int _height;
+        private Color _color;
 
         public BinNode(T value)
         {
@@ -53,6 +60,12 @@ namespace DataStruct.BinTree
         {
             get { return _height; }
             set { _height = value; }
+        }
+
+        public Color Color
+        {
+            get { return _color; }
+            set { _color = value; }
         }
 
         // 作为当前节点的左孩子插入新节点
@@ -132,6 +145,11 @@ namespace DataStruct.BinTree
         public bool IsLeaf()
         {
             return !HasChild();
+        }
+
+        public bool IsBlack()
+        {
+            return Color == Color.Black;
         }
 
         public static bool operator == (BinNode<T> node1, BinNode<T> node2)

@@ -69,6 +69,7 @@
     <Compile Include="Sort\ShellSort.cs" />
     <Compile Include="Tree\BTree\BTNode.cs" />
     <Compile Include="Tree\BTree\BTree.cs" />
+    <Compile Include="Tree\RedBlackTree\RedBlackTree.cs" />
     <Compile Include="Tree\SplayTree\SplayTree.cs" />
   </ItemGroup>
   <ItemGroup>
