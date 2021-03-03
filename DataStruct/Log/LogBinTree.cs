@@ -185,7 +185,7 @@ namespace DataStruct.Log
             }
             if (value.IsRedBlack())
             {
-                msg = string.Format("{0}_{1}", msg, (value.GetColor() == BinTree.Color.Red ? "_R" : "_B"));
+                msg = string.Format("{0}{1}", msg, (value.GetColor() == BinTree.Color.Red ? "" : "_B"));
             }
 
             int count = 0;
