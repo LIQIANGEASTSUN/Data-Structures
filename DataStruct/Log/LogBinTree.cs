@@ -75,7 +75,13 @@ namespace DataStruct.Log
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i <= spArr[0]; ++i)
             {
-                string split = i < spArr[0] ? " " : arr[0].ToString();
+                string msgRoot = arr[0].ToString();
+                if (arr[0].IsRedBlack())
+                {
+                    string color = arr[0].GetColor() == BinTree.Color.Red ? "R" : "B";
+                    msgRoot = string.Format("{0}_{1}", msgRoot, color);
+                }
+                string split = i < spArr[0] ? " " : msgRoot;
                 sb.Append(split);
             }
             Console.WriteLine(sb.ToString());
@@ -172,11 +178,6 @@ namespace DataStruct.Log
 
             LogNode<T> value = arr[index];
             string msg = value.ToString();
-            if (msg.CompareTo("10") == 0)
-            {
-                int a = 0;
-            }
-
             int parentIndex = arr[index].ParentIndex();
             if (_showParent && arr[index].ParentIndex() >= 0 && arr[index].ParentIndex() < arr.Length)
             {

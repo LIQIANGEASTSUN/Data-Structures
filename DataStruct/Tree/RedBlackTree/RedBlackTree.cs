@@ -16,13 +16,43 @@ namespace DataStruct.Tree.RedBlackTree
         {
             RedBlackTree<int> rbTree = new RedBlackTree<int>();
 
-            int[] arr = new int[] { 10, 8, 15, 17, 20, 19, 21, 12, 13, 6, 9, 16, 22, };
+            List<int> list = new List<int>();
+            int[] arr = new int[] { 38, 10, 8, 15, 3, 25, 6, 28, 0, 30, 2, 33, 1, 36, 7, 9,  40, 55, 66, 77, 17, 20, 19, 21, 12, 13, 6, 9, 16, 22, };
             for (int i = 0; i < arr.Length; ++i)
             {
+                Console.WriteLine("Insert:" + arr[i]);
                 rbTree.Insert(arr[i]);
-            }
+                list.Add(arr[i]);
 
+                //Console.WriteLine();
+                //Console.WriteLine();
+                //Console.WriteLine();
+                //Console.WriteLine();
+                //Console.WriteLine();
+            }
             BinTreeLogHelper<int>.Log(rbTree.Root, true, false);
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            while (list.Count > 0)
+            {
+                Random random = new Random();
+                int index = random.Next(0, 10000) % list.Count;
+                Console.WriteLine("Remove:" + list[index]);
+                rbTree.Remove(list[index]);
+                list.RemoveAt(index);
+
+                BinTreeLogHelper<int>.Log(rbTree.Root, true, false);
+
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine();
+            }
 
         }
 
@@ -46,12 +76,13 @@ namespace DataStruct.Tree.RedBlackTree
             }
             //创建新节点以 _hot 为父亲
             node = Insert(t, _hot);
+            BinNode<T> nodeOld = node;
             node.Color = Color.Red;
 
             //双红修正
             SolveDoubleRed(node);
 
-            return null != node ? node : node.ParentNode;
+            return nodeOld;
         }
 
         public override bool Remove(T t)
@@ -112,10 +143,6 @@ namespace DataStruct.Tree.RedBlackTree
 
             BinNode<T> g = p.ParentNode; //既然p为红，则x的祖父必存在，且必为黑色
             BinNode<T> u = Uncle(x); //以下，视x叔父u的颜色分别处理
-            if (null == u)
-            {
-                return;
-            }
             if (IsBlack(u))
             { //u为黑色（含null）时 //*DSA*/printf("  case RR-1:\n");
                 if (x.IsLChild() == p.IsLChild()) //若x与p同侧（即zIg-zIg或zAg-zAg），则
@@ -149,8 +176,11 @@ namespace DataStruct.Tree.RedBlackTree
             }
             else
             { //若u为红色 //*DSA*/printf("  case RR-2:\n");
-                p.Color = Color.Black; p.Height++; //p由红转黑
-                u.Color = Color.Black; u.Height++; //u由红转黑
+                p.Color = Color.Black;
+                p.Height++; //p由红转黑
+
+                u.Color = Color.Black;
+                u.Height++; //u由红转黑
                 if (!g.IsRoot())
                 {
                     g.Color = Color.Red; //g若非根，则转红
