@@ -20,9 +20,14 @@ namespace DataStruct.Tree.RedBlackTree
             int[] arr = new int[] { 38, 10, 8, 15, 3, 25, 6, 28, 0, 30, 2, 33, 1, 36, 7, 9,  40, 55, 66, 77, 17, 20, 19, 21, 12, 13, 16, 22, };
             for (int i = 0; i < arr.Length; ++i)
             {
+                Console.WriteLine();
                 Console.WriteLine("Insert:" + arr[i]);
                 rbTree.Insert(arr[i]);
                 dataList.Add(arr[i]);
+
+                CheckRR(rbTree);
+                CheckBCountToRoot(rbTree);
+
                 //Console.WriteLine();
                 //Console.WriteLine();
                 //Console.WriteLine();
@@ -37,50 +42,43 @@ namespace DataStruct.Tree.RedBlackTree
             Console.WriteLine();
             Console.WriteLine();
 
+            {
+                List<BinNode<int>> list = rbTree.TraverseLevel(rbTree.Root);
+                for (int i = 0; i < list.Count; ++i)
+                {
+                    BinNode<int> node = list[i];
+                    Console.WriteLine(node.Value.ToString() + "  height:" + node.Height);
+                }
+            }
+
             //rbTree.Remove(7);
             //BinTreeLogHelper<int>.Log(rbTree.Root, true, false);
 
             int index = 0;
-            while (dataList.Count > 0 && index < dataList.Count)
+            while (dataList.Count > 0)
             {
                 Random random = new Random();
-                //int index = random.Next(0, 10000) % dataList.Count;
+                index = random.Next(0, 10000) % dataList.Count;
                 //index = 0;
-                if (dataList[index] != 0 )
-                {
-                    ++index;
-                    continue;
-                }
+                //if (dataList[index] != 0 )
+                //{
+                //    ++index;
+                //    continue;
+                //}
                 Console.WriteLine("Remove:" + dataList[index]);
                 rbTree.Remove(dataList[index]);
 
                 BinTreeLogHelper<int>.Log(rbTree.Root, true, false);
 
                 Console.WriteLine();
-                List<BinNode<int>> list = rbTree.TraverseLevel(rbTree.Root);
-                for (int i = 0; i < list.Count; ++i)
-                {
-                    BinNode<int> node = list[i];
-                    if (node.ParentNode != null && node.Color == Color.Red && node.ParentNode.Color == Color.Red)
-                    {
-                        int a = 0;
-                    }
-                }
 
-                for (int i = 0; i < dataList.Count; ++i)
-                {
-                    int value = dataList[i];
-                    BinNode<int> node = list.Find((a) => { return a.Value.ToString().CompareTo(value.ToString()) == 0; });
-                    if (null == node)
-                    {
-                        Console.WriteLine();
-                        Console.WriteLine("实际少了：" + value + "     " + (value == dataList[index]));
-                        if (value != dataList[index])
-                        {
-                            int a = 0;
-                        }
-                    }
-                }
+                CheckRR(rbTree);
+                Console.WriteLine();
+
+                CheckBCountToRoot(rbTree);
+                Console.WriteLine();
+
+                CheckRemoveWithRealRemove(rbTree, dataList, index);
 
                 dataList.RemoveAt(index);
 
@@ -92,6 +90,83 @@ namespace DataStruct.Tree.RedBlackTree
             }
 
         }
+
+        private static void CheckRR(RedBlackTree<int> rbTree)
+        {
+            Console.WriteLine();
+            List<BinNode<int>> list = rbTree.TraverseLevel(rbTree.Root);
+
+            for (int i = 0; i < list.Count; ++i)
+            {
+                BinNode<int> node = list[i];
+                if (node.ParentNode != null && node.Color == Color.Red && node.ParentNode.Color == Color.Red)
+                {
+                    Console.WriteLine("CheckRR Error Error Error Error Error Error Error Error Error Error ");
+                }
+            }
+        }
+
+        private static void CheckRemoveWithRealRemove(RedBlackTree<int> rbTree, List<int> dataList, int index)
+        {
+            Console.WriteLine();
+
+            List<BinNode<int>> list = rbTree.TraverseLevel(rbTree.Root);
+            for (int i = 0; i < dataList.Count; ++i)
+            {
+                int value = dataList[i];
+                BinNode<int> node = list.Find((a) => { return a.Value.ToString().CompareTo(value.ToString()) == 0; });
+                if (null == node)
+                {
+                    Console.WriteLine();
+                    //Console.WriteLine("实际少了：" + value + "     " + (value == dataList[index]));
+                    if (value != dataList[index])
+                    {
+                        Console.WriteLine("CheckRemoveWithRealRemove Error: Remove:" + dataList[index] + "    realRemove:" + value);
+                    }
+                }
+            }
+        }
+
+        private static void CheckBCountToRoot(RedBlackTree<int> rbTree)
+        {
+            List<BinNode<int>> list = rbTree.TraverseLevel(rbTree.Root);
+            int count = 0;
+
+            for (int i = 0; i < list.Count; ++i)
+            {
+                BinNode<int> node = list[i];
+                if (null != node.LeftChild || null != node.RightChild)
+                {
+                    continue;
+                }
+                int bCount = BCountToRoot(node);
+                if (count <= 0 && bCount > 0)
+                {
+                    count = bCount;
+                }
+
+                if (count > 0 && bCount != count)
+                {
+                    Console.WriteLine("CheckBCountToRoot:Error :" + node.Value.ToString());
+                }
+                Console.WriteLine(node.Value.ToString() + "   " + count);
+            }
+        }
+
+        private static int BCountToRoot(BinNode<int> node)
+        {
+            int count = 0;
+            while(null != node)
+            {
+                if (node.Color == Color.Black)
+                {
+                    ++count;
+                }
+                node = node.ParentNode;
+            }
+            return count;
+        }
+
 
     }
 
@@ -115,6 +190,7 @@ namespace DataStruct.Tree.RedBlackTree
             node = Insert(t, _hot);
             BinNode<T> nodeOld = node;
             node.Color = Color.Red;
+            node.Height = -1;
 
             //双红修正
             SolveDoubleRed(node);
@@ -135,11 +211,6 @@ namespace DataStruct.Tree.RedBlackTree
             {
                 return true;
             }
-            BinTreeLogHelper<T>.Log(Root, true, false);
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
 
             // assert: _hot某一孩子刚被删除，且被r所指节点（可能是null）接替。以下检查是否失衡，并做必要调整
             if (null == _hot) //若刚被删除的是根节点，则将其置黑，并更新黑高度
@@ -340,6 +411,10 @@ namespace DataStruct.Tree.RedBlackTree
         // 更新节点高度
         protected override int UpdateHeight(BinNode<T> node)
         {
+            if (node.Value.ToString().CompareTo("2") == 0)
+            {
+                int a = 0;
+            }
             node.Height = Math.Max(NodeHeight(node.LeftChild), NodeHeight(node.RightChild));
             // 红黑树中各节点左、右孩子的黑高度通常相等
             // 这里之所以取更大值，是便于在删除节点后的平衡调整过程中，正确更新被删除节点父亲的黑高度
