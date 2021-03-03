@@ -15,15 +15,20 @@ namespace DataStruct.List
             for (int i = 0; i < 6; ++i)
             {
                 list.InsertAsLast(i);
-                list.InsertAsLast(i);
-                list.InsertAsLast(i);
-                list.InsertAsLast(i);
             }
 
             list.Traverse();
 
-            list.Uniquify();
-            list.Traverse();
+            Swap(list, 5, 2);
+        }
+
+        private static void Swap(DataList<int> dataList, int value0, int value1)
+        {
+            ListNode<int> node0 = dataList.Find(value0);
+            ListNode<int> node1 = dataList.Find(value1);
+
+            dataList.Swap(node0, node1, true);
+            dataList.Traverse();
         }
 
     }
@@ -112,7 +117,11 @@ namespace DataStruct.List
         public void InsertAsNext(ListNode<T> node, T t)
         {
             ListNode<T> newNode = new ListNode<T>(t);
+            InsertAsNext(node, newNode);
+        }
 
+        public void InsertAsNext(ListNode<T> node, ListNode<T> newNode)
+        {
             newNode.PreNode = node;
             newNode.NextNode = node.NextNode;
 
@@ -123,7 +132,11 @@ namespace DataStruct.List
         public void InsertAsPre(ListNode<T> node, T t)
         {
             ListNode<T> newNode = new ListNode<T>(t);
+            InsertAsPre(node, newNode);
+        }
 
+        public void InsertAsPre(ListNode<T> node, ListNode<T> newNode)
+        {
             newNode.PreNode = node.PreNode;
             newNode.NextNode = node;
 
@@ -175,6 +188,31 @@ namespace DataStruct.List
                 sb.Append(node.Data.ToString() + "  ");
             }
             Console.WriteLine(sb.ToString());
+        }
+
+        public void Swap(ListNode<T> node1, ListNode<T> node2, bool value)
+        {
+            if (node1.NextNode == node2)
+            {
+                Swap(node1.PreNode, node2.NextNode, node1, node2);
+            }
+            else if (node2.NextNode == node1)
+            {
+                Swap(node2.PreNode, node1.NextNode, node2, node1);
+            }
+            else
+            {
+                Swap(node1.PreNode, node2.NextNode, node1, node2);
+            }
+        }
+
+        private void Swap(ListNode<T> pre, ListNode<T> next, ListNode<T> node1, ListNode<T> node2)
+        {
+            Delete(node1);
+            Delete(node2);
+
+            InsertAsNext(pre, node2);
+            InsertAsPre(next, node1);
         }
 
     }
