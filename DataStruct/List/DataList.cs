@@ -17,10 +17,13 @@ namespace DataStruct.List
                 list.InsertAsLast(i);
             }
 
-            list.Traverse();
 
             Swap(list, 5, 2);
             Swap(list, 0, 4);
+            list.Traverse();
+
+            list.InsertSort();
+            list.Traverse();
         }
 
         private static void Swap(DataList<int> dataList, int value0, int value1)
@@ -28,8 +31,8 @@ namespace DataStruct.List
             ListNode<int> node0 = dataList.Find(value0);
             ListNode<int> node1 = dataList.Find(value1);
 
-            dataList.Swap(node0, node1, true);
-            dataList.Traverse();
+            dataList.Swap(node0, node1);
+            //dataList.Traverse();
         }
 
     }
@@ -191,7 +194,7 @@ namespace DataStruct.List
             Console.WriteLine(sb.ToString());
         }
 
-        public void Swap(ListNode<T> node1, ListNode<T> node2, bool value)
+        public void Swap(ListNode<T> node1, ListNode<T> node2)
         {
             if (node1.NextNode == node2)
             {
@@ -216,9 +219,29 @@ namespace DataStruct.List
             InsertAsPre(next, node1);
         }
 
+        /// <summary>
+        /// 插入排序
+        /// </summary>
         public void InsertSort()
         {
+            ListNode<T> first = First();
+            if (null == first || first.NextNode == trailer)
+            {
+                return;
+            }
 
+            for (ListNode<T> temp = first.NextNode; temp != trailer; temp = temp.NextNode)
+            {
+                T data = temp.Data;
+                ListNode<T> j = temp.PreNode;
+                while (j != header && j.Data.CompareTo(data) > 0)
+                {
+                    j.NextNode.Data = j.Data;
+                    j = j.PreNode;
+                }
+
+                j.NextNode.Data = data;
+            }
         }
 
     }
