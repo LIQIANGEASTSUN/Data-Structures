@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="List\DataList.cs" />
+    <Compile Include="List\ListNode.cs" />
     <Compile Include="Log\LogBinTreeCheck.cs" />
     <Compile Include="Log\LogBinTreeTest.cs" />
     <Compile Include="Tree\AVLTree\AVLTree.cs" />
@@ -75,5 +77,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
