@@ -17,7 +17,7 @@ namespace DataStruct.Tree.RedBlackTree
             RedBlackTree<int> rbTree = new RedBlackTree<int>();
 
             List<int> dataList = new List<int>();
-            int[] arr = new int[] { 38, 10, 8, 15, 3, 25, 6, 28, 0, 30, 2, 33, 1, 36, 7, 9,  40, 55, 66, 77, 17, 20, 19, 21, 12, 13, 6, 9, 16, 22, };
+            int[] arr = new int[] { 38, 10, 8, 15, 3, 25, 6, 28, 0, 30, 2, 33, 1, 36, 7, 9,  40, 55, 66, 77, 17, 20, 19, 21, 12, 13, 16, 22, };
             for (int i = 0; i < arr.Length; ++i)
             {
                 Console.WriteLine("Insert:" + arr[i]);
@@ -43,10 +43,16 @@ namespace DataStruct.Tree.RedBlackTree
             {
                 Random random = new Random();
                 int index = random.Next(0, 10000) % dataList.Count;
+                index = 0;
                 Console.WriteLine("Remove:" + dataList[index]);
                 rbTree.Remove(dataList[index]);
 
                 BinTreeLogHelper<int>.Log(rbTree.Root, true, false);
+
+                if (dataList[index] == 6 || dataList[index] == 28)
+                {
+                    int a = 0;
+                }
 
                 Console.WriteLine();
                 List<BinNode<int>> list = rbTree.TraverseLevel(rbTree.Root);
