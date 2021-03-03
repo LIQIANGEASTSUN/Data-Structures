@@ -20,6 +20,7 @@ namespace DataStruct.List
             list.Traverse();
 
             Swap(list, 5, 2);
+            Swap(list, 0, 4);
         }
 
         private static void Swap(DataList<int> dataList, int value0, int value1)
@@ -213,6 +214,11 @@ namespace DataStruct.List
 
             InsertAsNext(pre, node2);
             InsertAsPre(next, node1);
+        }
+
+        public void InsertSort()
+        {
+
         }
 
     }
