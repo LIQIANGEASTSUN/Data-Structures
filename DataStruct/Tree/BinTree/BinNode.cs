@@ -152,6 +152,11 @@ namespace DataStruct.BinTree
             return Color == Color.Black;
         }
 
+        public bool IsRed()
+        {
+            return Color == Color.Red;
+        }
+
         public static bool operator == (BinNode<T> node1, BinNode<T> node2)
         {
             if (object.Equals(node1, null) || object.Equals(node2, null))

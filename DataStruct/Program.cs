@@ -15,7 +15,9 @@ namespace DataStruct
 
             //SplayTreeTest();
 
-            BTreeTest();
+            //BTreeTest();
+
+            RBTreeTest();
 
             Console.ReadLine();
         }
@@ -51,6 +53,11 @@ namespace DataStruct
         private static void BTreeTest()
         {
             DataStruct.Tree.BTree.BTreeTest.Test();
+        }
+
+        private static void RBTreeTest()
+        {
+            DataStruct.Tree.RedBlackTree.RedBlackTest.Test();
         }
 
 

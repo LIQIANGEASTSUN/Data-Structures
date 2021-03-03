@@ -44,7 +44,7 @@ namespace DataStruct.Tree.SplayTree
                 //}
             }
 
-            BinTreeLogHelper<int>.Log(splayTree.Root, false);
+            BinTreeLogHelper<int>.Log(splayTree.Root, false, false);
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
@@ -53,7 +53,7 @@ namespace DataStruct.Tree.SplayTree
             {
                 Console.WriteLine("Remove:" + arr[i]);
                 splayTree.Remove(arr[i]);
-                BinTreeLogHelper<int>.Log(splayTree.Root, false);
+                BinTreeLogHelper<int>.Log(splayTree.Root, false, false);
                 Console.WriteLine();
                 List<BinNode<int>> list = splayTree.TraverseLevel(splayTree.Root);
                 Console.WriteLine();
@@ -202,7 +202,7 @@ namespace DataStruct.Tree.SplayTree
                 return false;
             }
 
-            BinTreeLogHelper<T>.Log(Root, false);
+            BinTreeLogHelper<T>.Log(Root, false, false);
             Console.WriteLine();    
 
             BinNode<T> tempRoot = Root; //assert: 经search()后节点e已被伸展至树根

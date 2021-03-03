@@ -16,7 +16,7 @@ namespace DataStruct.BSTree
             {
                 bsTree.Insert(i);
             }
-            BinTreeLogHelper<int>.Log(bsTree.Root, false);
+            BinTreeLogHelper<int>.Log(bsTree.Root, false, false);
             //{
             //    int[] aaaRR = new int[] { 16, 9, 6, 22 };s
             //    BSTree<int> bSTree = new BSTree<int>();
@@ -117,7 +117,7 @@ namespace DataStruct.BSTree
                     //    }
                     //}
                 }
-                BinTreeLogHelper<int>.Log(bSTree.Root, false);
+                BinTreeLogHelper<int>.Log(bSTree.Root, false, false);
                 Console.WriteLine();
                 Console.WriteLine();
                 //list = bSTree.TraverseLevel(bSTree.Root);
@@ -141,7 +141,7 @@ namespace DataStruct.BSTree
                 {
                     Console.WriteLine("Remove:" + arr[i]);
                     bSTree.Remove(arr[i]);
-                    BinTreeLogHelper<int>.Log(bSTree.Root, false);
+                    BinTreeLogHelper<int>.Log(bSTree.Root, false, false);
                     Console.WriteLine();
                     Console.WriteLine();
                     Console.WriteLine();
@@ -196,11 +196,11 @@ namespace DataStruct.BSTree
                 bSTree.Insert(arr[i]);
             }
   
-            BinTreeLogHelper<int>.Log(bSTree.Root);
+            BinTreeLogHelper<int>.Log(bSTree.Root, false, false);
 
             Console.WriteLine("Remove:" + arr[removeIndex]);
             bSTree.Remove(arr[removeIndex]);
-            BinTreeLogHelper<int>.Log(bSTree.Root, false);
+            BinTreeLogHelper<int>.Log(bSTree.Root, false, false);
 
             Console.WriteLine();
             LogBinTreeCheck<int>.Check(bSTree.TraverseLevel(bSTree.Root));
@@ -285,36 +285,42 @@ namespace DataStruct.BSTree
         /// </summary>
         /// <param name="node"></param>
         /// <param name="hot"></param>
-        protected void Remove(BinNode<T> node, ref BinNode<T> hot)
+        protected BinNode<T> Remove(BinNode<T> node, ref BinNode<T> hot)
         {
+            BinNode<T> succ = null;
             if (!node.HasLChild())      // 如果节点没有左孩子，则直接以其右孩子代替
             {
+                succ = node.RightChild;
                 Replace(node.RightChild, node); // 令node的右孩子替换node
                 hot = node.ParentNode;
             }
             else if (!node.HasRChild()) // 如果节点没有右孩子，则直接以其左孩子代替
             {
+                succ = node.LeftChild;
                 Replace(node.LeftChild, node); // 令 node 的左孩子替换node
                 hot = node.ParentNode;
             }
             else
             {
-                BinNode<T> succ = NodeSucc(node); // 要删除节点的直接后继
-                T temp = succ.Value;
-                succ.Value = node.Value;
+                BinNode<T> w = NodeSucc(node); // 要删除节点的直接后继
+                T temp = w.Value;
+                w.Value = node.Value;
                 node.Value = temp;
 
-                BinNode<T> u = succ.ParentNode;
+                BinNode<T> u = w.ParentNode;
                 if (u == node)
                 {
-                    u.InsertAsRc(succ.RightChild);  //令实际要删除节点的右孩子作为 u 的右孩子
+                    u.InsertAsRc(w.RightChild);  //令实际要删除节点的右孩子作为 u 的右孩子
                 }
                 else
                 {
-                    u.InsertAsLc(succ.RightChild); // 令实际要删除节点的右孩子作为 u 的左孩子
+                    u.InsertAsLc(w.RightChild); // 令实际要删除节点的右孩子作为 u 的左孩子
                 }
                 hot = u;
+                succ = w.RightChild;
             }
+
+            return succ;
         }
 
         /// <summary>

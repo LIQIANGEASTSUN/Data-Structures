@@ -1,4 +1,5 @@
-﻿using DataStruct.Log;
+﻿using DataStruct.BinTree;
+using DataStruct.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,16 @@ namespace DataStruct.Heap
         public override string ToString()
         {
             return t.ToString();
+        }
+
+        public override bool IsRedBlack()
+        {
+            return false;
+        }
+
+        public override Color GetColor()
+        {
+            return Color.Red;
         }
     }
 

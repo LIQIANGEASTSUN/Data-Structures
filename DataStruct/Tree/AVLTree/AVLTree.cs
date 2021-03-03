@@ -16,7 +16,7 @@ namespace DataStruct.Tree.AVLTree
                 Console.WriteLine("Insert:" + arr[i]);
                 aVLTree.Insert(arr[i]);
                 Console.WriteLine("===============================================");
-                BinTreeLogHelper<int>.Log(aVLTree.Root, false);
+                BinTreeLogHelper<int>.Log(aVLTree.Root, false, false);
 
                 Console.WriteLine("===============================================");
                 List<BinNode<int>> list = aVLTree.TraverseLevel(aVLTree.Root);
@@ -29,7 +29,7 @@ namespace DataStruct.Tree.AVLTree
                 }
             }
 
-            BinTreeLogHelper<int>.Log(aVLTree.Root, false);
+            BinTreeLogHelper<int>.Log(aVLTree.Root, false, false);
             Console.WriteLine("===============================================");
 
             Console.WriteLine("Star Remove ===================================");
@@ -37,7 +37,7 @@ namespace DataStruct.Tree.AVLTree
             {
                 aVLTree.Remove(arr[i]);
                 Console.WriteLine("===============================================");
-                BinTreeLogHelper<int>.Log(aVLTree.Root, false);
+                BinTreeLogHelper<int>.Log(aVLTree.Root, false, false);
 
                 Console.WriteLine("===============================================");
                 List<BinNode<int>> list = aVLTree.TraverseLevel(aVLTree.Root);

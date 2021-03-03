@@ -170,19 +170,21 @@ namespace DataStruct.Log
                 return;
             }
 
-            if (arr[index].t.ToString().CompareTo("20") == 0
-                || arr[index].t.ToString().CompareTo("19") == 0)
+            LogNode<T> value = arr[index];
+            string msg = value.ToString();
+            if (msg.CompareTo("10") == 0)
             {
                 int a = 0;
             }
-
-            LogNode<T> value = arr[index];
-            string msg = value.ToString();
 
             int parentIndex = arr[index].ParentIndex();
             if (_showParent && arr[index].ParentIndex() >= 0 && arr[index].ParentIndex() < arr.Length)
             {
                 msg = string.Format("{0}({1})", msg, arr[parentIndex].ToString());
+            }
+            if (value.IsRedBlack())
+            {
+                msg = string.Format("{0}_{1}", msg, (value.GetColor() == BinTree.Color.Red ? "_R" : "_B"));
             }
 
             int count = 0;

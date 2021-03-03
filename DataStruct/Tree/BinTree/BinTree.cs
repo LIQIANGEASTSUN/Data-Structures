@@ -36,7 +36,7 @@ namespace DataStruct.BinTree
             Console.WriteLine("insert:" + 11);
             BinNode<int> node7 = binTree.InsertAsRc(node2, 11);
 
-            BinTreeLogHelper<int>.Log(binTree.Root);
+            BinTreeLogHelper<int>.Log(binTree.Root, false, false);
 
             Console.WriteLine();
             List<BinNode<int>> list = binTree.TraverseLevel(binTree.Root);
@@ -46,7 +46,7 @@ namespace DataStruct.BinTree
             }
 
             binTree.Remove(node2);
-            BinTreeLogHelper<int>.Log(binTree.Root);
+            BinTreeLogHelper<int>.Log(binTree.Root, false, false);
 
             Console.WriteLine("先序遍历");
             binTree.TraversePreRecursion(binTree.Root);
