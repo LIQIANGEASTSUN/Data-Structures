@@ -290,14 +290,13 @@ namespace DataStruct.BSTree
             BinNode<T> succ = null;
             if (!node.HasLChild())      // 如果节点没有左孩子，则直接以其右孩子代替
             {
-                succ = node.RightChild;
-                Replace(node.RightChild, node); // 令node的右孩子替换node
+                succ = Replace(node.RightChild, node); // 令node的右孩子替换node
                 hot = node.ParentNode;
             }
             else if (!node.HasRChild()) // 如果节点没有右孩子，则直接以其左孩子代替
             {
                 succ = node.LeftChild;
-                Replace(node.LeftChild, node); // 令 node 的左孩子替换node
+                succ = Replace(node.LeftChild, node); // 令 node 的左孩子替换node
                 hot = node.ParentNode;
             }
             else
@@ -328,7 +327,7 @@ namespace DataStruct.BSTree
         /// </summary>
         /// <param name="node"></param>
         /// <param name="beReplace">被替换的节点</param>
-        private void Replace(BinNode<T> node, BinNode<T> beReplace)
+        private BinNode<T> Replace(BinNode<T> node, BinNode<T> beReplace)
         {
             if (beReplace.IsRoot())
             {
@@ -337,7 +336,7 @@ namespace DataStruct.BSTree
                 {
                     Root.ParentNode = null;
                 }
-                return;
+                return Root;
             }
 
             if (null != node)
@@ -352,6 +351,7 @@ namespace DataStruct.BSTree
             {
                 beReplace.ParentNode.LeftChild = node;
             }
+            return node;
         }
 
         /// <summary>

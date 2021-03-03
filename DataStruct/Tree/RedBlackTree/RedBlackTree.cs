@@ -16,14 +16,13 @@ namespace DataStruct.Tree.RedBlackTree
         {
             RedBlackTree<int> rbTree = new RedBlackTree<int>();
 
-            List<int> list = new List<int>();
+            List<int> dataList = new List<int>();
             int[] arr = new int[] { 38, 10, 8, 15, 3, 25, 6, 28, 0, 30, 2, 33, 1, 36, 7, 9,  40, 55, 66, 77, 17, 20, 19, 21, 12, 13, 6, 9, 16, 22, };
             for (int i = 0; i < arr.Length; ++i)
             {
                 Console.WriteLine("Insert:" + arr[i]);
                 rbTree.Insert(arr[i]);
-                list.Add(arr[i]);
-
+                dataList.Add(arr[i]);
                 //Console.WriteLine();
                 //Console.WriteLine();
                 //Console.WriteLine();
@@ -37,15 +36,32 @@ namespace DataStruct.Tree.RedBlackTree
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
-            while (list.Count > 0)
+
+            //rbTree.Remove(7);
+            //BinTreeLogHelper<int>.Log(rbTree.Root, true, false);
+            while (dataList.Count > 0)
             {
                 Random random = new Random();
-                int index = random.Next(0, 10000) % list.Count;
-                Console.WriteLine("Remove:" + list[index]);
-                rbTree.Remove(list[index]);
-                list.RemoveAt(index);
+                int index = random.Next(0, 10000) % dataList.Count;
+                Console.WriteLine("Remove:" + dataList[index]);
+                rbTree.Remove(dataList[index]);
 
                 BinTreeLogHelper<int>.Log(rbTree.Root, true, false);
+
+                Console.WriteLine();
+                List<BinNode<int>> list = rbTree.TraverseLevel(rbTree.Root);
+                for (int i = 0; i < dataList.Count; ++i)
+                {
+                    int value = dataList[i];
+                    BinNode<int> node = list.Find((a) => { return a.Value.ToString().CompareTo(value.ToString()) == 0; });
+                    if (null == node)
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("实际少了：" + value + "     " + (value == dataList[index]));
+                    }
+                }
+
+                dataList.RemoveAt(index);
 
                 Console.WriteLine();
                 Console.WriteLine();
@@ -98,6 +114,11 @@ namespace DataStruct.Tree.RedBlackTree
             {
                 return true;
             }
+            //BinTreeLogHelper<T>.Log(Root, true, false);
+            //Console.WriteLine();
+            //Console.WriteLine();
+            //Console.WriteLine();
+            //Console.WriteLine();
 
             // assert: _hot某一孩子刚被删除，且被r所指节点（可能是null）接替。以下检查是否失衡，并做必要调整
             if (null == _hot) //若刚被删除的是根节点，则将其置黑，并更新黑高度
@@ -203,11 +224,11 @@ namespace DataStruct.Tree.RedBlackTree
             if (IsBlack(s))
             { //兄弟s为黑
                 BinNode<T> t = null; //s的红孩子（若左、右孩子皆红，左者优先；皆黑时为null）
-                if (IsRed(s.RightChild))
+                if (null != s && IsRed(s.RightChild))
                 {
                     t = s.RightChild; //右子
                 }
-                if (IsRed(s.LeftChild))
+                if (null != s && IsRed(s.LeftChild))
                 {
                     t = s.LeftChild; //左子
                 }
@@ -230,24 +251,27 @@ namespace DataStruct.Tree.RedBlackTree
                         b = p.ParentNode.RightChild = RotateAt(t);  //旋转
                     }
 
+                    //左子
                     if (b.HasLChild())
                     {
                         b.LeftChild.Color = Color.Black;
                         UpdateHeight(b.LeftChild);
-                    } //左子
+                    }
+                    //右子
                     if (b.HasRChild())
                     {
                         b.RightChild.Color = Color.Black;
                         UpdateHeight(b.RightChild);
-                    } //右子
-                    b.Color = oldColor; UpdateHeight(b); //新子树根节点继承原根节点的颜色
-                                                          //*DSA*/printBinTree(b, 0, 0);
+                    } 
+                    b.Color = oldColor;
+                    UpdateHeight(b); //新子树根节点继承原根节点的颜色
                 }
                 else
                 { //黑s无红孩子
-                    s.Color = Color.Red; s.Height--; //s转红
-                    if (IsRed(p))
-                    { //BB-2R
+                    s.Color = Color.Red;
+                    s.Height--; //s转红
+                    if (IsRed(p))//BB-2R
+                    { 
                       //*DSA*/printf("  case BB-2R: Both children ("); print(s.LeftChild); printf(") and ("); print(s.RightChild); printf(") of BLACK sibling ("); print(s); printf(") are BLACK, and parent ("); print(p); printf(") is RED\n"); //s孩子均黑，p红
                         p.Color = Color.Black; //p转黑，但黑高度不变
                                              //*DSA*/printBinTree(p, 0, 0);
@@ -268,27 +292,34 @@ namespace DataStruct.Tree.RedBlackTree
                 p.Color = Color.Red; //s转黑，p转红
                 BinNode<T> t = s.IsLChild() ? s.LeftChild : s.RightChild; //取t与其父s同侧
                 _hot = p;
-                if (p.IsRoot())
+                if (null != t)
                 {
-                    Root = RotateAt(t); //对t及其父亲、祖父做平衡调整
-                }
-                else if (p.IsLChild())
-                {
-                    p.ParentNode.LeftChild = RotateAt(t); //对t及其父亲、祖父做平衡调整
-                }
-                else
-                {
-                    p.ParentNode.RightChild = RotateAt(t); //对t及其父亲、祖父做平衡调整
+                    if (p.IsRoot())
+                    {
+                        Root = RotateAt(t); //对t及其父亲、祖父做平衡调整
+                    }
+                    else if (p.IsLChild())
+                    {
+                        p.ParentNode.LeftChild = RotateAt(t); //对t及其父亲、祖父做平衡调整
+                    }
+                    else
+                    {
+                        p.ParentNode.RightChild = RotateAt(t); //对t及其父亲、祖父做平衡调整
+                    }
                 }
 
                 SolveDoubleBlack(r); //继续修正r处双黑——此时的p已转红，故后续只能是BB-1或BB-2R
             }
         }
 
+        // 更新节点高度
         protected override int UpdateHeight(BinNode<T> node)
         {
             node.Height = Math.Max(NodeHeight(node.LeftChild), NodeHeight(node.RightChild));
-            if(IsBlack(node)) // 只记黑节点
+            // 红黑树中各节点左、右孩子的黑高度通常相等
+            // 这里之所以取更大值，是便于在删除节点后的平衡调整过程中，正确更新被删除节点父亲的黑高度
+            // 否则，rotateAt()会根据被删除节点的替代者（高度小一）设置父节点的黑高度
+            if (IsBlack(node)) // 只记黑节点
             {
                 node.Height++;
             }
@@ -297,7 +328,7 @@ namespace DataStruct.Tree.RedBlackTree
 
         protected bool BlackHeightUpdated(BinNode<T> node)
         {
-            int Height = IsRed(node) ? NodeHeight(node.LeftChild) : NodeHeight(node.RightChild) + 1;
+            int Height = IsRed(node) ? NodeHeight(node.LeftChild) : (NodeHeight(node.LeftChild) + 1);
             if (   (NodeHeight(node.LeftChild) == NodeHeight(node.RightChild))
                 && (node.Height == Height)
                 )
