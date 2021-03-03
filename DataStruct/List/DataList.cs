@@ -10,7 +10,7 @@ namespace DataStruct.List
     {
         public static void Test()
         {
-            DataList<int> list = new DataList<int>(int.MinValue, int.MaxValue);
+            DataList<int> list = new DataList<int>();
 
             for (int i = 0; i < 6; ++i)
             {
@@ -42,10 +42,10 @@ namespace DataStruct.List
         private ListNode<T> header;   // 头
         private ListNode<T> trailer;  // 尾
 
-        public DataList(T head, T trai)
+        public DataList()
         {
-            header = new ListNode<T>(head);
-            trailer = new ListNode<T>(trai);
+            header = new ListNode<T>();
+            trailer = new ListNode<T>();
 
             header.PreNode = null;
             header.NextNode = trailer;
@@ -184,6 +184,9 @@ namespace DataStruct.List
             }
         }
 
+        /// <summary>
+        /// 遍历
+        /// </summary>
         public void Traverse()
         {
             StringBuilder sb = new StringBuilder();
