@@ -43,7 +43,7 @@ namespace DataStruct.Tree.RedBlackTree
             {
                 Random random = new Random();
                 int index = random.Next(0, 10000) % dataList.Count;
-                index = 0;
+                //index = 0;
                 Console.WriteLine("Remove:" + dataList[index]);
                 rbTree.Remove(dataList[index]);
 
@@ -272,10 +272,14 @@ namespace DataStruct.Tree.RedBlackTree
                     b.Color = oldColor;
                     UpdateHeight(b); //新子树根节点继承原根节点的颜色
                 }
-                else
-                { //黑s无红孩子
-                    s.Color = Color.Red;
-                    s.Height--; //s转红
+                else //黑s无红孩子
+                { 
+                    if (null != s)
+                    {
+                        s.Color = Color.Red;
+                        s.Height--; //s转红
+                    }
+                    
                     if (IsRed(p))//BB-2R
                     { 
                       //*DSA*/printf("  case BB-2R: Both children ("); print(s.LeftChild); printf(") and ("); print(s.RightChild); printf(") of BLACK sibling ("); print(s); printf(") are BLACK, and parent ("); print(p); printf(") is RED\n"); //s孩子均黑，p红
