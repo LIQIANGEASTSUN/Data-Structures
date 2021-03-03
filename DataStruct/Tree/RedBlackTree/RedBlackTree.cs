@@ -39,23 +39,34 @@ namespace DataStruct.Tree.RedBlackTree
 
             //rbTree.Remove(7);
             //BinTreeLogHelper<int>.Log(rbTree.Root, true, false);
-            while (dataList.Count > 0)
+
+            int index = 0;
+            while (dataList.Count > 0 && index < dataList.Count)
             {
                 Random random = new Random();
-                int index = random.Next(0, 10000) % dataList.Count;
+                //int index = random.Next(0, 10000) % dataList.Count;
                 //index = 0;
+                if (dataList[index] != 0 )
+                {
+                    ++index;
+                    continue;
+                }
                 Console.WriteLine("Remove:" + dataList[index]);
                 rbTree.Remove(dataList[index]);
 
                 BinTreeLogHelper<int>.Log(rbTree.Root, true, false);
 
-                if (dataList[index] == 6 || dataList[index] == 28)
-                {
-                    int a = 0;
-                }
-
                 Console.WriteLine();
                 List<BinNode<int>> list = rbTree.TraverseLevel(rbTree.Root);
+                for (int i = 0; i < list.Count; ++i)
+                {
+                    BinNode<int> node = list[i];
+                    if (node.ParentNode != null && node.Color == Color.Red && node.ParentNode.Color == Color.Red)
+                    {
+                        int a = 0;
+                    }
+                }
+
                 for (int i = 0; i < dataList.Count; ++i)
                 {
                     int value = dataList[i];
@@ -64,6 +75,10 @@ namespace DataStruct.Tree.RedBlackTree
                     {
                         Console.WriteLine();
                         Console.WriteLine("实际少了：" + value + "     " + (value == dataList[index]));
+                        if (value != dataList[index])
+                        {
+                            int a = 0;
+                        }
                     }
                 }
 
@@ -120,11 +135,11 @@ namespace DataStruct.Tree.RedBlackTree
             {
                 return true;
             }
-            //BinTreeLogHelper<T>.Log(Root, true, false);
-            //Console.WriteLine();
-            //Console.WriteLine();
-            //Console.WriteLine();
-            //Console.WriteLine();
+            BinTreeLogHelper<T>.Log(Root, true, false);
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
 
             // assert: _hot某一孩子刚被删除，且被r所指节点（可能是null）接替。以下检查是否失衡，并做必要调整
             if (null == _hot) //若刚被删除的是根节点，则将其置黑，并更新黑高度
