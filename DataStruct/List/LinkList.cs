@@ -12,15 +12,36 @@ namespace DataStruct.List
         {
             LinkList<int> list = new LinkList<int>();
 
+            bool empty = list.IsEmpty();
+
+            {
+                int front = list.Front();
+                int back = list.Back();
+                Console.WriteLine("front:" + front + "    back:" + back);
+            }
+
+            {
+                list.PushBack(30000);
+                int front = list.Front();
+                int back = list.Back();
+                Console.WriteLine("front:" + front + "    back:" + back);
+            }
+
             for (int i = 0; i < 6; ++i)
             {
                 list.PushBack(i);
                 Console.WriteLine("Size:" + list.Size());
             }
-
+            empty = list.IsEmpty();
             list.PushFront(10);
-
             list.Traverse();
+
+            {
+                int front = list.Front();
+                int back = list.Back();
+                Console.WriteLine("front:" + front + "    back:" + back);
+            }
+
 
             Swap(list, 5, 2);
 
@@ -29,40 +50,21 @@ namespace DataStruct.List
             Swap(list, 5, 3);
             Swap(list, 0, 2);
 
-            //list.Delete(3);
-            //list.Traverse();
-            //Console.WriteLine("Size:" + list.Size());
-            //Console.WriteLine();
-
-            //list.Delete(0);
-            //list.Traverse();
-            //Console.WriteLine("Size:" + list.Size());
-            //Console.WriteLine();
-
-            //list.Delete(4);
-            //list.Traverse();
-            //Console.WriteLine("Size:" + list.Size());
-            //Console.WriteLine();
-
-            //list.Delete(1);
-            //list.Traverse();
-            //Console.WriteLine("Size:" + list.Size());
-            //Console.WriteLine();
-
-            //list.Delete(5);
-            //list.Traverse();
-            //Console.WriteLine("Size:" + list.Size());
-            //Console.WriteLine();
-
-            //list.Delete(2);
-            //list.Traverse();
-            //Console.WriteLine("Size:" + list.Size());
-            //Console.WriteLine();
-
-            //list.Delete(20);
-            //list.Traverse();
-            //Console.WriteLine("Size:" + list.Size());
+            list.Delete(3);
+            list.Traverse();
+            Console.WriteLine("Size:" + list.Size());
             Console.WriteLine();
+
+            list.Delete(0);
+            list.Traverse();
+            Console.WriteLine("Size:" + list.Size());
+            Console.WriteLine();
+
+            list.Delete(4);
+            list.Traverse();
+            Console.WriteLine("Size:" + list.Size());
+            Console.WriteLine();
+
             list.InsertSort();
             list.Traverse();
         }
@@ -101,15 +103,15 @@ namespace DataStruct.List
         }
 
         // 返回头部指针的下一个
-        private ListNode<T> Begin()
+        private LinkListIterator<T> Begin()
         {
-            return Size() > 0 ? _header.NextNode : End();
+            return new LinkListIterator<T>(_header.NextNode);
         }
 
         // 返回末尾指针
-        private ListNode<T> End()
+        private LinkListIterator<T> End()
         {
-            return _trailer;
+            return new LinkListIterator<T>(_trailer);
         }
 
         /// <summary>
@@ -117,8 +119,7 @@ namespace DataStruct.List
         /// </summary>
         public T Front()
         {
-            ListNode<T> temp = Begin();
-            return null != temp ? temp.Element : default(T);
+            return Size() > 0 ? _header.NextNode.Element : default(T);
         }
 
         /// <summary>
@@ -126,8 +127,7 @@ namespace DataStruct.List
         /// </summary>
         public T Back()
         {
-            ListNode<T> temp = End().PreNode;
-            return temp != Begin() ? temp.Element : default(T);
+            return Size() > 0 ? _trailer.PreNode.Element : default(T);
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace DataStruct.List
         /// </summary>
         public bool IsEmpty()
         {
-            return _header.NextNode == _trailer;
+            return Begin() == End();
         }
 
         /// <summary>
@@ -162,14 +162,14 @@ namespace DataStruct.List
         /// </summary>
         public ListNode<T> Find(T t)
         {
-            ListNode<T> temp = Begin();
-            while (temp != End())
+            LinkListIterator<T> iterator = Begin();
+            while (iterator != End())
             {
-                if (temp.Element.CompareTo(t) == 0)
+                if (iterator.Element.CompareTo(t) == 0)
                 {
-                    return temp;
+                    return iterator.Node;
                 }
-                temp = temp.NextNode;
+                ++iterator;
             }
             return null;
         }
@@ -200,7 +200,7 @@ namespace DataStruct.List
         public void PushFront(T t)
         {
             ListNode<T> newNode = new ListNode<T>(t);
-            InsertAsPre(Begin(), newNode);
+            InsertAsPre(_header.NextNode, newNode);
         }
 
         /// <summary>
@@ -210,7 +210,7 @@ namespace DataStruct.List
         public void PushBack(T t)
         {
             ListNode<T> newNode = new ListNode<T>(t);
-            InsertAsPre(End(), newNode);
+            InsertAsPre(_trailer, newNode);
         }
 
         private void InsertAsPre(ListNode<T> node, ListNode<T> newNode)
@@ -220,7 +220,7 @@ namespace DataStruct.List
 
         public void InsertAsNext(ListNode<T> node, ListNode<T> newNode)
         {
-            if (node == End())
+            if (node == _trailer)
             {
                 return;
             }
@@ -282,6 +282,9 @@ namespace DataStruct.List
             Console.WriteLine(sb.ToString());
         }
 
+        /// <summary>
+        /// 交换两个节点位置
+        /// </summary>
         public void Swap(ListNode<T> node1, ListNode<T> node2)
         {
             if (node1.NextNode == node2)
