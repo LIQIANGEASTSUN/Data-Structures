@@ -158,7 +158,7 @@ namespace DataStruct.BSTree
                         //bSTree.UpdateHeight(node);
                         if (heigh == node.Height)
                         {
-                            Console.WriteLine(list[n].Value.ToString() + "  heigh:" + list[n].Height + "    Error Error Error Error Error Error");
+                            Console.WriteLine(list[n].Element.ToString() + "  heigh:" + list[n].Height + "    Error Error Error Error Error Error");
                         }
                     }
                     //for (int n = 0; n < list.Count; ++n)
@@ -258,7 +258,7 @@ namespace DataStruct.BSTree
             }
             else
             {
-                BinNode<T> node = (t.CompareTo(parent.Value) > 0) ? parent.InsertAsRc(t) : parent.InsertAsLc(t);
+                BinNode<T> node = (t.CompareTo(parent.Element) > 0) ? parent.InsertAsRc(t) : parent.InsertAsLc(t);
                 return node;
             }
         }
@@ -302,9 +302,9 @@ namespace DataStruct.BSTree
             else
             {
                 BinNode<T> w = NodeSucc(node); // 要删除节点的直接后继
-                T temp = w.Value;
-                w.Value = node.Value;
-                node.Value = temp;
+                T temp = w.Element;
+                w.Element = node.Element;
+                node.Element = temp;
 
                 BinNode<T> u = w.ParentNode;
                 if (u == node)
@@ -388,7 +388,7 @@ namespace DataStruct.BSTree
         /// <returns></returns>
         public virtual BinNode<T> Search(T t)
         {
-            if (null == Root || t.CompareTo(Root.Value) == 0)
+            if (null == Root || t.CompareTo(Root.Element) == 0)
             {
                 _hot = null;
                 return Root;
@@ -397,8 +397,8 @@ namespace DataStruct.BSTree
             _hot = Root;
             while (null != _hot)
             {
-                BinNode<T> c = _hot.Value.CompareTo(t) > 0 ? _hot.LeftChild : _hot.RightChild;
-                if (null == c || c.Value.CompareTo(t) == 0)
+                BinNode<T> c = _hot.Element.CompareTo(t) > 0 ? _hot.LeftChild : _hot.RightChild;
+                if (null == c || c.Element.CompareTo(t) == 0)
                 {
                     return c;
                 }

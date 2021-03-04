@@ -42,7 +42,7 @@ namespace DataStruct.BinTree
             List<BinNode<int>> list = binTree.TraverseLevel(binTree.Root);
             for (int i = 0; i < list.Count; ++i)
             {
-                Console.WriteLine("heigh:" + list[i].Value.ToString() + "  heigh:" + list[i].Height);
+                Console.WriteLine("heigh:" + list[i].Element.ToString() + "  heigh:" + list[i].Height);
             }
 
             binTree.Remove(node2);
@@ -81,7 +81,7 @@ namespace DataStruct.BinTree
             list = binTree.TraverseLevel(binTree.Root);
             for (int i = 0; i < list.Count; ++i)
             {
-                Console.WriteLine("heigh:" + list[i].Value.ToString() + "  heigh:" + list[i].Height);
+                Console.WriteLine("heigh:" + list[i].Element.ToString() + "  heigh:" + list[i].Height);
             }
             Console.WriteLine();
             Console.WriteLine();
@@ -165,7 +165,7 @@ namespace DataStruct.BinTree
                 return;
             }
 
-            Console.Write(node.Value.ToString() + "    ");
+            Console.Write(node.Element.ToString() + "    ");
             TraversePreRecursion(node.LeftChild);
             TraversePreRecursion(node.RightChild);
         }
@@ -179,7 +179,7 @@ namespace DataStruct.BinTree
             }
 
             TraverseiInRecursion(node.LeftChild);
-            Console.Write(node.Value.ToString() + "    ");
+            Console.Write(node.Element.ToString() + "    ");
             TraverseiInRecursion(node.RightChild);
         }
 
@@ -193,7 +193,7 @@ namespace DataStruct.BinTree
 
             TraverseiPostRecursion(node.LeftChild);
             TraverseiPostRecursion(node.RightChild);
-            Console.Write(node.Value.ToString() + "    ");
+            Console.Write(node.Element.ToString() + "    ");
         }
 
         // 层序遍历：按层从上到下，每层从左到右依次遍历
@@ -217,7 +217,7 @@ namespace DataStruct.BinTree
             while (stack.Count > 0)
             {
                 node = stack.Pop();
-                Console.Write(node.Value.ToString() + "    ");
+                Console.Write(node.Element.ToString() + "    ");
                 if (node.HasRChild())
                 {
                     stack.Push(node.RightChild);
@@ -242,7 +242,7 @@ namespace DataStruct.BinTree
             {
                 while (null != node)
                 {
-                    Console.Write(node.Value.ToString() + "    ");
+                    Console.Write(node.Element.ToString() + "    ");
                     if ((node = node.LeftChild) != null)
                     {
                         stack.Push(node);
@@ -278,7 +278,7 @@ namespace DataStruct.BinTree
                 }
 
                 node = stack.Pop();
-                Console.Write(node.Value.ToString() + "    ");
+                Console.Write(node.Element.ToString() + "    ");
                 if (null != node && ((node = node.RightChild) != null))
                 {
                     stack.Push(node);
@@ -314,7 +314,7 @@ namespace DataStruct.BinTree
             while (result.Count > 0)
             {
                 BinNode<T> temp = result.Pop();
-                Console.Write(temp.Value.ToString() + "    ");
+                Console.Write(temp.Element.ToString() + "    ");
             }
 
             Console.WriteLine();
@@ -333,7 +333,7 @@ namespace DataStruct.BinTree
             while (queue.Count > 0)
             {
                 node = queue.Dequeue();
-                Console.Write(node.Value.ToString() + "   ");
+                Console.Write(node.Element.ToString() + "   ");
                 list.Add(node);
                 if (node.HasLChild())
                 {

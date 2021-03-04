@@ -25,7 +25,7 @@ namespace DataStruct.Tree.AVLTree
                 for (int n = 0; n < list.Count; ++n)
                 {
                     BinNode<int> node = list[n];
-                    Console.WriteLine(list[n].Value.ToString() + "   heigh:" + list[n].Height);
+                    Console.WriteLine(list[n].Element.ToString() + "   heigh:" + list[n].Height);
                 }
             }
 
@@ -53,7 +53,7 @@ namespace DataStruct.Tree.AVLTree
                     //{
                     //    Console.WriteLine(list[n].Value.ToString() + "  heigh:" + list[n].Height + "    Error Error Error Error Error Error");
                     //}
-                    Console.WriteLine(list[n].Value.ToString() + "  heigh:" + heigh + "   " + (node.Height == heigh));
+                    Console.WriteLine(list[n].Element.ToString() + "  heigh:" + heigh + "   " + (node.Height == heigh));
                 }
             }
         }

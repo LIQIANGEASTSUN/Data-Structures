@@ -111,7 +111,7 @@ namespace DataStruct.Tree.SplayTree
 
             BinNode<T> node = Search(t);
             // 首先 Search，如果找到 t 则返回，否则 Root 即为与 t 相近的节点
-            if (null != node && node.Value.CompareTo(t) == 0) 
+            if (null != node && node.Element.CompareTo(t) == 0) 
             {
                 return Root;
             }
@@ -134,7 +134,7 @@ namespace DataStruct.Tree.SplayTree
             // 最后令 Root = newNode
 
             BinNode<T> tempRoot = Root;
-            if (Root.Value.CompareTo(t) < 0)  //插入新根，以Root和Root.RC为左、右孩子
+            if (Root.Element.CompareTo(t) < 0)  //插入新根，以Root和Root.RC为左、右孩子
             {
                 BinNode<T> rootRightChild = Root.RightChild;
                 //2 + 3个
@@ -175,11 +175,11 @@ namespace DataStruct.Tree.SplayTree
         private void CheckNode(BinNode<T> node)
         {
             BinNode<T> temp = node;
-            T rootData = temp.Value;
+            T rootData = temp.Element;
             while (temp.ParentNode != null)
             {
                 temp = temp.ParentNode;
-                if (rootData.CompareTo(temp.Value) == 0)
+                if (rootData.CompareTo(temp.Element) == 0)
                 {
                     int a = 0;
                 }
@@ -197,7 +197,7 @@ namespace DataStruct.Tree.SplayTree
             }
             BinNode<T> node = Search(t);
             //若树空或目标不存在，则无法删除
-            if (null == node || node.Value.CompareTo(t) != 0)
+            if (null == node || node.Element.CompareTo(t) != 0)
             {
                 return false;
             }
@@ -225,7 +225,7 @@ namespace DataStruct.Tree.SplayTree
                 Root.LeftChild = null; //暂时将左子树切除
                 Root = Root.RightChild;
                 Root.ParentNode = null; //只保留右子树
-                Search(tempRoot.Value); //以原树根为目标，做一次（必定失败的）查找
+                Search(tempRoot.Element); //以原树根为目标，做一次（必定失败的）查找
                                  ///// assert: 至此，右子树中最小节点必伸展至根，且（因无雷同节点）其左子树必空，于是
                 Root.LeftChild = lTree;
                 lTree.ParentNode = Root; //只需将原左子树接回原位即可
@@ -330,7 +330,7 @@ namespace DataStruct.Tree.SplayTree
             if (null != lc)
             {
                 lc.ParentNode = parent;
-                Console.WriteLine(parent.Value.ToString() + "  LeftChild:" + lc.Value.ToString());
+                Console.WriteLine(parent.Element.ToString() + "  LeftChild:" + lc.Element.ToString());
             }
         }
 
@@ -340,7 +340,7 @@ namespace DataStruct.Tree.SplayTree
             if (null != rc)
             {
                 rc.ParentNode = parent;
-                Console.WriteLine(parent.Value.ToString() + "  RightChild:" + rc.Value.ToString());
+                Console.WriteLine(parent.Element.ToString() + "  RightChild:" + rc.Element.ToString());
             }
         }
 

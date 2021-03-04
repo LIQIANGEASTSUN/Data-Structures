@@ -14,7 +14,7 @@ namespace DataStruct.BinTree
 
     public class BinNode<T> where T : IComparable<T>
     {
-        private T _value;
+        private T _element;
         private BinNode<T> _parentNode;
         private BinNode<T> _leftChild;
         private BinNode<T> _rightChild;
@@ -23,12 +23,12 @@ namespace DataStruct.BinTree
 
         public BinNode(T value)
         {
-            _value = value;
+            _element = value;
         }
 
         public BinNode(T value, BinNode<T> parent)
         {
-            _value = value;
+            _element = value;
             ParentNode = parent;
         }
 
@@ -50,10 +50,10 @@ namespace DataStruct.BinTree
             set { _rightChild = value; }
         }
 
-        public T Value
+        public T Element
         {
-            get { return _value; }
-            set { _value = value; }
+            get { return _element; }
+            set { _element = value; }
         }
 
         public int Height
@@ -163,7 +163,7 @@ namespace DataStruct.BinTree
             {
                 return object.Equals(node1, node2);
             }
-            return node1.Value.CompareTo(node2.Value) == 0;
+            return node1.Element.CompareTo(node2.Element) == 0;
         }
 
         public static bool operator != (BinNode<T> node1, BinNode<T> node2)
@@ -172,7 +172,7 @@ namespace DataStruct.BinTree
             {
                 return !object.Equals(node1, node2);
             }
-            return node1.Value.CompareTo(node2.Value) != 0;
+            return node1.Element.CompareTo(node2.Element) != 0;
         }
     }
 }

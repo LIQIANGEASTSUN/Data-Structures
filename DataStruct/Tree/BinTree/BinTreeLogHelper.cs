@@ -67,7 +67,7 @@ namespace DataStruct.BinTree
 
             BTreeLogNode<T> logNode = new BTreeLogNode<T>();
             logNode.index = logNodeList.Count;
-            logNode.t = node.Value;
+            logNode.t = node.Element;
             logNode.Color = node.Color;
             logNode.isRedBlackTree = isRedBlackTree;
             if (null != parent)

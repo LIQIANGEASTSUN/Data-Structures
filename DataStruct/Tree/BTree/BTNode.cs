@@ -7,23 +7,23 @@ namespace DataStruct.Tree.BTree
     class BTNode<T> where T : IComparable<T>
     {
         private BTNode<T> parentNode;// 父节点
-        private List<T> key;       // 数值向量
-        private List<BTNode<T>> child;  // 孩子向量（其长度总比key多一）
+        private List<T> keyList;       // 数值向量
+        private List<BTNode<T>> childList;  // 孩子向量（其长度总比key多一）
 
         public BTNode()
         {
-            key = new List<T>();
-            child = new List<BTNode<T>>();
-            child.Insert(0, null);
+            keyList = new List<T>();
+            childList = new List<BTNode<T>>();
+            childList.Insert(0, null);
         }
 
         public BTNode(T t, BTNode<T> lc, BTNode<T> rc)
         {
             parentNode = null;
-            key.Insert(0, t);
+            keyList.Insert(0, t);
             // 左右孩子
-            child.Insert(0, lc);
-            child.Insert(1, rc);
+            childList.Insert(0, lc);
+            childList.Insert(1, rc);
 
             if (null != lc)
             {
@@ -41,21 +41,21 @@ namespace DataStruct.Tree.BTree
             set { parentNode = value; }
         }
             
-        public List<T> Key
+        public List<T> KeyList
         {
-            get { return key; }
-            set { key = value; }
+            get { return keyList; }
+            set { keyList = value; }
         }
 
-        public List<BTNode<T>> Child
+        public List<BTNode<T>> ChildList
         {
-            get { return child; }
-            set { child = value; }
+            get { return childList; }
+            set { childList = value; }
         }
 
         public void AddChild(BTNode<T> node)
         {
-            Child.Add(node);
+            ChildList.Add(node);
             if (null != node)
             {
                 node.parentNode = this;

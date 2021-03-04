@@ -25,12 +25,12 @@ namespace DataStruct.Log
                 bool success = true;
                 if (node.IsLChild())
                 {
-                    success = (node.Value.CompareTo(node.ParentNode.LeftChild.Value) == 0);
+                    success = (node.Element.CompareTo(node.ParentNode.LeftChild.Element) == 0);
                     //Console.WriteLine(node.Value.ToString() + " is:" + node.ParentNode.Value.ToString() + " Lc  " + success);
                 }
                 else if (node.IsRChild())
                 {
-                    success = (node.Value.CompareTo(node.ParentNode.RightChild.Value) == 0);
+                    success = (node.Element.CompareTo(node.ParentNode.RightChild.Element) == 0);
                     //Console.WriteLine(node.Value.ToString() + " is:" + node.ParentNode.Value.ToString() + " Rc  " + success);
                 }
                 else if (!node.ParentNode.HasChild())
@@ -40,7 +40,7 @@ namespace DataStruct.Log
 
                 if (!success)
                 {
-                    Console.WriteLine(node.Value.ToString() + "   Error:=========================:");
+                    Console.WriteLine(node.Element.ToString() + "   Error:=========================:");
                 }
             }
         }

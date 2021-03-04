@@ -47,7 +47,7 @@ namespace DataStruct.Tree.RedBlackTree
                 for (int i = 0; i < list.Count; ++i)
                 {
                     BinNode<int> node = list[i];
-                    Console.WriteLine(node.Value.ToString() + "  height:" + node.Height);
+                    Console.WriteLine(node.Element.ToString() + "  height:" + node.Height);
                 }
             }
 
@@ -114,7 +114,7 @@ namespace DataStruct.Tree.RedBlackTree
             for (int i = 0; i < dataList.Count; ++i)
             {
                 int value = dataList[i];
-                BinNode<int> node = list.Find((a) => { return a.Value.ToString().CompareTo(value.ToString()) == 0; });
+                BinNode<int> node = list.Find((a) => { return a.Element.ToString().CompareTo(value.ToString()) == 0; });
                 if (null == node)
                 {
                     Console.WriteLine();
@@ -147,9 +147,9 @@ namespace DataStruct.Tree.RedBlackTree
 
                 if (count > 0 && bCount != count)
                 {
-                    Console.WriteLine("CheckBCountToRoot:Error :" + node.Value.ToString());
+                    Console.WriteLine("CheckBCountToRoot:Error :" + node.Element.ToString());
                 }
-                Console.WriteLine(node.Value.ToString() + "   " + count);
+                Console.WriteLine(node.Element.ToString() + "   " + count);
             }
         }
 
@@ -411,7 +411,7 @@ namespace DataStruct.Tree.RedBlackTree
         // 更新节点高度
         protected override int UpdateHeight(BinNode<T> node)
         {
-            if (node.Value.ToString().CompareTo("2") == 0)
+            if (node.Element.ToString().CompareTo("2") == 0)
             {
                 int a = 0;
             }
