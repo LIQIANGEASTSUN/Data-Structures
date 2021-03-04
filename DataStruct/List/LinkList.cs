@@ -67,6 +67,13 @@ namespace DataStruct.List
 
             list.InsertSort();
             list.Traverse();
+
+            LinkListIterator<int> iterator = list.Begin();
+            while (iterator != list.End())
+            {
+                Console.WriteLine(iterator.Element);
+                iterator++;
+            }
         }
 
         private static void Swap(LinkList<int> dataList, int value0, int value1)
@@ -103,13 +110,13 @@ namespace DataStruct.List
         }
 
         // 返回头部指针的下一个
-        private LinkListIterator<T> Begin()
+        public LinkListIterator<T> Begin()
         {
             return new LinkListIterator<T>(_header.NextNode);
         }
 
         // 返回末尾指针
-        private LinkListIterator<T> End()
+        public LinkListIterator<T> End()
         {
             return new LinkListIterator<T>(_trailer);
         }
