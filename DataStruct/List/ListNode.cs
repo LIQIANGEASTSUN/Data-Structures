@@ -4,7 +4,7 @@ namespace DataStruct.List
 {
     class ListNode<T> where T : IComparable<T>
     {
-        private T data;
+        private T element;
         private ListNode<T> preNode;
         private ListNode<T> nextNode;
 
@@ -15,20 +15,20 @@ namespace DataStruct.List
 
         public ListNode(T v)
         {
-            data = v;
+            element = v;
         }
 
         public ListNode(T v, ListNode<T> pre, ListNode<T> next)
         {
-            data = v;
+            element = v;
             preNode = pre;
             nextNode = next;
         }
 
-        public T Data
+        public T Element
         {
-            get { return data; }
-            set { data = value; }
+            get { return element; }
+            set { element = value; }
         }
 
         public ListNode<T> PreNode

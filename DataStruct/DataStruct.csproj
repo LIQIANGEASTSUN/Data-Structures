@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="List\DataList.cs" />
+    <Compile Include="List\LinkList.cs" />
     <Compile Include="List\ListNode.cs" />
     <Compile Include="Log\LogBinTreeCheck.cs" />
     <Compile Include="Log\LogBinTreeTest.cs" />
