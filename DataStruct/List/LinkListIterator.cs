@@ -24,7 +24,7 @@ namespace DataStruct.List
         {
             get
             {
-                return node.Element;
+                return node.Element; 
             }
         }
 
