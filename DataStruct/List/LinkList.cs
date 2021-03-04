@@ -103,7 +103,7 @@ namespace DataStruct.List
         // 返回头部指针的下一个
         private ListNode<T> Begin()
         {
-            return _header.NextNode != _trailer ? _header.NextNode : End();
+            return Size() > 0 ? _header.NextNode : End();
         }
 
         // 返回末尾指针
@@ -163,7 +163,7 @@ namespace DataStruct.List
         public ListNode<T> Find(T t)
         {
             ListNode<T> temp = Begin();
-            while (temp != _trailer)
+            while (temp != End())
             {
                 if (temp.Element.CompareTo(t) == 0)
                 {
@@ -238,9 +238,9 @@ namespace DataStruct.List
         /// </summary>
         public void Deduplicate()
         {
-            for (ListNode<T> node = Begin(); node != _trailer; node = node.NextNode)
+            for (ListNode<T> node = Begin(); node != End(); node = node.NextNode)
             {
-                for (ListNode<T> temp = node.NextNode; temp != _trailer; temp = temp.NextNode)
+                for (ListNode<T> temp = node.NextNode; temp != End(); temp = temp.NextNode)
                 {
                     if (node.Element.CompareTo(temp.Element) == 0)
                     {
@@ -256,10 +256,10 @@ namespace DataStruct.List
         public void Uniquify()
         {
             ListNode<T> node = Begin();
-            while ( node != _trailer)
+            while ( node != End())
             {
                 ListNode<T> next = node.NextNode;
-                if (next != _trailer && next.Element.CompareTo(node.Element) == 0)
+                if (next != End() && next.Element.CompareTo(node.Element) == 0)
                 {
                     Console.WriteLine("Del:" + next.Element.ToString());
                     Delete(next);
@@ -313,16 +313,16 @@ namespace DataStruct.List
         public void InsertSort()
         {
             ListNode<T> begin = Begin();
-            if (null == begin || begin.NextNode == _trailer)
+            if (null == begin || begin.NextNode == End())
             {
                 return;
             }
 
-            for (ListNode<T> temp = begin.NextNode; temp != _trailer; temp = temp.NextNode)
+            for (ListNode<T> temp = begin.NextNode; temp != End(); temp = temp.NextNode)
             {
                 T data = temp.Element;
                 ListNode<T> j = temp.PreNode;
-                while (j != _header && j.Element.CompareTo(data) > 0)
+                while (j != Begin().PreNode && j.Element.CompareTo(data) > 0)
                 {
                     j.NextNode.Element = j.Element;
                     j = j.PreNode;
