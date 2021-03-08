@@ -34,7 +34,7 @@ namespace DataStruct.BinTree
 
         public override string ToString()
         {
-            return t.ToString();
+            return element.ToString();
         }
 
         public override bool IsRedBlack()
@@ -67,7 +67,7 @@ namespace DataStruct.BinTree
 
             BTreeLogNode<T> logNode = new BTreeLogNode<T>();
             logNode.index = logNodeList.Count;
-            logNode.t = node.Element;
+            logNode.element = node.Element;
             logNode.Color = node.Color;
             logNode.isRedBlackTree = isRedBlackTree;
             if (null != parent)

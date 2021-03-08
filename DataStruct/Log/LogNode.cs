@@ -10,7 +10,7 @@ namespace DataStruct.Log
     // 打印结构形状时使用的 Node
     public abstract class LogNode<T>
     {
-        public T t;
+        public T element;
 
         public abstract int ParentIndex();
         public abstract int LeftChildIndex();

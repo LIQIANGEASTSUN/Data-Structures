@@ -14,7 +14,7 @@ namespace DataStruct.Heap
 
         public HeapLogNode(T t, int index)
         {
-            this.t = t;
+            this.element = t;
             this.index = index;
         }
 
@@ -38,7 +38,7 @@ namespace DataStruct.Heap
 
         public override string ToString()
         {
-            return t.ToString();
+            return element.ToString();
         }
 
         public override bool IsRedBlack()
