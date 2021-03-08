@@ -91,6 +91,89 @@ namespace DataStruct.List
         }
     }
 
+    class LinkListIterator<T>
+    {
+        private ListNode<T> node;
+
+        public LinkListIterator(ListNode<T> node)
+        {
+            this.node = node;
+        }
+
+        public ListNode<T> Node
+        {
+            get { return node; }
+        }
+
+        public T Element
+        {
+            get
+            {
+                return node.Element;
+            }
+        }
+
+        public static bool operator ==(LinkListIterator<T> iteratorL, LinkListIterator<T> iteratorR)
+        {
+            return null != iteratorL.node && null != iteratorR.node && iteratorL.node == iteratorR.node;
+        }
+
+        public static bool operator !=(LinkListIterator<T> iteratorL, LinkListIterator<T> iteratorR)
+        {
+            return null == iteratorL.node || null == iteratorR.node || iteratorL.node != iteratorR.node;
+        }
+
+        public static LinkListIterator<T> operator ++(LinkListIterator<T> iterator)
+        {
+            iterator.node = iterator.node.NextNode;
+            return iterator;
+        }
+
+    }
+
+    class ListNode<T>
+    {
+        private T element;
+        private ListNode<T> preNode;
+        private ListNode<T> nextNode;
+
+        public ListNode()
+        {
+
+        }
+
+        public ListNode(T v)
+        {
+            element = v;
+        }
+
+        public ListNode(T v, ListNode<T> pre, ListNode<T> next)
+        {
+            element = v;
+            preNode = pre;
+            nextNode = next;
+        }
+
+        public T Element
+        {
+            get { return element; }
+            set { element = value; }
+        }
+
+        public ListNode<T> PreNode
+        {
+            get { return preNode; }
+            set { preNode = value; }
+        }
+
+        public ListNode<T> NextNode
+        {
+            get { return nextNode; }
+            set { nextNode = value; }
+        }
+    }
+
+
     /// <summary>
     /// 链表
     /// </summary>
