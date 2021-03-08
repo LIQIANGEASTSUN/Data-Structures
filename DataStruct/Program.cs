@@ -11,7 +11,7 @@ namespace DataStruct
             //BinTreeTest();
             //BSTreeTest();
 
-            //AVLTest();
+            AVLTest();
 
             //SplayTreeTest();
 
@@ -23,7 +23,7 @@ namespace DataStruct
 
             //StackTest();
 
-            QueueTest();
+            //QueueTest();
 
             Console.ReadLine();
         }
