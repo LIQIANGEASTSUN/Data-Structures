@@ -7,6 +7,45 @@ using System.Threading.Tasks;
 namespace DataStruct.Stack
 {
 
+    public class StackTest
+    {
+        public static void Test()
+        {
+            StackData<int> stackData = new StackData<int>();
+
+            stackData.Push(10);
+            Console.WriteLine("Peek:" + stackData.Top());
+
+            stackData.Push(6);
+            stackData.Push(2);
+            Console.WriteLine("Peek:" + stackData.Top());
+
+            stackData.Push(20);
+            stackData.Push(100);
+            Console.WriteLine("Peek:" + stackData.Top());
+
+            stackData.Push(8);
+            stackData.Push(32);
+            Console.WriteLine("Peek:" + stackData.Top());
+
+            stackData.Push(26);
+
+            while (!stackData.IsEmpty())
+            {
+                Console.WriteLine(stackData.Pop());
+            }
+
+            Console.WriteLine("MakeEmpty");
+            stackData.MakeEmpty();
+            while (!stackData.IsEmpty())
+            {
+                Console.WriteLine(stackData.Pop());
+            }
+
+        }
+    }
+
+
     public class StackNode<T>
     {
         public T _element;
@@ -28,7 +67,6 @@ namespace DataStruct.Stack
         public T Element
         {
             get { return _element; }
-            set { _element = value; }
         }
 
         public StackNode<T> NextNode
@@ -47,6 +85,11 @@ namespace DataStruct.Stack
     class StackData<T>
     {
         private StackNode<T> _header;
+
+        public StackData()
+        {
+            _header = new StackNode<T>();
+        }
 
         public bool IsEmpty()
         {
@@ -77,7 +120,7 @@ namespace DataStruct.Stack
             return temp.Element;
         }
 
-        public T Peek()
+        public T Top()
         {
             if (IsEmpty())
             {

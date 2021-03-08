@@ -19,7 +19,11 @@ namespace DataStruct
 
             //RBTreeTest();
 
-            ListTest();
+            //ListTest();
+
+            //StackTest();
+
+            QueueTest();
 
             Console.ReadLine();
         }
@@ -66,5 +70,17 @@ namespace DataStruct
         {
             DataStruct.List.DataListTest.Test();
         }
+
+        private static void StackTest()
+        {
+            DataStruct.Stack.StackTest.Test();
+        }
+
+        private static void QueueTest()
+        {
+            DataStruct.Queue.QueueTest.Test();
+        }
+
+
     }
 }

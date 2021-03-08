@@ -44,10 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="List\LinkList.cs" />
-    <Compile Include="List\LinkListIterator.cs" />
-    <Compile Include="List\ListNode.cs" />
     <Compile Include="Log\LogBinTreeCheck.cs" />
     <Compile Include="Log\LogBinTreeTest.cs" />
+    <Compile Include="Queue\QueueData.cs" />
     <Compile Include="Stack\StackData.cs" />
     <Compile Include="Tree\AVLTree\AVLTree.cs" />
     <Compile Include="Tree\BinTree\BinNode.cs" />
@@ -79,8 +78,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Queue\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
