@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataStruct.List
 {
-    class LinkListIterator<T> where T : IComparable<T>
+    class LinkListIterator<T>
     {
         private ListNode<T> node;
 

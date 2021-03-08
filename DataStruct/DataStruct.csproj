@@ -48,6 +48,7 @@
     <Compile Include="List\ListNode.cs" />
     <Compile Include="Log\LogBinTreeCheck.cs" />
     <Compile Include="Log\LogBinTreeTest.cs" />
+    <Compile Include="Stack\StackData.cs" />
     <Compile Include="Tree\AVLTree\AVLTree.cs" />
     <Compile Include="Tree\BinTree\BinNode.cs" />
     <Compile Include="Tree\BSTree\BSTree.cs" />
@@ -79,7 +80,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Stack\" />
+    <Folder Include="Queue\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

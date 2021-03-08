@@ -50,22 +50,22 @@ namespace DataStruct.List
             Swap(list, 5, 3);
             Swap(list, 0, 2);
 
-            list.Delete(3);
+            list.Delete(3, Compare);
             list.Traverse();
             Console.WriteLine("Size:" + list.Size());
             Console.WriteLine();
 
-            list.Delete(0);
+            list.Delete(0, Compare);
             list.Traverse();
             Console.WriteLine("Size:" + list.Size());
             Console.WriteLine();
 
-            list.Delete(4);
+            list.Delete(4, Compare);
             list.Traverse();
             Console.WriteLine("Size:" + list.Size());
             Console.WriteLine();
 
-            list.InsertSort();
+            list.InsertSort(Compare);
             list.Traverse();
 
             LinkListIterator<int> iterator = list.Begin();
@@ -78,20 +78,24 @@ namespace DataStruct.List
 
         private static void Swap(LinkList<int> dataList, int value0, int value1)
         {
-            ListNode<int> node0 = dataList.Find(value0);
-            ListNode<int> node1 = dataList.Find(value1);
+            ListNode<int> node0 = dataList.Find(value0, Compare);
+            ListNode<int> node1 = dataList.Find(value1, Compare);
 
             dataList.Swap(node0, node1);
             dataList.Traverse();
         }
 
+        private static int Compare(int x, int y)
+        {
+            return x - y;
+        }
     }
 
     /// <summary>
     /// 链表
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    class LinkList<T> where T : IComparable<T>
+    class LinkList<T>
     {
         private ListNode<T> _header;   // 头
         private ListNode<T> _trailer;  // 尾
@@ -122,28 +126,11 @@ namespace DataStruct.List
         }
 
         /// <summary>
-        /// 第一个元素指针位置
-        /// </summary>
-        /// <returns></returns>
-        private ListNode<T> First()
-        {
-            return _header.NextNode;
-        }
-
-        /// <summary>
-        /// 最后一个元素指针位置
-        /// </summary>
-        private ListNode<T> Last()
-        {
-            return _trailer;
-        }
-
-        /// <summary>
         /// 第一个元素
         /// </summary>
         public T Front()
         {
-            return Size() > 0 ? First().Element : default(T);
+            return Size() > 0 ? _header.NextNode.Element : default(T);
         }
 
         /// <summary>
@@ -151,7 +138,7 @@ namespace DataStruct.List
         /// </summary>
         public T Back()
         {
-            return Size() > 0 ? Last().PreNode.Element : default(T);
+            return Size() > 0 ? _trailer.PreNode.Element : default(T);
         }
 
         /// <summary>
@@ -170,7 +157,7 @@ namespace DataStruct.List
         /// </summary>
         public bool IsEmpty()
         {
-            return First() == Last();
+            return _header.NextNode == _trailer;
         }
 
         /// <summary>
@@ -178,18 +165,19 @@ namespace DataStruct.List
         /// </summary>
         public int Size()
         {
+            List<int> list;
             return _size;
         }
 
         /// <summary>
         /// 查找元素指针位置
         /// </summary>
-        public ListNode<T> Find(T t)
+        public ListNode<T> Find(T t, Comparison<T> comparison)
         {
-            ListNode<T> temp = First();
-            while (temp != Last())
+            ListNode<T> temp = _header.NextNode;
+            while (temp != _trailer)
             {
-                if (temp.Element.CompareTo(t) == 0)
+                if (comparison(temp.Element, t) == 0)
                 {
                     return temp;
                 }
@@ -201,9 +189,9 @@ namespace DataStruct.List
         /// <summary>
         /// 删除元素
         /// </summary>
-        public void Delete(T t)
+        public void Delete(T t, Comparison<T> comparison)
         {
-            ListNode<T> node = Find(t);
+            ListNode<T> node = Find(t, comparison);
             Delete(node);
         }
 
@@ -260,13 +248,13 @@ namespace DataStruct.List
         /// <summary>
         /// 无序链表去重
         /// </summary>
-        public void Deduplicate()
+        public void Deduplicate(Comparison<T> comparison)
         {
-            for (ListNode<T> node = First(); node != Last(); node = node.NextNode)
+            for (ListNode<T> node = _header.NextNode; node != _trailer; node = node.NextNode)
             {
-                for (ListNode<T> temp = node.NextNode; temp != Last(); temp = temp.NextNode)
+                for (ListNode<T> temp = node.NextNode; temp != _trailer; temp = temp.NextNode)
                 {
-                    if (node.Element.CompareTo(temp.Element) == 0)
+                    if (comparison(node.Element, temp.Element) == 0)
                     {
                         Delete(temp);
                     }
@@ -277,13 +265,13 @@ namespace DataStruct.List
         /// <summary>
         /// 有序链表去重
         /// </summary>
-        public void Uniquify()
+        public void Uniquify(Comparison<T> comparison)
         {
-            ListNode<T> node = First();
-            while ( node != Last())
+            ListNode<T> node = _header.NextNode;
+            while ( node != _trailer)
             {
                 ListNode<T> next = node.NextNode;
-                if (next != Last() && next.Element.CompareTo(node.Element) == 0)
+                if (next != _trailer && comparison(next.Element, node.Element) == 0)
                 {
                     Console.WriteLine("Del:" + next.Element.ToString());
                     Delete(next);
@@ -337,19 +325,19 @@ namespace DataStruct.List
         /// <summary>
         /// 插入排序
         /// </summary>
-        public void InsertSort()
+        public void InsertSort(Comparison<T> comparison)
         {
-            ListNode<T> begin = First();
-            if (null == begin || begin.NextNode == Last())
+            ListNode<T> begin = _header.NextNode;
+            if (null == begin || begin.NextNode == _trailer)
             {
                 return;
             }
 
-            for (ListNode<T> temp = begin.NextNode; temp != Last(); temp = temp.NextNode)
+            for (ListNode<T> temp = begin.NextNode; temp != _trailer; temp = temp.NextNode)
             {
                 T data = temp.Element;
                 ListNode<T> j = temp.PreNode;
-                while (j != First().PreNode && j.Element.CompareTo(data) > 0)
+                while (j != _header.NextNode.PreNode && comparison(j.Element, data) > 0)
                 {
                     j.NextNode.Element = j.Element;
                     j = j.PreNode;

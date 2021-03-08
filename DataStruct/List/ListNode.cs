@@ -2,7 +2,7 @@
 
 namespace DataStruct.List
 {
-    class ListNode<T> where T : IComparable<T>
+    class ListNode<T>
     {
         private T element;
         private ListNode<T> preNode;
