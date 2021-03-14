@@ -12,6 +12,7 @@ namespace DataStruct.Heap
         public static void Test()
         {
             Heap<int> heap = new Heap<int>();
+            heap.SetHeapType(false);
             heap.Insert(4);
             heap.Insert(6);
             heap.Insert(8);
@@ -24,7 +25,7 @@ namespace DataStruct.Heap
             heap.Insert(10);
             heap.Insert(16);
 
-            HeapHelper<int>.Log(heap.list);
+            HeapHelper<int>.Log(heap._list);
 
             TestHeapCreate();
         }
@@ -32,17 +33,19 @@ namespace DataStruct.Heap
         public static void TestHeapCreate()
         {
             Heap<int> heap = new Heap<int>();
+            heap.SetHeapType(false);
+
             Random random = new Random();
-            heap.list = new List<int>() { 4, 6, 8, 5, 9, 3, 1, 0, 20, 10, 16 };
+            heap._list = new List<int>() { 4, 6, 8, 5, 9, 3, 1, 0, 20, 10, 16 };
             for (int i = 0; i < 30; ++i)
             {
                 int value = random.Next(10, 500);
-                heap.list.Add(value);
+                heap._list.Add(value);
             }
             heap.HeapCreate();
 
             Console.WriteLine();
-            HeapHelper<int>.Log(heap.list);
+            HeapHelper<int>.Log(heap._list);
         }
     }
 
@@ -52,9 +55,16 @@ namespace DataStruct.Heap
         // 如果使用数组首先开辟多大空间不确定假设开辟 N 个空间，则还需要
         // 记录当前已经使用到哪个下标索引了记为 size。且当 size >= N 时
         // 还需要手动再次开辟空间
-        public List<T> list = new List<T>();
+        public List<T> _list = new List<T>();
 
+        /// 是否大根堆
+        private bool _isBigHeap = true;
         public Heap() {    }
+
+        public void SetHeapType(bool isBigHeap)
+        {
+            _isBigHeap = isBigHeap;
+        }
 
         private int ParentIndex(int index)
         {
@@ -64,34 +74,34 @@ namespace DataStruct.Heap
 
         public void Insert(T value)
         {
-            list.Add(value);
-            PercolateUp(list, list.Count - 1);
+            _list.Add(value);
+            PercolateUp(_list, _list.Count - 1);
         }
 
         public T GetMax()
         {
-            if (list.Count <= 0)
+            if (_list.Count <= 0)
             {
                 return default(T);
             }
-            return list[0];
+            return _list[0];
         }
 
         // 删除最大元素
         public T DelMax()
         {
-            if (list.Count <= 0)
+            if (_list.Count <= 0)
             {
                 return default(T);
             }
 
-            T max = list[0];
+            T max = _list[0];
             // 删除堆顶元素，将末元素填补到堆顶。
-            list[0] = list[list.Count - 1];
-            list.RemoveAt(list.Count - 1);
+            _list[0] = _list[_list.Count - 1];
+            _list.RemoveAt(_list.Count - 1);
 
             // 对堆顶元素下虑
-            PercolateDown(list, 0, list.Count);
+            PercolateDown(_list, 0, _list.Count);
 
             return max;
         }
@@ -101,9 +111,9 @@ namespace DataStruct.Heap
         {
             // 批量建堆思路为从最后一个非叶子节点开始下虑，一直到跟节点结束
             // 所有非叶子节点执行完下虑堆自然而成
-            for (int i = (list.Count / 2) - 1; i >= 0; --i)
+            for (int i = (_list.Count / 2) - 1; i >= 0; --i)
             {
-                PercolateDown(list, i, list.Count);
+                PercolateDown(_list, i, _list.Count);
             }
         }
 
@@ -121,7 +131,7 @@ namespace DataStruct.Heap
                 // 获取 index 的父节点
                 int parentIndex = ParentIndex(index);
                 // 逆序(父节点<子节点)则互换父/子节点的值
-                if (dataList[parentIndex].CompareTo(dataList[index]) >= 0)
+                if (Compare(dataList[parentIndex], dataList[index]) >= 0)
                 {
                     break;
                 }
@@ -164,14 +174,19 @@ namespace DataStruct.Heap
 
             if (length > leftChildIndex)
             {
-                index = dataList[index].CompareTo(dataList[leftChildIndex]) >= 0 ? index : leftChildIndex;
+                index = Compare(dataList[index], dataList[leftChildIndex]) >= 0 ? index : leftChildIndex;
             }
             if (length > rightChildIndex)
             {
-                index = dataList[index].CompareTo(dataList[rightChildIndex]) >= 0 ? index : rightChildIndex;
+                index = Compare(dataList[index], dataList[rightChildIndex]) >= 0 ? index : rightChildIndex;
             }
             return index;
         }
 
+        public int Compare(T x, T y)
+        {
+            int compare = x.CompareTo(y);
+            return _isBigHeap ? compare : compare * -1;
+        }
     }
 }
