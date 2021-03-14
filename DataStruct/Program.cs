@@ -7,11 +7,11 @@ namespace DataStruct
     {
         static void Main(string[] args)
         {
-            //HeapTest();
+            HeapTest();
             //BinTreeTest();
             //BSTreeTest();
 
-            AVLTest();
+            //AVLTest();
 
             //SplayTreeTest();
 
@@ -31,9 +31,7 @@ namespace DataStruct
         // 堆测试
         private static void HeapTest()
         {
-            DataStruct.Heap.Heap heap = new DataStruct.Heap.Heap();
-            heap.TestInsert();
-            heap.TestHeapCreate();
+            DataStruct.Heap.HeapTest.Test();
         }
 
         private static void BinTreeTest()

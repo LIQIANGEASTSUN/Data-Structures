@@ -20,7 +20,7 @@ namespace DataStruct.Sort
 
         public void HeapSortFunc(List<int> list)
         {
-            Heap.Heap heap = new Heap.Heap();
+            Heap.Heap<int> heap = new Heap.Heap<int>();
             heap.list = list;
             // 构建堆
             heap.HeapCreate();
