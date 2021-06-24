@@ -199,7 +199,22 @@ namespace DataStruct.BinTree
         // 层序遍历：按层从上到下，每层从左到右依次遍历
         public void TraverseiLevelRecursion(BinNode<T> node)
         {
+            Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
+            queue.Enqueue(node);
+            while (queue.Count > 0)
+            {
+                BinNode<T> temp = queue.Dequeue();
+                Console.Write(node.Element.ToString() + "    ");
 
+                if (null != temp.LeftChild)
+                {
+                    queue.Enqueue(temp.LeftChild);
+                }
+                if (null != temp.RightChild)
+                {
+                    queue.Enqueue(temp.RightChild);
+                }
+            }
         }
         #endregion
 
