@@ -27,141 +27,55 @@ namespace DataStruct.Tree.BTree
             bTree.TraverseLevel(bTree.Root);
 
             Console.WriteLine();
+            Console.WriteLine("Start Search");
+            TestSearch(bTree);
+
             Console.WriteLine("Start Remove");
             TestRemove(bTree);
             bTree.TraverseLevel(bTree.Root);
+            TestSearch(bTree);
 
         }
 
         private static void TestInit()
         {
             bTree = new BTree<int>(5);
-
             BTNode<int> root = new BTNode<int>();
-            root.KeyList = new List<int>() { 53, 75 };
-
             bTree.Root = root;
+        }
 
-            #region Level1
-            BTNode<int> node1 = new BTNode<int>();
-            node1.KeyList = new List<int>() { 19, 36 };
-            node1.ChildList.Add(null);
-            node1.ChildList.Add(null);
-
-            BTNode<int> node2 = new BTNode<int>();
-            node2.KeyList = new List<int>() { 63, 69 };
-            node2.ChildList.Add(null);
-            node2.ChildList.Add(null);
-
-            BTNode<int> node3 = new BTNode<int>();
-            node3.KeyList = new List<int>() { 84, 92 };
-            node3.ChildList.Add(null);
-            node3.ChildList.Add(null);
-
-            root.ChildList[0] = (node1);
-            node1.ParentNode = root;
-            root.AddChild(node2);
-            root.AddChild(node3);
-            #endregion
-
-            int a = 0; 
-            if (a == 0)
-            {
-                return;
-            }
-
-            #region Level2
-            BTNode<int> node4 = new BTNode<int>();
-            node4.KeyList = new List<int>() { 13, 17 };
-
-            BTNode<int> node5 = new BTNode<int>();
-            node5.KeyList = new List<int>() { 27, 31 };
-
-            BTNode<int> node6 = new BTNode<int>();
-            node6.KeyList = new List<int>() { 38, 41, 49, 51 };
-
-            node1.AddChild(node4);
-            node1.AddChild(node5);
-            node1.AddChild(node6);
-
-
-            BTNode<int> node7 = new BTNode<int>();
-            node7.KeyList = new List<int>() { 57, 59 };
-
-            BTNode<int> node8 = new BTNode<int>();
-            node8.KeyList = new List<int>() { 65, 66 };
-
-            BTNode<int> node9 = new BTNode<int>();
-            node9.KeyList = new List<int>() { 71, 73 };
-
-            node2.AddChild(node7);
-            node2.AddChild(node8);
-            node2.AddChild(node9);
-
-            BTNode<int> node10 = new BTNode<int>();
-            node10.KeyList = new List<int>() { 77, 79 };
-
-            BTNode<int> node11 = new BTNode<int>();
-            node11.KeyList = new List<int>() { 89, 91 };
-
-            BTNode<int> node12 = new BTNode<int>();
-            node12.KeyList = new List<int>() { 93, 97, 99 };
-
-            node3.AddChild(node10);
-            node3.AddChild(node11);
-            node3.AddChild(node12);
-
-            #endregion
-
-            bTree.TraverseLevel(bTree.Root);
-
-            TestSearch(bTree);
-            Console.WriteLine();
+        private static void TestInsert(BTree<int> bTree)
+        {
+            bTree.Insert(13);
+            bTree.Insert(25);
+            bTree.Insert(66);
+            bTree.Insert(67);
+            bTree.Insert(68);
+            bTree.Insert(39);
+            bTree.Insert(40);
+            bTree.Insert(55);
+            bTree.Insert(5);
+            bTree.Insert(90);
+            bTree.Insert(30);
+            bTree.Insert(28);
         }
 
         private static void TestSearch(BTree<int> bTree)
         {
-            TestSearch(bTree, 53);
-
-            TestSearch(bTree, 36);
-
-            TestSearch(bTree, 17);
-
-            TestSearch(bTree, 31);
-
-            TestSearch(bTree, 49);
-
-            TestSearch(bTree, 63);
-
-            TestSearch(bTree, 59);
-
+            TestSearch(bTree, 13);
+            TestSearch(bTree, 25);
             TestSearch(bTree, 66);
-
-            TestSearch(bTree, 71);
-
-            TestSearch(bTree, 73);
-
-            TestSearch(bTree, 92);
-
-            TestSearch(bTree, 79);
-
-            TestSearch(bTree, 89);
-
-            TestSearch(bTree, 93);
+            TestSearch(bTree, 67);
+            TestSearch(bTree, 68);
+            TestSearch(bTree, 39);
+            TestSearch(bTree, 40);
+            TestSearch(bTree, 55);
+            TestSearch(bTree, 5);
+            TestSearch(bTree, 90);
+            TestSearch(bTree, 30);
+            TestSearch(bTree, 28);
 
             TestSearch(bTree, 99);
-
-            //TestSearch(bTree, 12);
-
-            //TestSearch(bTree, 37);
-
-            //TestSearch(bTree, 55);
-
-            //TestSearch(bTree, 68);
-
-            //TestSearch(bTree, 90);
-
-
             Console.WriteLine();
         }
 
@@ -189,62 +103,25 @@ namespace DataStruct.Tree.BTree
             Console.WriteLine();
         }
 
-        private static void TestInsert(BTree<int> bTree)
-        {
-            bTree.Insert(13);
-
-            bTree.Insert(25);
-
-            bTree.Insert(66);
-            bTree.Insert(67);
-            bTree.Insert(68);
-
-            bTree.Insert(39);
-
-            bTree.Insert(40);
-
-            bTree.Insert(55);
-
-            bTree.Insert(5);
-            bTree.Insert(40);
-            bTree.Insert(90);
-            bTree.Insert(30);
-            bTree.Insert(28);
-
-        }
-
         private static void TestRemove(BTree<int> bTree)
         {
             bTree.Remove(13);
-
             bTree.Remove(25);
-
             bTree.Remove(66);
             bTree.Remove(67);
             bTree.Remove(68);
-
             bTree.Remove(39);
-
             bTree.Remove(40);
-
             bTree.Remove(55);
-
             bTree.Remove(5);
-
-            bTree.Remove(40);
             bTree.Remove(90);
             bTree.Remove(30);
             bTree.Remove(28);
 
-            bTree.Remove(53);
-            bTree.Remove(75);
-            bTree.Remove(19);
-            bTree.Remove(36);
-            bTree.Remove(63);
-            bTree.Remove(69);
-            bTree.Remove(84);
-            bTree.Remove(92);
-
+            bTree.Remove(111);
+            bTree.Remove(222);
+            bTree.Remove(333);
+            bTree.Remove(444);
         }
     }
 

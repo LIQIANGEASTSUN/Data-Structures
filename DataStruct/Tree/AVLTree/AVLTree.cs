@@ -60,7 +60,7 @@ namespace DataStruct.Tree.AVLTree
     }
 
     /// <summary>
-    /// 二叉搜索树
+    /// 平衡二叉搜索树
     /// </summary>
     /// <typeparam name="T"></typeparam>
     class AVLTree<T> : BSTree<T> where T : IComparable<T>

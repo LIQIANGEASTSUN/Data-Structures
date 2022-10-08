@@ -7,7 +7,7 @@ namespace DataStruct
     {
         static void Main(string[] args)
         {
-            HeapTest();
+            //HeapTest();
             //BinTreeTest();
             //BSTreeTest();
 
@@ -15,7 +15,7 @@ namespace DataStruct
 
             //SplayTreeTest();
 
-            //BTreeTest();
+            BTreeTest();
 
             //RBTreeTest();
 
