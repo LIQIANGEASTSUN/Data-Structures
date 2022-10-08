@@ -34,7 +34,6 @@ namespace DataStruct.Tree.BTree
             TestRemove(bTree);
             bTree.TraverseLevel(bTree.Root);
             TestSearch(bTree);
-
         }
 
         private static void TestInit()
