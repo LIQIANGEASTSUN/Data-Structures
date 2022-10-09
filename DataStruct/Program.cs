@@ -15,7 +15,7 @@ namespace DataStruct
 
             //SplayTreeTest();
 
-            BTreeTest();
+            //BTreeTest();
 
             //RBTreeTest();
 
@@ -24,6 +24,9 @@ namespace DataStruct
             //StackTest();
 
             //QueueTest();
+
+            Sort.RadixSort radixSort = new Sort.RadixSort();
+            radixSort.Test();
 
             Console.ReadLine();
         }
