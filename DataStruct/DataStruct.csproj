@@ -8,10 +8,11 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>DataStruct</RootNamespace>
     <AssemblyName>DataStruct</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -74,6 +75,7 @@
     <Compile Include="Tree\BTree\BTree.cs" />
     <Compile Include="Tree\RedBlackTree\RedBlackTree.cs" />
     <Compile Include="Tree\SplayTree\SplayTree.cs" />
+    <Compile Include="Tree\TrieTree\TrieTree.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

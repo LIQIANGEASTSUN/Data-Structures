@@ -25,8 +25,10 @@ namespace DataStruct
 
             //QueueTest();
 
-            Sort.RadixSort radixSort = new Sort.RadixSort();
-            radixSort.Test();
+            //Sort.RadixSort radixSort = new Sort.RadixSort();
+            //radixSort.Test();
+
+            DataStruct.Tree.TrieTree.TrieTreeTest.Test();
 
             Console.ReadLine();
         }
