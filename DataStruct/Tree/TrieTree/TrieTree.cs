@@ -45,8 +45,9 @@ namespace DataStruct.Tree.TrieTree
             {
                 string key = arr[index];
                 TrieNode childNode = null;
+
                 // 子节点中不包含 key 则创建一个节点添加
-                if ( !node.childMap.TryGetValue(key, out childNode))
+                if (!node.childMap.TryGetValue(key, out childNode))
                 {
                     childNode = new TrieNode();
                     childNode.value = key;
@@ -62,7 +63,7 @@ namespace DataStruct.Tree.TrieTree
                     // 如果是结尾，则结尾数+1
                     childNode.endCount++;
                 }
-                
+
                 // 令 node 等于 子节点
                 node = childNode;
                 ++index;
@@ -95,22 +96,12 @@ namespace DataStruct.Tree.TrieTree
                     break;
                 }
 
-                if (node.passCount <= 0)
-                {
-                    break;
-                }
-
                 // 令 node 等于子节点
                 node = childNode;
                 ++index;
             }
 
-            if (index < arr.Length)
-            {
-                return null;
-            }
-
-            return (node.endCount > 0) ? node : null;
+            return (index == arr.Length) ? node : null;
         }
 
         /// <summary>
@@ -120,9 +111,15 @@ namespace DataStruct.Tree.TrieTree
         /// <param name="msg"></param>
         public void Remove(string msg)
         {
+            TrieNode node = Search(msg);
+            if (null == node)
+            {
+                return;
+            }
+
             string[] arr = msg.Split('_');
             int index = 0;
-            TrieNode node = rootNode;
+            node = rootNode;
             while (index < arr.Length)
             {
                 string key = arr[index];
@@ -189,7 +186,7 @@ namespace DataStruct.Tree.TrieTree
             List<string> list = new List<string>();
             list.Add(msg);
             // 遍历 所有子节点
-            foreach(var childNode in node.childMap.Values)
+            foreach (var childNode in node.childMap.Values)
             {
                 BackTracing(childNode, list);
             }
@@ -209,7 +206,7 @@ namespace DataStruct.Tree.TrieTree
             if (node.endCount > 0)
             {
                 string msg = string.Empty;
-                foreach(var value in list)
+                foreach (var value in list)
                 {
                     msg += value;
                 }
@@ -217,7 +214,7 @@ namespace DataStruct.Tree.TrieTree
             }
 
             // 遍历所有子节点
-            foreach(var childNode in node.childMap.Values)
+            foreach (var childNode in node.childMap.Values)
             {
                 // 递归调用回溯算法
                 BackTracing(childNode, list);
@@ -226,6 +223,8 @@ namespace DataStruct.Tree.TrieTree
             list.RemoveAt(list.Count - 1);
         }
     }
+
+
 
     public class TrieTreeTest
     {
