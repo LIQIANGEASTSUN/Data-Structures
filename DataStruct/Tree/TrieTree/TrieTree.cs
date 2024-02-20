@@ -101,7 +101,12 @@ namespace DataStruct.Tree.TrieTree
                 ++index;
             }
 
-            return (index == arr.Length) ? node : null;
+            if (index < arr.Length || node.endCount <= 0)
+            {
+                return null;
+            }
+
+            return node;
         }
 
         /// <summary>
@@ -250,7 +255,7 @@ namespace DataStruct.Tree.TrieTree
                 tree.Insert(msg);
             }
 
-            TrieNode node = tree.Search("A");
+            TrieNode node = tree.Search("A_B_C");
 
             foreach (var msg in list)
             {
