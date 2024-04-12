@@ -192,17 +192,6 @@ namespace DataStruct.Tree.BTree
             }
 
             int index = -1;
-            //for (int i = 0; i < _hot.Key.Count; ++i)
-            //{
-            //    T value = _hot.Key[i];
-            //    int compare = value.CompareTo(t);
-            //    if (compare > 0)
-            //    {
-            //        break;
-            //    }
-            //    ++index;
-            //}
-
             for (int i = 0; i < _hot.KeyList.Count; ++i)
             {
                 int compare = _hot.KeyList[i].CompareTo(t);

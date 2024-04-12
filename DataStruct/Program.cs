@@ -25,10 +25,22 @@ namespace DataStruct
 
             //QueueTest();
 
-            //Sort.RadixSort radixSort = new Sort.RadixSort();
-            //radixSort.Test();
+            //Sort.ShellSort shellSort = new Sort.ShellSort();
+            //shellSort.Test();
 
-            DataStruct.Tree.TrieTree.TrieTreeTest.Test();
+            //Sort.InsertSort insertSort = new Sort.InsertSort();
+            //insertSort.Test();
+
+            //Sort.BubbleSort bubbleSort = new Sort.BubbleSort();
+            //bubbleSort.Test();
+
+            //Sort.SelectionSort selectionSort = new Sort.SelectionSort();
+            //selectionSort.Test();
+
+            Sort.BucketSort bucketSort = new Sort.BucketSort();
+            bucketSort.Test();
+            
+            //DataStruct.Tree.TrieTree.TrieTreeTest.Test();
 
             Console.ReadLine();
         }

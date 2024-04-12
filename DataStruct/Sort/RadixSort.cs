@@ -36,8 +36,18 @@ namespace DataStruct.Sort
             while (maxBit > 0)
             {
                 maxBit--;
-                int[] countArr = new int[10];
+                // 用来技术的数组，记录 digit(个、十、百)位上每一位个数
+                // 比如总计五个数字：23、53、 63、73、 55、65
+                // 当 digit 表示个位时：
+                // 个位 是 3 的记作 countArr[3] = 4 包含 （23、53、 63、73 四个数字）
+                // 个位 是 5 的记作 countArr[5] = 2 包含 （55、65 两个数字）
 
+                // 当 digit 表示十位时：
+                // 十位是 2 的记作  countArr[2] = 1 包含 （23 一个数字）
+                // 十位是 5 的记作  countArr[5] = 2 包含 （53、55 两个数字）
+                // 十位是 6 的记作  countArr[6] = 2 包含 （63、65 两个数字）
+                // 十位是 7 的记作  countArr[7] = 1 包含 （73 一个数字）
+                int[] countArr = new int[10];
                 // 逻辑一
                 for (int i = 0; i < arr.Length; ++i)
                 {
@@ -51,15 +61,20 @@ namespace DataStruct.Sort
                 for (int i = 1; i < countArr.Length; ++i)
                 {
                     // 计算每个索引上的数据存放的最大位置下标
+                    // 以上面  digit 表示十位时 为例
+                    // 十位是 2 的有 1 个， 在数组中存取位置是 第 0 下标
+                    // 十位是 5 的有 2 个，在数组中存取位置是 第 1 - 2 下标
+                    // 十位是 6 的有 2 个，在数组中存取位置是 第 3 - 4 下标
+                    // 十位是 7 的有 1 个，在数组中存取位置是 第 5 下标
                     countArr[i] += countArr[i - 1];
                 }
 
                 for (int i = arr.Length - 1; i >= 0; --i)
                 {
-                    int index = arr[i] / digit % 10;
-                    int v = countArr[index] - 1;
-                    tempArr[v] = arr[i];
-                    countArr[index]--;
+                    int number = arr[i] / digit % 10;
+                    int index = countArr[number] - 1;
+                    tempArr[index] = arr[i];
+                    countArr[number]--;
                 }
 
                 // 将临时数据拷贝回 arr
@@ -70,6 +85,7 @@ namespace DataStruct.Sort
                 digit *= 10;
             }
         }
+
     }
 }
 

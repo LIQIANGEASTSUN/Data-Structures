@@ -1,24 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DataStruct.Log;
+﻿using DataStruct.Log;
 
 namespace DataStruct.Sort
 {
     // 选择排序
     class SelectionSort
     {
-        void Start()
+        public void Test()
         {
-            int[] arr = new int[] { 5, 3, 6, 1, 0 };
+            int[] arr = new int[] { 6, 9, 2, 5, 0, 1, 7, 3, 8 };
 
             SelectionSortFun(arr);
 
             LogArr.Log(arr);
         }
 
+        /// <summary>
+        /// 选择排序
+        /// </summary>
+        /// <param name="arr"></param>
         public void SelectionSortFun(int[] arr)
         {
             for (int i = 0; i < arr.Length; ++i)
