@@ -113,7 +113,11 @@ namespace DataStruct.BinTree
             return null == Root;
         }
 
-        // node 为二叉树中的合法位置
+        /// <summary>
+        /// 删除节点
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         public virtual bool Remove(BinNode<T> node)
         {
             if (node.IsRoot())
@@ -135,6 +139,11 @@ namespace DataStruct.BinTree
             return true;
         }
 
+        /// <summary>
+        /// 清空树，并创建新的根节点
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public virtual BinNode<T> InsertAsRoot(T t)
         {
             _root = new BinNode<T>(t);
@@ -142,6 +151,12 @@ namespace DataStruct.BinTree
             return _root;
         }
 
+        /// <summary>
+        /// 作为当前节点的左孩子插入新节点
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public virtual BinNode<T> InsertAsLc(BinNode<T> node, T t)
         {
             node.InsertAsLc(t);
@@ -149,6 +164,12 @@ namespace DataStruct.BinTree
             return node.LeftChild;
         }
 
+        /// <summary>
+        /// 作为当前节点的右孩子插入新节点
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
         public virtual BinNode<T> InsertAsRc(BinNode<T> node, T t)
         {
             node.InsertAsRc(t);
@@ -157,7 +178,10 @@ namespace DataStruct.BinTree
         }
 
         #region Recursion
-        //先序遍历：先跟->左->右  递归实现
+        /// <summary>
+        /// 递归实现 先序遍历：跟节点->左子树->右子树
+        /// </summary>
+        /// <param name="node"></param>
         public void TraversePreRecursion(BinNode<T> node)
         {
             if (null == node)
@@ -170,7 +194,10 @@ namespace DataStruct.BinTree
             TraversePreRecursion(node.RightChild);
         }
 
-        //中序遍历：先左->跟->右  递归实现
+        /// <summary>
+        /// 递归实现 中序遍历：左子树->跟节点->右子树  递归实现
+        /// </summary>
+        /// <param name="node"></param>
         public void TraverseiInRecursion(BinNode<T> node)
         {
             if (null == node)
@@ -183,7 +210,10 @@ namespace DataStruct.BinTree
             TraverseiInRecursion(node.RightChild);
         }
 
-        //后序遍历：先左->右->跟  递归实现
+        /// <summary>
+        /// 递归实现 后序遍历：左子树->右子树->跟节点
+        /// </summary>
+        /// <param name="node"></param>
         public void TraverseiPostRecursion(BinNode<T> node)
         {
             if (null == node)
@@ -195,31 +225,13 @@ namespace DataStruct.BinTree
             TraverseiPostRecursion(node.RightChild);
             Console.Write(node.Element.ToString() + "    ");
         }
-
-        // 层序遍历：按层从上到下，每层从左到右依次遍历
-        public void TraverseiLevelRecursion(BinNode<T> node)
-        {
-            Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
-            queue.Enqueue(node);
-            while (queue.Count > 0)
-            {
-                BinNode<T> temp = queue.Dequeue();
-                Console.Write(node.Element.ToString() + "    ");
-
-                if (null != temp.LeftChild)
-                {
-                    queue.Enqueue(temp.LeftChild);
-                }
-                if (null != temp.RightChild)
-                {
-                    queue.Enqueue(temp.RightChild);
-                }
-            }
-        }
         #endregion
 
         #region Iteration
-        //先序遍历：先跟->左->右  迭代实现
+        /// <summary>
+        /// 迭代实现 先序遍历：跟节点->左子树->右子树
+        /// </summary>
+        /// <param name="node"></param>
         public void TraversePre(BinNode<T> node)
         {
             if (null == node)
@@ -244,6 +256,10 @@ namespace DataStruct.BinTree
             }
         }
 
+        /// <summary>
+        /// 迭代实现 先序遍历：跟节点->左子树->右子树
+        /// </summary>
+        /// <param name="node"></param>
         public void TraversePre2(BinNode<T> node)
         {
             if (null == node)
@@ -272,7 +288,10 @@ namespace DataStruct.BinTree
             }
         }
 
-        //中序遍历：先左->跟->右  迭代实现
+        /// <summary>
+        /// 迭代实现 中序遍历：左子树->跟节点->右子树
+        /// </summary>
+        /// <param name="node"></param>
         public void TraverseIn(BinNode<T> node)
         {
             if (null == node)
@@ -301,7 +320,10 @@ namespace DataStruct.BinTree
             }
         }
 
-        //后序遍历：先左->右->跟  迭代实现
+        /// <summary>
+        /// 迭代实现 后序遍历：左子树->右子树->跟节点
+        /// </summary>
+        /// <param name="node"></param>
         public void TraversePost(BinNode<T> node)
         {
             if (null == node)
@@ -335,6 +357,7 @@ namespace DataStruct.BinTree
             Console.WriteLine();
         }
 
+        //、层序遍历：按层从上到下，每层从左到右依次遍历
         public List<BinNode<T>> TraverseLevel(BinNode<T> node)
         {
             List<BinNode<T>> list = new List<BinNode<T>>();
@@ -363,7 +386,10 @@ namespace DataStruct.BinTree
         }
         #endregion
 
-        // 更新高度
+        /// <summary>
+        /// 更新树高度
+        /// </summary>
+        /// <param name="node"></param>
         protected void UpdateHeightAbove(BinNode<T> node)
         {
             while (null != node) // 从node出发，覆盖历代祖先
@@ -373,12 +399,22 @@ namespace DataStruct.BinTree
             }
         }
 
+        /// <summary>
+        /// 更新树高度
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         protected virtual int UpdateHeight(BinNode<T> node)
         {
             node.Height = 1 + Math.Max(NodeHeight(node.LeftChild), NodeHeight(node.RightChild));
             return node.Height;
         }
 
+        /// <summary>
+        /// 后去节点的高度
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         protected int NodeHeight(BinNode<T> node)
         {
             return (null != node) ? node.Height : -1;
@@ -388,6 +424,5 @@ namespace DataStruct.BinTree
         {
             _root = null;
         }
-
     }
 }

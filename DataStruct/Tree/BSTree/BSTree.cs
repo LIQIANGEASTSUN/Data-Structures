@@ -16,7 +16,7 @@ namespace DataStruct.BSTree
             {
                 bsTree.Insert(i);
             }
-            BinTreeLogHelper<int>.Log(bsTree.Root, false, false);
+            //BinTreeLogHelper<int>.Log(bsTree.Root, false, false);
             //{
             //    int[] aaaRR = new int[] { 16, 9, 6, 22 };s
             //    BSTree<int> bSTree = new BSTree<int>();
@@ -69,7 +69,7 @@ namespace DataStruct.BSTree
             //    }
             //}
 
-            int[] arr = new int[] { 10, 8, 15, 17, 20, 19, 21, 12, 13, 6, 9, 16, 22, };
+            int[] arr = new int[] { 10, 5, 15, 2, 8, 13, 19, 1, 3, 6, 9, 12, 14, 17, 20, 18, };
             //for (int i = 0; i < arr.Length; ++i)
             //{
             //    TestRemove(arr, i);
@@ -120,6 +120,42 @@ namespace DataStruct.BSTree
                 BinTreeLogHelper<int>.Log(bSTree.Root, false, false);
                 Console.WriteLine();
                 Console.WriteLine();
+
+                List<int> numberList = new List<int>();
+                for (int i = 0;i <arr.Length; ++i)
+                {
+                    numberList.Add(arr[i]);
+                }
+
+                //bSTree.Remove(2);
+                //BinTreeLogHelper<int>.Log(bSTree.Root, false, false);
+                //if (!CheckBSTree(bSTree))
+                //{
+                //    BinTreeLogHelper<int>.Log(bSTree.Root, false, false);
+                //    int a = 0;
+                //}
+
+                while (numberList.Count > 0)
+                {
+                    Random random = new Random();
+                    int index = random.Next(numberList.Count);
+                    int number = numberList[index];
+                    numberList.RemoveAt(index);
+                    Console.WriteLine("Remove:" + number);
+
+                    bSTree.Remove(number);
+                    bool result = CheckBSTree(bSTree);
+                    BinTreeLogHelper<int>.Log(bSTree.Root, false, false);
+                    Console.WriteLine("");
+                    Console.WriteLine("");
+                    Console.WriteLine("");
+                    if (!result)
+                    {
+                        //BinTreeLogHelper<int>.Log(bSTree.Root, false, false);
+                        int a = 0;
+                    }
+                }
+                //BinTreeLogHelper<int>.Log(bSTree.Root, false, false);
                 //list = bSTree.TraverseLevel(bSTree.Root);
                 //for (int n = 0; n < list.Count; ++n)
                 //{
@@ -137,42 +173,42 @@ namespace DataStruct.BSTree
                 //}
                 Console.WriteLine();
 
-                for (int i = 0; i < arr.Length; ++i)
-                {
-                    Console.WriteLine("Remove:" + arr[i]);
-                    bSTree.Remove(arr[i]);
-                    BinTreeLogHelper<int>.Log(bSTree.Root, false, false);
-                    Console.WriteLine();
-                    Console.WriteLine();
-                    Console.WriteLine();
-                    LogBinTreeCheck<int>.Check(bSTree.TraverseLevel(bSTree.Root));
-                    Console.WriteLine();
+                //for (int i = 0; i < arr.Length; ++i)
+                //{
+                //    Console.WriteLine("Remove:" + arr[i]);
+                //    bSTree.Remove(arr[i]);
+                //    BinTreeLogHelper<int>.Log(bSTree.Root, false, false);
+                //    Console.WriteLine();
+                //    Console.WriteLine();
+                //    Console.WriteLine();
+                //    LogBinTreeCheck<int>.Check(bSTree.TraverseLevel(bSTree.Root));
+                //    Console.WriteLine();
 
-                    list = bSTree.TraverseLevel(bSTree.Root);
+                //    list = bSTree.TraverseLevel(bSTree.Root);
 
-                    Console.WriteLine();
-                    for (int n = list.Count - 1; n >= 0; --n)
-                    {
-                        BinNode<int> node = list[n];
-                        int heigh = node.Height;
-                        //bSTree.UpdateHeight(node);
-                        if (heigh == node.Height)
-                        {
-                            Console.WriteLine(list[n].Element.ToString() + "  heigh:" + list[n].Height + "    Error Error Error Error Error Error");
-                        }
-                    }
-                    //for (int n = 0; n < list.Count; ++n)
-                    //{
-                    //    BinNode<int> node = list[n];
-                    //    int heigh = node.Height;
-                    //    bSTree.UpdateHeight(node);
-                    //    if (heigh != node.Height)
-                    //    {
-                    //        Console.WriteLine(list[n].Value.ToString() + "  heigh:" + list[n].Height + "    Error Error Error Error Error Error");
-                    //    }
-                    //}
-                    Console.WriteLine();
-                }
+                //    Console.WriteLine();
+                //    for (int n = list.Count - 1; n >= 0; --n)
+                //    {
+                //        BinNode<int> node = list[n];
+                //        int heigh = node.Height;
+                //        //bSTree.UpdateHeight(node);
+                //        if (heigh == node.Height)
+                //        {
+                //            Console.WriteLine(list[n].Element.ToString() + "  heigh:" + list[n].Height + "    Error Error Error Error Error Error");
+                //        }
+                //    }
+                //    //for (int n = 0; n < list.Count; ++n)
+                //    //{
+                //    //    BinNode<int> node = list[n];
+                //    //    int heigh = node.Height;
+                //    //    bSTree.UpdateHeight(node);
+                //    //    if (heigh != node.Height)
+                //    //    {
+                //    //        Console.WriteLine(list[n].Value.ToString() + "  heigh:" + list[n].Height + "    Error Error Error Error Error Error");
+                //    //    }
+                //    //}
+                //    Console.WriteLine();
+                //}
             }
 
             //{
@@ -210,6 +246,36 @@ namespace DataStruct.BSTree
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
+        }
+
+        private static bool CheckBSTree(BSTree<int> bsTree)
+        {
+            List<BinNode<int>> list = new List<BinNode<int>>();
+
+            bool result = true;
+            list = bsTree.TraverseLevel(bsTree.Root);
+            Console.WriteLine();
+            Console.WriteLine();
+            foreach (BinNode<int> node in list) {
+                BinNode<int> left = node.LeftChild;
+                BinNode<int> right = node.RightChild;
+
+                if (left != null && node.Element <= left.Element)
+                {
+                    Console.WriteLine("Error left");
+                    result = false;
+                    break;
+                }
+
+                if (right != null && node.Element >= right.Element)
+                {
+                    Console.WriteLine("Error right");
+                    result = false;
+                    break;
+                }
+            }
+
+            return result;
         }
     }
 
@@ -290,32 +356,41 @@ namespace DataStruct.BSTree
             BinNode<T> succ = null;
             if (!node.HasLChild())      // 如果节点没有左孩子，则直接以其右孩子代替
             {
-                succ = Replace(node.RightChild, node); // 令node的右孩子替换node
+                succ = Replace(node, node.RightChild); // 令node的右孩子替换node
                 hot = node.ParentNode;
             }
             else if (!node.HasRChild()) // 如果节点没有右孩子，则直接以其左孩子代替
             {
                 succ = node.LeftChild;
-                succ = Replace(node.LeftChild, node); // 令 node 的左孩子替换node
+                succ = Replace(node, node.LeftChild); // 令 node 的左孩子替换node
                 hot = node.ParentNode;
             }
             else
             {
-                BinNode<T> w = NodeSucc(node); // 要删除节点的直接后继
-                T temp = w.Element;
-                w.Element = node.Element;
-                node.Element = temp;
+                // 要删除节点的直接后继节点
+                BinNode<T> w = NodeSucc(node);
+                // 令要删除节点的值等于其直接后继节点的值，然后将直接后继节点删除
+                node.Element = w.Element;
+                BinNode<T> parent = w.ParentNode;
 
-                BinNode<T> u = w.ParentNode;
-                if (u == node)
+                // 下面是删除直接后继节点逻辑
+                // 如果 w 是 左子树最大的节点，则 w 没有右子树了(因为右子树比它的值更大，右子树应该是最大的节点)
+                // 如果 w 是 右子树最小的节点，则 w 没有左子树了(因为左子树比它的值更小，左子树应该是最小的节点)
+                // 所以 w 最多只能有一个节点
+
+                // 如果 w 是 parent左子树，令 parent左子树 = w 唯一的子节点
+                // 如果 w 是 parent右子树，令 parent右子树 = w 唯一的子节点
+                BinNode<T> child = w.HasLChild() ? w.LeftChild : w.RightChild;
+                if (w.IsLChild())
                 {
-                    u.InsertAsRc(w.RightChild);  //令实际要删除节点的右孩子作为 u 的右孩子
+                    parent.InsertAsLc(child);
                 }
                 else
                 {
-                    u.InsertAsLc(w.RightChild); // 令实际要删除节点的右孩子作为 u 的左孩子
+                    parent.InsertAsRc(child);
                 }
-                hot = u;
+
+                hot = parent;
                 succ = w.RightChild;
             }
 
@@ -323,15 +398,13 @@ namespace DataStruct.BSTree
         }
 
         /// <summary>
-        /// 替换节点：将 beReplace 节点替换为 node
+        /// 替换节点：将 B 节点替换为 A
         /// </summary>
-        /// <param name="node"></param>
-        /// <param name="beReplace">被替换的节点</param>
-        private BinNode<T> Replace(BinNode<T> node, BinNode<T> beReplace)
+        private BinNode<T> Replace(BinNode<T> A, BinNode<T> B)
         {
-            if (beReplace.IsRoot())
+            if (A.IsRoot())
             {
-                Root = node;
+                Root = B;
                 if (null != Root)
                 {
                     Root.ParentNode = null;
@@ -339,19 +412,19 @@ namespace DataStruct.BSTree
                 return Root;
             }
 
-            if (null != node)
+            if (null != B)
             {
-                node.ParentNode = beReplace.ParentNode;
+                B.ParentNode = A.ParentNode;
             }
-            if (beReplace.IsRChild())
+            if (A.IsRChild())
             {
-                beReplace.ParentNode.RightChild = node;
+                A.ParentNode.RightChild = B;
             }
             else
             {
-                beReplace.ParentNode.LeftChild = node;
+                A.ParentNode.LeftChild = B;
             }
-            return node;
+            return B;
         }
 
         /// <summary>
@@ -361,20 +434,20 @@ namespace DataStruct.BSTree
         /// </summary>
         private BinNode<T> NodeSucc(BinNode<T> node)
         {
-            if (node.HasRChild())
-            {
-                node = node.RightChild;
-                while (node.HasLChild())
-                {
-                    node = node.LeftChild;
-                }
-            }
-            else
+            if (node.HasLChild())
             {
                 node = node.LeftChild;
                 while (null != node && node.HasRChild())
                 {
                     node = node.RightChild;
+                }
+            }
+            else
+            {
+                node = node.RightChild;
+                while (node.HasLChild())
+                {
+                    node = node.LeftChild;
                 }
             }
 

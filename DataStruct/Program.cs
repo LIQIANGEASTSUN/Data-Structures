@@ -11,7 +11,7 @@ namespace DataStruct
             //BinTreeTest();
             //BSTreeTest();
 
-            //AVLTest();
+            AVLTest();
 
             //SplayTreeTest();
 
@@ -37,8 +37,8 @@ namespace DataStruct
             //Sort.SelectionSort selectionSort = new Sort.SelectionSort();
             //selectionSort.Test();
 
-            Sort.BucketSort bucketSort = new Sort.BucketSort();
-            bucketSort.Test();
+            //Sort.BucketSort bucketSort = new Sort.BucketSort();
+            //bucketSort.Test();
             
             //DataStruct.Tree.TrieTree.TrieTreeTest.Test();
 
