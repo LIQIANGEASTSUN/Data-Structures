@@ -24,7 +24,7 @@ namespace DataStruct.Tree.SplayTree
                 //Console.WriteLine();
 
                 List<BinNode<int>> list = new List<BinNode<int>>();
-                LogBinTreeCheck<int>.Check(list);
+                //LogBinTreeCheck<int>.Check(list);
 
                 //
                 //list = splayTree.TraverseLevel(splayTree.Root);
@@ -49,15 +49,18 @@ namespace DataStruct.Tree.SplayTree
             Console.WriteLine();
             Console.WriteLine();
 
-            for (int i = 0; i < arr.Length; ++i)
-            {
-                Console.WriteLine("Remove:" + arr[i]);
-                splayTree.Remove(arr[i]);
-                BinTreeLogHelper<int>.Log(splayTree.Root, false, false);
-                Console.WriteLine();
-                List<BinNode<int>> list = splayTree.TraverseLevel(splayTree.Root);
-                Console.WriteLine();
-            }
+            //splayTree.Remove(20);
+            //BinTreeLogHelper<int>.Log(splayTree.Root, false, false);
+
+            //for (int i = 0; i < arr.Length; ++i)
+            //{
+            //    Console.WriteLine("Remove:" + arr[i]);
+            //    splayTree.Remove(arr[i]);
+            //    BinTreeLogHelper<int>.Log(splayTree.Root, false, false);
+            //    Console.WriteLine();
+            //    List<BinNode<int>> list = splayTree.TraverseLevel(splayTree.Root);
+            //    Console.WriteLine();
+            //}
 
             //BinNode<int> root = splayTree.Insert(8);
             //BinNode<int> node10 = new BinNode<int>(10);
@@ -68,8 +71,14 @@ namespace DataStruct.Tree.SplayTree
 
             //BinTreeLogHelper<int>.Log(splayTree.Root, true);
 
-            ////splayTree.Search(19);
-            ////BinTreeLogHelper<int>.Log(splayTree.Root, true);
+            splayTree.Search(19);
+            BinTreeLogHelper<int>.Log(splayTree.Root, false, false);
+
+            splayTree.Search(8);
+            BinTreeLogHelper<int>.Log(splayTree.Root, false, false);
+
+            splayTree.Remove(19);
+            BinTreeLogHelper<int>.Log(splayTree.Root, false, false);
 
             //Console.WriteLine();
             //Console.WriteLine();
@@ -77,6 +86,24 @@ namespace DataStruct.Tree.SplayTree
             //BinTreeLogHelper<int>.Log(splayTree.Root, true);
         }
     }
+
+    /*
+    伸展树 也叫自适应查找树
+    伸展树实质上是一个二叉搜索树，包含插入、查询、删除等二叉搜索树所有操作，这些操作的时间复杂度为O(logN)
+
+    与平衡二叉树相比
+    1.平衡二叉树每个节点都要存储平衡信息(节点高度）
+    2.执行插入、删除操作后需要回复平衡，重新计算节点高度，操作复杂度高
+    3.对于简单的输入，性能提升并不明显
+
+    平衡二叉树提升性能的地方
+    1.平衡二叉树在最差的平均时间复杂度基本都是保持在O(logN)
+
+    伸展树原理：假设一个节点在一次访问后，这个节点很可能不久会被再次访问。
+    伸展树的做法是在每一次访问一个节点后，就通过一些列操作把这个节点挪移到树根位置
+    尽管最坏情况下单次查询时间复杂度会达到 O(N），线性复杂度
+    而实际证明伸展树保证在 M 次连续搜索的过程中时间复杂度不大于O(M*logN)
+    */
 
     /// <summary>
     /// 伸展树
@@ -201,12 +228,9 @@ namespace DataStruct.Tree.SplayTree
             {
                 return false;
             }
-
-            BinTreeLogHelper<T>.Log(Root, false, false);
-            Console.WriteLine();    
-
+  
             BinNode<T> tempRoot = Root; //assert: 经search()后节点e已被伸展至树根
-            if (!Root.HasLChild())   //若无左子树，则直接删除
+            if (!Root.HasLChild())      //若无左子树，则直接删除
             { 
                 Root = Root.RightChild;
                 if (null != Root)
@@ -220,15 +244,15 @@ namespace DataStruct.Tree.SplayTree
             }
             else
             { //若左右子树同时存在，则
-                BinNode<T> lTree = Root.LeftChild;
-                lTree.ParentNode = null;
+                BinNode<T> LTree = Root.LeftChild;
+                LTree.ParentNode = null;
                 Root.LeftChild = null; //暂时将左子树切除
                 Root = Root.RightChild;
                 Root.ParentNode = null; //只保留右子树
                 Search(tempRoot.Element); //以原树根为目标，做一次（必定失败的）查找
-                                 ///// assert: 至此，右子树中最小节点必伸展至根，且（因无雷同节点）其左子树必空，于是
-                Root.LeftChild = lTree;
-                lTree.ParentNode = Root; //只需将原左子树接回原位即可
+                                 ///// assert: 至此，右子树中最小节点必伸展至根，且（因无类同节点）其左子树必空，于是
+                Root.LeftChild = LTree;
+                LTree.ParentNode = Root; //只需将原左子树接回原位即可
             }
 
             if (null != Root)
@@ -330,7 +354,7 @@ namespace DataStruct.Tree.SplayTree
             if (null != lc)
             {
                 lc.ParentNode = parent;
-                Console.WriteLine(parent.Element.ToString() + "  LeftChild:" + lc.Element.ToString());
+                //Console.WriteLine(parent.Element.ToString() + "  LeftChild:" + lc.Element.ToString());
             }
         }
 
@@ -340,10 +364,8 @@ namespace DataStruct.Tree.SplayTree
             if (null != rc)
             {
                 rc.ParentNode = parent;
-                Console.WriteLine(parent.Element.ToString() + "  RightChild:" + rc.Element.ToString());
+                //Console.WriteLine(parent.Element.ToString() + "  RightChild:" + rc.Element.ToString());
             }
         }
-
     }
-
 }

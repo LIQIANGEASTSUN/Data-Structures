@@ -179,7 +179,7 @@ namespace DataStruct.Tree.AVLTree
         /// <summary>
         /// 平衡因子
         /// </summary>
-        public int BalFac(BinNode<T> node)
+        public int BalancedFactor(BinNode<T> node)
         {
             return NodeHeight(node.LeftChild) - NodeHeight(node.RightChild);
         }
@@ -189,13 +189,13 @@ namespace DataStruct.Tree.AVLTree
         /// </summary>
         public bool AvlBalanced(BinNode<T> node)
         {
-            return -1 <= BalFac(node) && BalFac(node) <= 1; 
+            return -1 <= BalancedFactor(node) && BalancedFactor(node) <= 1; 
         }
 
         // 在 左、右 孩子中取更高者
         protected BinNode<T> TallerChild(BinNode<T> node)
         {
-            int balFac = BalFac(node);
+            int balFac = BalancedFactor(node);
             if (balFac > 0) // 左高
             {
                 return node.LeftChild;
