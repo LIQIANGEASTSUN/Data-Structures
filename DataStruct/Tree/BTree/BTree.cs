@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -12,22 +13,63 @@ namespace DataStruct.Tree.BTree
         {
             int[] arr = new[] { 13, 25, 66, 67, 68, 39, 40, 55, 5, 90, 30, 28}; 
             TestInit();
-            bTree.TraverseLevel(bTree.Root);
-
-            Console.WriteLine();
             Console.WriteLine("Start Insert");
-
             TestInsert(bTree, arr);
-            bTree.TraverseLevel(bTree.Root);
+            TestTraverseLevelList();
 
-            Console.WriteLine();
             Console.WriteLine("Start Search");
             TestSearch(bTree, arr);
 
             Console.WriteLine("Start Remove");
             TestRemove(bTree, arr);
-            bTree.TraverseLevel(bTree.Root);
-            TestSearch(bTree, arr);
+            TestTraverseLevelList();
+        }
+
+        private static void TestTraverseLevel()
+        {
+            StringBuilder sb = new StringBuilder();
+            List<BTNode<int>> list = bTree.TraverseLevel(bTree.Root);
+            foreach (var node in list)
+            {
+                sb.Append("(");
+                for (int i = 0; i < node.KeyList.Count; ++i)
+                {
+                    int key = node.KeyList[i];
+                    sb.Append(key);
+                    if (i < node.KeyList.Count - 1)
+                    {
+                        sb.Append(", ");
+                    }
+                }
+                sb.Append(")   ");
+            }
+            Console.WriteLine(sb.ToString());
+        }
+
+        private static void TestTraverseLevelList()
+        {
+            StringBuilder sb = new StringBuilder();
+            List<List<BTNode<int>>> listResult = bTree.TraverseLevelList(bTree.Root);
+            foreach(var list in listResult)
+            {
+                foreach(var node in list)
+                {
+                    sb.Append("(");
+                    for (int i = 0; i < node.KeyList.Count; ++i)
+                    {
+                        int key = node.KeyList[i];
+                        sb.Append(key);
+                        if (i < node.KeyList.Count - 1)
+                        {
+                            sb.Append(", ");
+                        }
+                    }
+                    sb.Append(")   ");
+                }
+                sb.AppendLine();
+            }
+
+            Console.WriteLine(sb.ToString());
         }
 
         private static void TestInit()
@@ -132,7 +174,7 @@ namespace DataStruct.Tree.BTree
 
                 _hot = v;
                 // 沿引用转至对应的下层子树，并载入其根
-                v = v.ChildCount() > (index + 1) ? v.GetChild(index + 1) : null;
+                v = v.ChildCount > (index + 1) ? v.GetChild(index + 1) : null;
             }
             // 若因 null == v 而退出,则意味着抵达外部节点
             return null; // 失败
@@ -220,7 +262,7 @@ namespace DataStruct.Tree.BTree
         /// </summary>
         public void SolveOverflow(BTNode<T> v)
         {
-            if (_order >= v.ChildCount())
+            if (_order >= v.ChildCount)
             {
                 return; //递归基：当前节点并未上溢
             }
@@ -287,7 +329,7 @@ namespace DataStruct.Tree.BTree
         /// <param name="node"></param>
         public void SolveUnderflow(BTNode<T> v)
         {
-            if ((_order + 1) / 2 <= v.ChildCount()) return; //递归基：当前节点并未下溢
+            if ((_order + 1) / 2 <= v.ChildCount) return; //递归基：当前节点并未下溢
             BTNode<T> p = v.ParentNode;
             if (null == p)
             { //递归基：已到根节点，没有孩子的下限
@@ -314,7 +356,7 @@ namespace DataStruct.Tree.BTree
             if (0 < r)
             { //若v不是p的第一个孩子，则
                 BTNode<T> ls = p.GetChild(r - 1); //左兄弟必存在
-                if ((_order + 1) / 2 < ls.ChildCount())
+                if ((_order + 1) / 2 < ls.ChildCount)
                 { //若该兄弟足够“胖”，则
                   /*DSA*/
                     v.KeyList.Insert(0, p.KeyList[r - 1]); //p借出一个关键码给v（作为最小关键码）
@@ -322,8 +364,8 @@ namespace DataStruct.Tree.BTree
                     ls.KeyList.RemoveAt(ls.KeyList.Count - 1);
                     p.KeyList[r - 1] = key; //ls的最大关键码转入p
 
-                    BTNode<T> node = ls.GetChild(ls.ChildCount() - 1);
-                    ls.RemoveChildAt(ls.ChildCount() - 1);
+                    BTNode<T> node = ls.GetChild(ls.ChildCount - 1);
+                    ls.RemoveChildAt(ls.ChildCount - 1);
                     //同时ls的最右侧孩子过继给v
                     //作为v的最左侧孩子
                     v.InsertChild(0, node);
@@ -331,10 +373,10 @@ namespace DataStruct.Tree.BTree
                 }
             } //至此，左兄弟要么为空，要么太“瘦”
               // 情况2：向右兄弟借关键码
-            if (p.ChildCount() - 1 > r)
+            if (p.ChildCount - 1 > r)
             { //若v不是p的最后一个孩子，则
                 BTNode<T> rs = p.GetChild(r + 1); //右兄弟必存在
-                if ((_order + 1) / 2 < rs.ChildCount())
+                if ((_order + 1) / 2 < rs.ChildCount)
                 { //若该兄弟足够“胖”，则
                   /*DSA*/
                     v.KeyList.Insert(v.KeyList.Count, p.KeyList[r]); //p借出一个关键码给v（作为最大关键码）
@@ -344,11 +386,11 @@ namespace DataStruct.Tree.BTree
 
                     BTNode<T> node = rs.GetChild(0);
                     rs.RemoveChildAt(0);
-                    v.InsertChild(v.ChildCount(), node);
+                    v.InsertChild(v.ChildCount, node);
                     //同时rs的最左侧孩子过继给v
-                    if (null != v.GetChild(v.ChildCount() - 1)) //作为v的最右侧孩子
+                    if (null != v.GetChild(v.ChildCount - 1)) //作为v的最右侧孩子
                     {
-                        v.GetChild(v.ChildCount() - 1).ParentNode = v;
+                        v.GetChild(v.ChildCount - 1).ParentNode = v;
                     }
                     return; //至此，通过左旋已完成当前层（以及所有层）的下溢处理
                 }
@@ -366,7 +408,7 @@ namespace DataStruct.Tree.BTree
                 //p的第r - 1个关键码转入ls，v不再是p的第r个孩子
                 BTNode<T> node = v.GetChild(0);
                 v.RemoveChildAt(0);
-                ls.InsertChild(ls.ChildCount(), node);//v的最左侧孩子过继给ls做最右侧孩子
+                ls.InsertChild(ls.ChildCount, node);//v的最左侧孩子过继给ls做最右侧孩子
 
                 while (v.KeyList.Count() > 0)
                 { //v剩余的关键码和孩子，依次转入ls
@@ -376,7 +418,7 @@ namespace DataStruct.Tree.BTree
 
                     BTNode<T> node2 = v.GetChild(0);
                     v.RemoveChildAt(0);
-                    ls.InsertChild(ls.ChildCount(), node2);
+                    ls.InsertChild(ls.ChildCount, node2);
                 }
                 //release(v); //释放v
             }
@@ -390,8 +432,8 @@ namespace DataStruct.Tree.BTree
                 rs.KeyList.Insert(0, key); p.RemoveChildAt(r);
                 //p的第r个关键码转入rs，v不再是p的第r个孩子
 
-                BTNode<T> node = v.GetChild(v.ChildCount() - 1);
-                v.RemoveChildAt(v.ChildCount() - 1);
+                BTNode<T> node = v.GetChild(v.ChildCount - 1);
+                v.RemoveChildAt(v.ChildCount - 1);
                 rs.InsertChild(0, node);
                 if (null != rs.GetChild(0))
                 {
@@ -403,8 +445,8 @@ namespace DataStruct.Tree.BTree
                     v.KeyList.RemoveAt(v.KeyList.Count - 1);
                     rs.KeyList.Insert(0, key2);
 
-                    BTNode<T> node2 = v.GetChild(v.ChildCount() - 1);
-                    v.RemoveChildAt(v.ChildCount() - 1);
+                    BTNode<T> node2 = v.GetChild(v.ChildCount - 1);
+                    v.RemoveChildAt(v.ChildCount - 1);
                     rs.InsertChild(0, node2);
                     if (null != rs.GetChild(0))
                     {
@@ -416,6 +458,41 @@ namespace DataStruct.Tree.BTree
             SolveUnderflow(p); //上升一层，如有必要则继续分裂——至多递归O(logn)层
         }
 
+        public List<List<BTNode<T>>> TraverseLevelList(BTNode<T> node)
+        {
+            List<List<BTNode<T>>> listResult = new List<List<BTNode<T>>>();
+            if (null == node)
+            {
+                return listResult;
+            }
+
+            Queue<BTNode<T>> queue = new Queue<BTNode<T>>();
+            queue.Enqueue(node);
+            while (queue.Count > 0)
+            {
+                int count = queue.Count;
+                List<BTNode<T>> list = new List<BTNode<T>>();
+
+                while(count > 0)
+                {
+                    --count;
+                    node = queue.Dequeue();
+                    if (null == node)
+                    {
+                        continue;
+                    }
+
+                    list.Add(node);
+                    for (int i = 0; i < node.ChildCount; ++i)
+                    {
+                        queue.Enqueue(node.GetChild(i));
+                    }
+                }
+                listResult.Add(list);
+            }
+            return listResult;
+        }
+
         public List<BTNode<T>> TraverseLevel(BTNode<T> node)
         {
             List<BTNode<T>> list = new List<BTNode<T>>();
@@ -424,54 +501,20 @@ namespace DataStruct.Tree.BTree
                 return list;
             }
 
-            Queue<int> countQueue = new Queue<int>();
-
             Queue<BTNode<T>> queue = new Queue<BTNode<T>>();
             queue.Enqueue(node);
-
-            countQueue.Enqueue(0);
-
-            int deep = 0;
             while (queue.Count > 0)
             {
                 node = queue.Dequeue();
-
-                int count = countQueue.Dequeue();
-
-                if (count == 0)
-                {
-                    Console.Write("      ");
-                }
-
                 if (null == node)
                 {
                     continue;
                 }
 
-                if (deep != Deep(node))
-                {
-                    deep = Deep(node);
-                    Console.WriteLine("");
-                    Console.WriteLine("");
-                    Console.WriteLine("");
-                    Console.WriteLine("");
-                }
-
-                StringBuilder sb = new StringBuilder();
-                sb.Append("(");
-                for (int i = 0; i < node.KeyList.Count; ++i)
-                {
-                    sb.Append(node.KeyList[i] + ",");
-                }
-                sb.Append(")");
-
-                Console.Write(sb.ToString() + " ");
-
                 list.Add(node);
-                for (int i = 0; i < node.ChildCount(); ++i)
+                for (int i = 0; i < node.ChildCount; ++i)
                 {
                     queue.Enqueue(node.GetChild(i));
-                    countQueue.Enqueue(i);
                 }
             }
             return list;

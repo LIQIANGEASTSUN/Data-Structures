@@ -12,7 +12,8 @@ namespace DataStruct.Tree.AVLTree
             AVLTree<int> aVLTree = new AVLTree<int>();
             //int[] arr = new int[] { 10, 8, 15, 17, 20, 19, 21, 12, 13, 6, 9, 16, 22, };
             //int[] arr = new int[] { 1, 2, 3, 4, 5, 6 };
-            int[] arr = new int[] { 1, 2, 3, 4, 5, 6, 10, 8, 15, 6, 18 };
+            //int[] arr = new int[] { 1, 2, 3, 4, 5, 6, 10, 8, 15, 6, 18 };
+            int[] arr = new int[] { 6, 4, 8, 2, 5, 7, 9, 1, 3 };
             for (int i = 0; i < arr.Length; ++i)
             {
                 //Console.WriteLine("Insert:" + arr[i]);

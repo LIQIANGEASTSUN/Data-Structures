@@ -84,9 +84,9 @@ namespace DataStruct.Tree.BTree
             ChildList[index] = node;
         }
 
-        public int ChildCount()
+        public int ChildCount
         {
-            return ChildList.Count;
+            get { return ChildList.Count; }
         }
     }
 }

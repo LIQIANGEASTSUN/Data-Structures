@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataStruct.List
 {
@@ -13,128 +10,92 @@ namespace DataStruct.List
             LinkList<int> list = new LinkList<int>();
 
             bool empty = list.IsEmpty();
+            Console.WriteLine("is empty:" + empty);
 
-            {
-                int front = list.Front();
-                int back = list.Back();
-                Console.WriteLine("front:" + front + "    back:" + back);
-            }
-
-            {
-                list.PushBack(30000);
-                int front = list.Front();
-                int back = list.Back();
-                Console.WriteLine("front:" + front + "    back:" + back);
-            }
-
-            for (int i = 0; i < 6; ++i)
+            for (int i = 0; i < 10; ++i)
             {
                 list.PushBack(i);
-                Console.WriteLine("Size:" + list.Size());
+                Console.WriteLine("pushBack:" + i + "   Size:" + list.Size());
             }
+            ListNode<int> front = list.Front();
+            ListNode<int> back = list.Back();
+            Console.WriteLine("front:" + front.Element + "    back:" + back.Element);
+
             empty = list.IsEmpty();
+            Console.WriteLine("is empty:" + empty);
+
+            Console.WriteLine("PushFront:10");
             list.PushFront(10);
-            list.Traverse();
+            front = list.Front();
+            back = list.Back();
+            Console.WriteLine("front:" + front.Element + "    back:" + back.Element);
 
+            List<int> nodeList = list.Traverse();
+            string str = string.Empty;
+            foreach(var element in nodeList)
             {
-                int front = list.Front();
-                int back = list.Back();
-                Console.WriteLine("front:" + front + "    back:" + back);
+                str += element + "   ";
             }
+            Console.WriteLine("Traverse:" + str);
 
+            LinkListIterator<int> iterator = list.Begin();
+            str = string.Empty;
+            while (iterator != list.End())
+            {
+                str += iterator.Element + "   ";
+                iterator++;
+            }
+            Console.WriteLine("iterator:" + str);
 
             Swap(list, 5, 2);
 
-            Swap(list, 0, 4);
-
-            Swap(list, 5, 3);
-            Swap(list, 0, 2);
-
-            list.Delete(3, Compare);
-            list.Traverse();
-            Console.WriteLine("Size:" + list.Size());
-            Console.WriteLine();
-
-            list.Delete(0, Compare);
-            list.Traverse();
-            Console.WriteLine("Size:" + list.Size());
-            Console.WriteLine();
-
-            list.Delete(4, Compare);
-            list.Traverse();
-            Console.WriteLine("Size:" + list.Size());
-            Console.WriteLine();
-
-            list.InsertSort(Compare);
-            list.Traverse();
-
-            LinkListIterator<int> iterator = list.Begin();
+            iterator = list.Begin();
+            str = string.Empty;
             while (iterator != list.End())
             {
-                Console.WriteLine(iterator.Element);
+                str += iterator.Element + "   ";
                 iterator++;
             }
+            Console.WriteLine("iterator:" + str);
+
+            Console.WriteLine("Delete 3");
+            list.Delete(3);
+            Console.WriteLine("Delete 9");
+            list.Delete(9);
+            Console.WriteLine("Sort");
+            list.Sort((a, b) => a.CompareTo(b));
+
+            iterator = list.Begin();
+            str = string.Empty;
+            while (iterator != list.End())
+            {
+                str += iterator.Element + "   ";
+                iterator++;
+            }
+            Console.WriteLine("iterator:" + str);
         }
 
         private static void Swap(LinkList<int> dataList, int value0, int value1)
         {
-            ListNode<int> node0 = dataList.Find(value0, Compare);
-            ListNode<int> node1 = dataList.Find(value1, Compare);
+            ListNode<int> node0 = dataList.Find(value0);
+            ListNode<int> node1 = dataList.Find(value1);
 
             dataList.Swap(node0, node1);
             dataList.Traverse();
         }
-
-        private static int Compare(int x, int y)
-        {
-            return x - y;
-        }
     }
 
-    class LinkListIterator<T>
+    /// <summary>
+    /// 链表节点
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class ListNode<T> where T : IComparable<T>
     {
-        private ListNode<T> node;
-
-        public LinkListIterator(ListNode<T> node)
-        {
-            this.node = node;
-        }
-
-        public ListNode<T> Node
-        {
-            get { return node; }
-        }
-
-        public T Element
-        {
-            get
-            {
-                return node.Element;
-            }
-        }
-
-        public static bool operator ==(LinkListIterator<T> iteratorL, LinkListIterator<T> iteratorR)
-        {
-            return null != iteratorL.node && null != iteratorR.node && iteratorL.node == iteratorR.node;
-        }
-
-        public static bool operator !=(LinkListIterator<T> iteratorL, LinkListIterator<T> iteratorR)
-        {
-            return null == iteratorL.node || null == iteratorR.node || iteratorL.node != iteratorR.node;
-        }
-
-        public static LinkListIterator<T> operator ++(LinkListIterator<T> iterator)
-        {
-            iterator.node = iterator.node.NextNode;
-            return iterator;
-        }
-
-    }
-
-    class ListNode<T>
-    {
+        // 节点的值
         private T element;
+        // 前置节点
         private ListNode<T> preNode;
+        // 后置节点
         private ListNode<T> nextNode;
 
         public ListNode()
@@ -173,19 +134,108 @@ namespace DataStruct.List
         }
     }
 
+    /// <summary>
+    /// 链表迭代器
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class LinkListIterator<T> where T : IComparable<T>
+    {
+        private ListNode<T> node;
+
+        public LinkListIterator(ListNode<T> node)
+        {
+            this.node = node;
+        }
+
+        public ListNode<T> Node
+        {
+            get { return node; }
+        }
+
+        public T Element
+        {
+            get
+            {
+                return node.Element;
+            }
+        }
+
+        /// <summary>
+        /// 重写 == 方法
+        /// </summary>
+        /// <param name="iteratorL"></param>
+        /// <param name="iteratorR"></param>
+        /// <returns></returns>
+        public static bool operator ==(LinkListIterator<T> iteratorL, LinkListIterator<T> iteratorR)
+        {
+            return null != iteratorL.node && null != iteratorR.node && iteratorL.node == iteratorR.node;
+        }
+
+        /// <summary>
+        /// 重写 != 方法
+        /// </summary>
+        /// <param name="iteratorL"></param>
+        /// <param name="iteratorR"></param>
+        /// <returns></returns>
+        public static bool operator !=(LinkListIterator<T> iteratorL, LinkListIterator<T> iteratorR)
+        {
+            return null == iteratorL.node || null == iteratorR.node || iteratorL.node != iteratorR.node;
+        }
+
+        /// <summary>
+        /// 重写 ++ 方法
+        /// </summary>
+        /// <param name="iterator"></param>
+        /// <returns></returns>
+        public static LinkListIterator<T> operator ++(LinkListIterator<T> iterator)
+        {
+            iterator.node = iterator.node.NextNode;
+            return iterator;
+        }
+
+        /// <summary>
+        /// 重写 -- 方法
+        /// </summary>
+        /// <param name="iterator"></param>
+        /// <returns></returns>
+        public static LinkListIterator<T> operator --(LinkListIterator<T> iterator)
+        {
+            iterator.node = iterator.node.PreNode;
+            return iterator;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
 
     /// <summary>
     /// 链表
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    class LinkList<T>
+    public class LinkList<T> where T : IComparable<T>
     {
-        private ListNode<T> _header;   // 头
-        private ListNode<T> _trailer;  // 尾
+        /// <summary>
+        /// 头节点
+        /// </summary>
+        private ListNode<T> _header;
+        /// <summary>
+        /// 尾节点
+        /// </summary>
+        private ListNode<T> _trailer;  
+        // 除去 头、尾，节点的个数
         private int _size;
 
         public LinkList()
         {
+            // 为了减少操作上的复杂度
+            // 头节点和尾节点一直存在，添加、删除都是在 头节点、尾节点 中间操作
             _header = new ListNode<T>();
             _trailer = new ListNode<T>();
 
@@ -196,13 +246,19 @@ namespace DataStruct.List
             _trailer.NextNode = null;
         }
 
-        // 返回头部指针的下一个
+        /// <summary>
+        /// 迭代器开始
+        /// </summary>
+        /// <returns></returns>
         public LinkListIterator<T> Begin()
         {
             return new LinkListIterator<T>(_header.NextNode);
         }
 
-        // 返回末尾指针
+        /// <summary>
+        /// 迭代器结束
+        /// </summary>
+        /// <returns></returns>
         public LinkListIterator<T> End()
         {
             return new LinkListIterator<T>(_trailer);
@@ -211,17 +267,17 @@ namespace DataStruct.List
         /// <summary>
         /// 第一个元素
         /// </summary>
-        public T Front()
+        public ListNode<T> Front()
         {
-            return Size() > 0 ? _header.NextNode.Element : default(T);
+            return Size() > 0 ? _header.NextNode : null;
         }
 
         /// <summary>
         /// 最后一个元素
         /// </summary>
-        public T Back()
+        public ListNode<T> Back()
         {
-            return Size() > 0 ? _trailer.PreNode.Element : default(T);
+            return Size() > 0 ? _trailer.PreNode : null;
         }
 
         /// <summary>
@@ -248,19 +304,18 @@ namespace DataStruct.List
         /// </summary>
         public int Size()
         {
-            List<int> list;
             return _size;
         }
 
         /// <summary>
         /// 查找元素指针位置
         /// </summary>
-        public ListNode<T> Find(T t, Comparison<T> comparison)
+        public ListNode<T> Find(T t)
         {
             ListNode<T> temp = _header.NextNode;
             while (temp != _trailer)
             {
-                if (comparison(temp.Element, t) == 0)
+                if (temp.Element.CompareTo(t) == 0)
                 {
                     return temp;
                 }
@@ -272,13 +327,13 @@ namespace DataStruct.List
         /// <summary>
         /// 删除元素
         /// </summary>
-        public void Delete(T t, Comparison<T> comparison)
+        public void Delete(T t)
         {
-            ListNode<T> node = Find(t, comparison);
+            ListNode<T> node = Find(t);
             Delete(node);
         }
 
-        private void Delete(ListNode<T> node)
+        public void Delete(ListNode<T> node)
         {
             if (null != node)
             {
@@ -289,7 +344,7 @@ namespace DataStruct.List
         }
 
         /// <summary>
-        /// 将元素插入到链表头
+        /// 将元素插入到链表第一个位置
         /// </summary>
         /// <param name="t"></param>
         public void PushFront(T t)
@@ -299,7 +354,7 @@ namespace DataStruct.List
         }
 
         /// <summary>
-        /// 将元素插入链表尾
+        /// 将元素插入到链表最后一个位置
         /// </summary>
         /// <param name="t"></param>
         public void PushBack(T t)
@@ -308,36 +363,41 @@ namespace DataStruct.List
             InsertAsPre(_trailer, newNode);
         }
 
-        private void InsertAsPre(ListNode<T> node, ListNode<T> newNode)
+        private void InsertAsPre(ListNode<T> node, ListNode<T> next)
         {
-            InsertAsNext(node.PreNode, newNode);
+            InsertAsNext(node.PreNode, next);
         }
 
-        public void InsertAsNext(ListNode<T> node, ListNode<T> newNode)
+        /// <summary>
+        /// 将 next 插入到 node 后
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="next"></param>
+        public void InsertAsNext(ListNode<T> node, ListNode<T> next)
         {
             if (node == _trailer)
             {
                 return;
             }
-            newNode.PreNode = node;
-            newNode.NextNode = node.NextNode;
+            next.PreNode = node;
+            next.NextNode = node.NextNode;
 
-            node.NextNode.PreNode = newNode;
-            node.NextNode = newNode;
+            node.NextNode.PreNode = next;
+            node.NextNode = next;
 
             ++_size;
         }
 
         /// <summary>
-        /// 无序链表去重
+        /// 无序链表删除重复元素
         /// </summary>
-        public void Deduplicate(Comparison<T> comparison)
+        public void Deduplicate()
         {
             for (ListNode<T> node = _header.NextNode; node != _trailer; node = node.NextNode)
             {
                 for (ListNode<T> temp = node.NextNode; temp != _trailer; temp = temp.NextNode)
                 {
-                    if (comparison(node.Element, temp.Element) == 0)
+                    if (node.Element.CompareTo(temp.Element) == 0)
                     {
                         Delete(temp);
                     }
@@ -346,17 +406,16 @@ namespace DataStruct.List
         }
 
         /// <summary>
-        /// 有序链表去重
+        /// 有序链表删除重复元素
         /// </summary>
-        public void Uniquify(Comparison<T> comparison)
+        public void Uniquify()
         {
             ListNode<T> node = _header.NextNode;
             while ( node != _trailer)
             {
                 ListNode<T> next = node.NextNode;
-                if (next != _trailer && comparison(next.Element, node.Element) == 0)
+                if (next != _trailer && next.Element.CompareTo(node.Element) == 0)
                 {
-                    Console.WriteLine("Del:" + next.Element.ToString());
                     Delete(next);
                     continue;
                 }
@@ -367,14 +426,14 @@ namespace DataStruct.List
         /// <summary>
         /// 遍历
         /// </summary>
-        public void Traverse()
+        public List<T> Traverse()
         {
-            StringBuilder sb = new StringBuilder();
+            List<T> list = new List<T>();
             for (LinkListIterator<T> iterator = Begin(); iterator != End(); ++iterator)
             {
-                sb.Append(iterator.Element.ToString() + "  ");
+                list.Add(iterator.Element);
             }
-            Console.WriteLine(sb.ToString());
+            return list;
         }
 
         /// <summary>
@@ -396,6 +455,13 @@ namespace DataStruct.List
             }
         }
 
+        /// <summary>
+        /// 交换两个节点位置
+        /// </summary>
+        /// <param name="pre"></param>
+        /// <param name="next"></param>
+        /// <param name="node1"></param>
+        /// <param name="node2"></param>
         private void Swap(ListNode<T> pre, ListNode<T> next, ListNode<T> node1, ListNode<T> node2)
         {
             Delete(node1);
@@ -406,9 +472,9 @@ namespace DataStruct.List
         }
 
         /// <summary>
-        /// 插入排序
+        /// 排序
         /// </summary>
-        public void InsertSort(Comparison<T> comparison)
+        public void Sort(Comparison<T> comparison)
         {
             ListNode<T> begin = _header.NextNode;
             if (null == begin || begin.NextNode == _trailer)
@@ -418,17 +484,16 @@ namespace DataStruct.List
 
             for (ListNode<T> temp = begin.NextNode; temp != _trailer; temp = temp.NextNode)
             {
-                T data = temp.Element;
-                ListNode<T> j = temp.PreNode;
-                while (j != _header.NextNode.PreNode && comparison(j.Element, data) > 0)
+                T element = temp.Element;
+                ListNode<T> preNode = temp.PreNode;
+                while (preNode != _header.NextNode.PreNode && comparison(preNode.Element, element) > 0)
                 {
-                    j.NextNode.Element = j.Element;
-                    j = j.PreNode;
+                    preNode.NextNode.Element = preNode.Element;
+                    preNode = preNode.PreNode;
                 }
 
-                j.NextNode.Element = data;
+                preNode.NextNode.Element = element;
             }
         }
-
     }
 }
