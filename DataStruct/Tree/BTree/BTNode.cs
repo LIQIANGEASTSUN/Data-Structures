@@ -41,10 +41,35 @@ namespace DataStruct.Tree.BTree
             set { parentNode = value; }
         }
             
-        public List<T> KeyList
+        private List<T> KeyList
         {
             get { return keyList; }
             set { keyList = value; }
+        }
+
+        public int KeyCount
+        {
+            get { return KeyList.Count; }
+        }
+
+        public void InsertKey(int index, T key)
+        {
+            KeyList.Insert(index, key);
+        }
+
+        public T GetKey(int index)
+        {
+            return KeyList[index];
+        }
+
+        public void RemoveKeyAt(int index)
+        {
+            KeyList.RemoveAt(index);
+        }
+
+        public void SetKey(int index, T key)
+        {
+            KeyList[index] = key;
         }
 
         private List<BTNode<T>> ChildList

@@ -32,11 +32,11 @@ namespace DataStruct.Tree.BTree
             foreach (var node in list)
             {
                 sb.Append("(");
-                for (int i = 0; i < node.KeyList.Count; ++i)
+                for (int i = 0; i < node.KeyCount; ++i)
                 {
-                    int key = node.KeyList[i];
+                    int key = node.GetKey(i);
                     sb.Append(key);
-                    if (i < node.KeyList.Count - 1)
+                    if (i < node.KeyCount - 1)
                     {
                         sb.Append(", ");
                     }
@@ -55,11 +55,11 @@ namespace DataStruct.Tree.BTree
                 foreach(var node in list)
                 {
                     sb.Append("(");
-                    for (int i = 0; i < node.KeyList.Count; ++i)
+                    for (int i = 0; i < node.KeyCount; ++i)
                     {
-                        int key = node.KeyList[i];
+                        int key = node.GetKey(i);
                         sb.Append(key);
-                        if (i < node.KeyList.Count - 1)
+                        if (i < node.KeyCount - 1)
                         {
                             sb.Append(", ");
                         }
@@ -100,9 +100,9 @@ namespace DataStruct.Tree.BTree
                 if (null != node)
                 {
                     sb.AppendLine("Search success:");
-                    for (int i = 0; i < node.KeyList.Count; ++i)
+                    for (int i = 0; i < node.KeyCount; ++i)
                     {
-                        sb.Append(node.KeyList[i].ToString() + "  ");
+                        sb.Append(node.GetKey(i).ToString() + "  ");
                     }
                 }
                 else
@@ -153,9 +153,9 @@ namespace DataStruct.Tree.BTree
             while (null != v)
             {
                 int index = -1;
-                for (int i = 0; i < v.KeyList.Count; ++i)
+                for (int i = 0; i < v.KeyCount; ++i)
                 {
-                    int compare = v.KeyList[i].CompareTo(t);
+                    int compare = v.GetKey(i).CompareTo(t);
                     if (compare <= 0)
                     {
                         index = i;
@@ -167,7 +167,7 @@ namespace DataStruct.Tree.BTree
                 }
 
                 // 若成功，则返回
-                if (index >= 0 && v.KeyList[index].CompareTo(t) == 0)
+                if (index >= 0 && v.GetKey(index).CompareTo(t) == 0)
                 {
                     return v;
                 }
@@ -192,9 +192,9 @@ namespace DataStruct.Tree.BTree
             }
 
             int index = -1;
-            for (int i = 0; i < _hot.KeyList.Count; ++i)
+            for (int i = 0; i < _hot.KeyCount; ++i)
             {
-                int compare = _hot.KeyList[i].CompareTo(t);
+                int compare = _hot.GetKey(i).CompareTo(t);
                 if (compare <= 0)
                 {
                     index = i;
@@ -205,7 +205,7 @@ namespace DataStruct.Tree.BTree
                 }
             }
 
-            _hot.KeyList.Insert(index + 1, t);      // 将新关键码插至对应的位置
+            _hot.InsertKey(index + 1, t);      // 将新关键码插至对应的位置
             _hot.InsertChild(index + 2, null);      // 创建一个空子树指针
 
             SolveOverflow(_hot); // 如发生上溢，需做分裂
@@ -225,9 +225,9 @@ namespace DataStruct.Tree.BTree
             }
 
             int index = -1;
-            for (int i = 0; i < node.KeyList.Count; ++i)
+            for (int i = 0; i < node.KeyCount; ++i)
             {
-                if(node.KeyList[i].CompareTo(t) == 0)
+                if(node.GetKey(i).CompareTo(t) == 0)
                 {
                     index = i;
                     break;
@@ -244,12 +244,12 @@ namespace DataStruct.Tree.BTree
                 }
                 // 至此，node 必然位于最底层，且其中第 r 个关键码就是待删除者
 
-                node.KeyList[index] = u.KeyList[0];
+                node.SetKey(index, u.GetKey(0));
                 node = u;  // 并与之交换位置
                 index = 0;
             }
 
-            node.KeyList.RemoveAt(index);
+            node.RemoveKeyAt(index);
             node.RemoveChildAt(index + 1);
 
             SolveUnderflow(node); // 如有必要，需做旋转或合并
@@ -275,9 +275,9 @@ namespace DataStruct.Tree.BTree
                 v.RemoveChildAt(s + 1);
                 u.InsertChild(j, node); //逐个移动效率低
 
-                T key = v.KeyList[s + 1];
-                v.KeyList.RemoveAt(s + 1);
-                u.KeyList.Insert(j, key); //此策略可改进
+                T key = v.GetKey(s + 1);
+                v.RemoveKeyAt(s + 1);
+                u.InsertKey(j, key); //此策略可改进
             }
 
             BTNode<T> node2 = v.GetChild(s + 1);
@@ -300,9 +300,9 @@ namespace DataStruct.Tree.BTree
             } //若p空则创建之
 
             int index = -1;
-            for (int i = 0; i < p.KeyList.Count; ++i)
+            for (int i = 0; i < p.KeyCount; ++i)
             {
-                int compare = p.KeyList[i].CompareTo(v.KeyList[0]);
+                int compare = p.GetKey(i).CompareTo(v.GetKey(0));
                 if (compare <= 0)
                 {
                     index = i;
@@ -315,9 +315,9 @@ namespace DataStruct.Tree.BTree
 
             int r = 1 + index; //p中指向u的指针的秩
 
-            T key2 = v.KeyList[s];
-            v.KeyList.RemoveAt(s);
-            p.KeyList.Insert(r, key2); //轴点关键码上升
+            T key2 = v.GetKey(s);
+            v.RemoveKeyAt(s);
+            p.InsertKey(r, key2); //轴点关键码上升
             p.InsertChild(r + 1, u); 
             u.ParentNode = p; //新节点u与父节点p互联
             SolveOverflow(p); //上升一层，如有必要则继续分裂——至多递归O(logn)层
@@ -333,7 +333,7 @@ namespace DataStruct.Tree.BTree
             BTNode<T> p = v.ParentNode;
             if (null == p)
             { //递归基：已到根节点，没有孩子的下限
-                if (v.KeyList.Count <= 0 && null != v.GetChild(0))
+                if (v.KeyCount <= 0 && null != v.GetChild(0))
                 {
                     //但倘若作为树根的v已不含关键码，却有（唯一的）非空孩子，则
                     /*DSA*/
@@ -359,10 +359,10 @@ namespace DataStruct.Tree.BTree
                 if ((_order + 1) / 2 < ls.ChildCount)
                 { //若该兄弟足够“胖”，则
                   /*DSA*/
-                    v.KeyList.Insert(0, p.KeyList[r - 1]); //p借出一个关键码给v（作为最小关键码）
-                    T key = ls.KeyList[ls.KeyList.Count - 1];
-                    ls.KeyList.RemoveAt(ls.KeyList.Count - 1);
-                    p.KeyList[r - 1] = key; //ls的最大关键码转入p
+                    v.InsertKey(0, p.GetKey(r - 1)); //p借出一个关键码给v（作为最小关键码）
+                    T key = ls.GetKey(ls.KeyCount - 1);
+                    ls.RemoveKeyAt(ls.KeyCount - 1);
+                    p.SetKey(r - 1, key); //ls的最大关键码转入p
 
                     BTNode<T> node = ls.GetChild(ls.ChildCount - 1);
                     ls.RemoveChildAt(ls.ChildCount - 1);
@@ -379,10 +379,10 @@ namespace DataStruct.Tree.BTree
                 if ((_order + 1) / 2 < rs.ChildCount)
                 { //若该兄弟足够“胖”，则
                   /*DSA*/
-                    v.KeyList.Insert(v.KeyList.Count, p.KeyList[r]); //p借出一个关键码给v（作为最大关键码）
-                    T key = rs.KeyList[0];
-                    rs.KeyList.RemoveAt(0);
-                    p.KeyList[r] = key; //rs的最小关键码转入p
+                    v.InsertKey(v.KeyCount, p.GetKey(r)); //p借出一个关键码给v（作为最大关键码）
+                    T key = rs.GetKey(0);
+                    rs.RemoveKeyAt(0);
+                    p.SetKey(r, key); //rs的最小关键码转入p
 
                     BTNode<T> node = rs.GetChild(0);
                     rs.RemoveChildAt(0);
@@ -400,9 +400,9 @@ namespace DataStruct.Tree.BTree
             { //与左兄弟合并
               /*DSA*/
                 BTNode<T> ls = p.GetChild(r - 1); //左兄弟必存在
-                T key = p.KeyList[r - 1];
-                p.KeyList.RemoveAt(r - 1);
-                ls.KeyList.Insert(ls.KeyList.Count, key);
+                T key = p.GetKey(r - 1);
+                p.RemoveKeyAt(r - 1);
+                ls.InsertKey(ls.KeyCount, key);
                 p.RemoveChildAt(r);
 
                 //p的第r - 1个关键码转入ls，v不再是p的第r个孩子
@@ -410,11 +410,11 @@ namespace DataStruct.Tree.BTree
                 v.RemoveChildAt(0);
                 ls.InsertChild(ls.ChildCount, node);//v的最左侧孩子过继给ls做最右侧孩子
 
-                while (v.KeyList.Count() > 0)
+                while (v.KeyCount > 0)
                 { //v剩余的关键码和孩子，依次转入ls
-                    T key2 = v.KeyList[0];
-                    v.KeyList.RemoveAt(0);
-                    ls.KeyList.Insert(ls.KeyList.Count, key2);
+                    T key2 = v.GetKey(0);
+                    v.RemoveKeyAt(0);
+                    ls.InsertKey(ls.KeyCount, key2);
 
                     BTNode<T> node2 = v.GetChild(0);
                     v.RemoveChildAt(0);
@@ -427,9 +427,9 @@ namespace DataStruct.Tree.BTree
               /*DSA*/
                // printf(" ... case 3R\n");
                 BTNode<T> rs = p.GetChild(r + 1); //右兄弟必存在
-                T key = p.KeyList[r];
-                    p.KeyList.RemoveAt(r);
-                rs.KeyList.Insert(0, key); p.RemoveChildAt(r);
+                T key = p.GetKey(r);
+                    p.RemoveKeyAt(r);
+                rs.InsertKey(0, key); p.RemoveChildAt(r);
                 //p的第r个关键码转入rs，v不再是p的第r个孩子
 
                 BTNode<T> node = v.GetChild(v.ChildCount - 1);
@@ -439,11 +439,11 @@ namespace DataStruct.Tree.BTree
                 {
                     rs.GetChild(0).ParentNode = rs; //v的最左侧孩子过继给ls做最右侧孩子
                 }
-                while (v.KeyList.Count > 0)
+                while (v.KeyCount > 0)
                 { //v剩余的关键码和孩子，依次转入rs
-                    T key2 = v.KeyList[v.KeyList.Count - 1];
-                    v.KeyList.RemoveAt(v.KeyList.Count - 1);
-                    rs.KeyList.Insert(0, key2);
+                    T key2 = v.GetKey(v.KeyCount - 1);
+                    v.RemoveKeyAt(v.KeyCount - 1);
+                    rs.InsertKey(0, key2);
 
                     BTNode<T> node2 = v.GetChild(v.ChildCount - 1);
                     v.RemoveChildAt(v.ChildCount - 1);
