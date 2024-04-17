@@ -12,27 +12,45 @@ namespace DataStruct.Tree.AVLTree
             AVLTree<int> aVLTree = new AVLTree<int>();
             //int[] arr = new int[] { 10, 8, 15, 17, 20, 19, 21, 12, 13, 6, 9, 16, 22, };
             //int[] arr = new int[] { 1, 2, 3, 4, 5, 6 };
-            int[] arr = new int[] { 10, 8, 15, 6, 18 };
+            int[] arr = new int[] { 1, 2, 3, 4, 5, 6, 10, 8, 15, 6, 18 };
             for (int i = 0; i < arr.Length; ++i)
             {
-                Console.WriteLine("Insert:" + arr[i]);
+                //Console.WriteLine("Insert:" + arr[i]);
                 aVLTree.Insert(arr[i]);
-                Console.WriteLine("===============================================");
-                BinTreeLogHelper<int>.Log(aVLTree.Root, false, false);
+                //Console.WriteLine("===============================================");
+                //BinTreeLogHelper<int>.Log(aVLTree.Root, false, false);
 
-                Console.WriteLine("===============================================");
-                List<BinNode<int>> list = aVLTree.TraverseLevel(aVLTree.Root);
-                Console.WriteLine();
+                //Console.WriteLine("===============================================");
+                //List<BinNode<int>> list = aVLTree.TraverseLevel(aVLTree.Root);
+                //Console.WriteLine();
 
-                for (int n = 0; n < list.Count; ++n)
-                {
-                    BinNode<int> node = list[n];
-                    Console.WriteLine(list[n].Element.ToString() + "   heigh:" + list[n].Height);
-                }
+                //for (int n = 0; n < list.Count; ++n)
+                //{
+                //    BinNode<int> node = list[n];
+                //    Console.WriteLine(list[n].Element.ToString() + "   heigh:" + list[n].Height);
+                //}
             }
 
             BinTreeLogHelper<int>.Log(aVLTree.Root, false, false);
             Console.WriteLine("===============================================");
+            aVLTree.TraverseLevel(aVLTree.Root);
+            Console.WriteLine();
+            Console.WriteLine();
+
+            IList<IList<int>> iList = aVLTree.LevelOrder(aVLTree.Root);
+            foreach(IList<int> list in iList)
+            {
+                foreach(var number in  list)
+                {
+                    Console.Write(number + "   ");
+                }
+                Console.WriteLine();
+            }
+
+            int a = 0;
+            if (a == 0) {
+                return;
+            }
 
             Console.WriteLine("Star Remove ===================================");
             for (int i = 0; i < arr.Length; ++i)

@@ -16,6 +16,15 @@ namespace DataStruct.BSTree
             {
                 bsTree.Insert(i);
             }
+
+            BinTreeLogHelper<int>.Log(bsTree.Root, false, false);
+
+            int a = 0;
+            if (a == 0)
+            {
+                return;
+            }
+
             //BinTreeLogHelper<int>.Log(bsTree.Root, false, false);
             //{
             //    int[] aaaRR = new int[] { 16, 9, 6, 22 };s
@@ -152,7 +161,6 @@ namespace DataStruct.BSTree
                     if (!result)
                     {
                         //BinTreeLogHelper<int>.Log(bSTree.Root, false, false);
-                        int a = 0;
                     }
                 }
                 //BinTreeLogHelper<int>.Log(bSTree.Root, false, false);

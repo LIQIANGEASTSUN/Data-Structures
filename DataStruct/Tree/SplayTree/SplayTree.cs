@@ -1,6 +1,5 @@
 ﻿using DataStruct.BinTree;
 using DataStruct.BSTree;
-using DataStruct.Log;
 using System;
 using System.Collections.Generic;
 

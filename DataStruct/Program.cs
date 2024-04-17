@@ -11,9 +11,9 @@ namespace DataStruct
             //BinTreeTest();
             //BSTreeTest();
 
-            //AVLTest();
+            AVLTest();
 
-            SplayTreeTest();
+            //SplayTreeTest();
 
             //BTreeTest();
 

@@ -47,19 +47,46 @@ namespace DataStruct.Tree.BTree
             set { keyList = value; }
         }
 
-        public List<BTNode<T>> ChildList
+        private List<BTNode<T>> ChildList
         {
             get { return childList; }
             set { childList = value; }
         }
 
-        public void AddChild(BTNode<T> node)
+        public void InsertChild(int index, BTNode<T> node)
         {
-            ChildList.Add(node);
+            ChildList.Insert(index, node);
             if (null != node)
             {
                 node.parentNode = this;
             }
+        }
+
+        public BTNode<T> GetChild(int index)
+        {
+            return ChildList[index];
+        }
+
+        public void AddChild(BTNode<T> node)
+        {
+            InsertChild(ChildList.Count, node);
+        }
+
+        public BTNode<T> RemoveChildAt(int index)
+        {
+            BTNode<T> node = ChildList[index];
+            ChildList.RemoveAt(index);
+            return node;
+        }
+
+        public void SetChild(int index, BTNode<T> node)
+        {
+            ChildList[index] = node;
+        }
+
+        public int ChildCount()
+        {
+            return ChildList.Count;
         }
     }
 }

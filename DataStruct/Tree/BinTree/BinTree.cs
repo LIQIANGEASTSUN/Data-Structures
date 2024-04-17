@@ -384,6 +384,43 @@ namespace DataStruct.BinTree
             }
             return list;
         }
+
+        public IList<IList<T>> LevelOrder(BinNode<T> root)
+        {
+            IList<IList<T>> resultList = new List<IList<T>>();
+            if (null == root)
+            {
+                return resultList;
+            }
+            Queue<BinNode<T>> queue = new Queue<BinNode<T>>();
+            queue.Enqueue(root);
+            while (queue.Count > 0)
+            {
+                // 当前层节点个数
+                int count = queue.Count;
+                List<T> list = new List<T>();
+
+                // 从 queue 中取出来前 count 个，就是当前层的节点
+                while (count > 0)
+                {
+                    --count;
+                    BinNode<T> node = queue.Dequeue();
+                    list.Add(node.Element);
+                    // 当前层节点的子节点加入队列中
+                    if (node.LeftChild != null)
+                    {
+                        queue.Enqueue(node.LeftChild);
+                    }
+                    if (node.RightChild != null)
+                    {
+                        queue.Enqueue(node.RightChild);
+                    }
+                }
+                resultList.Add(list);
+            }
+
+            return resultList;
+        }
         #endregion
 
         /// <summary>
