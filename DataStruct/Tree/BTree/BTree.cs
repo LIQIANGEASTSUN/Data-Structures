@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace DataStruct.Tree.BTree
@@ -18,10 +16,13 @@ namespace DataStruct.Tree.BTree
             TestTraverseLevelList();
 
             Console.WriteLine("Start Search");
+            bTree.Search(27);
             TestSearch(bTree, arr);
 
+            bTree.Insert(27);
+
             Console.WriteLine("Start Remove");
-            TestRemove(bTree, arr);
+            //TestRemove(bTree, arr);
             TestTraverseLevelList();
         }
 
@@ -124,7 +125,10 @@ namespace DataStruct.Tree.BTree
         }
     }
 
-    // B-树
+    /// <summary>
+    /// B-树
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     class BTree<T> where T : IComparable<T>
     {
         private int _order;         // 介次
@@ -260,7 +264,7 @@ namespace DataStruct.Tree.BTree
         /// <summary>
         /// 上溢:因插入而上溢后的分裂处理
         /// </summary>
-        public void SolveOverflow(BTNode<T> v)
+        private void SolveOverflow(BTNode<T> v)
         {
             if (_order >= v.ChildCount)
             {
@@ -327,7 +331,7 @@ namespace DataStruct.Tree.BTree
         /// 下溢:因删除而下溢后的合并处理
         /// </summary>
         /// <param name="node"></param>
-        public void SolveUnderflow(BTNode<T> v)
+        private void SolveUnderflow(BTNode<T> v)
         {
             if ((_order + 1) / 2 <= v.ChildCount) return; //递归基：当前节点并未下溢
             BTNode<T> p = v.ParentNode;
@@ -458,6 +462,11 @@ namespace DataStruct.Tree.BTree
             SolveUnderflow(p); //上升一层，如有必要则继续分裂——至多递归O(logn)层
         }
 
+        /// <summary>
+        /// 层序遍历，获取所有节点，切是按照每一层节点返回
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         public List<List<BTNode<T>>> TraverseLevelList(BTNode<T> node)
         {
             List<List<BTNode<T>>> listResult = new List<List<BTNode<T>>>();
@@ -493,6 +502,11 @@ namespace DataStruct.Tree.BTree
             return listResult;
         }
 
+        /// <summary>
+        /// 层序遍历，获取所有节点
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         public List<BTNode<T>> TraverseLevel(BTNode<T> node)
         {
             List<BTNode<T>> list = new List<BTNode<T>>();
@@ -518,17 +532,6 @@ namespace DataStruct.Tree.BTree
                 }
             }
             return list;
-        }
-
-        private int Deep(BTNode<T> node)
-        {
-            int deep = -1;
-            while (null != node)
-            {
-                ++deep;
-                node = node.ParentNode;
-            }
-            return deep;
         }
     }
 }

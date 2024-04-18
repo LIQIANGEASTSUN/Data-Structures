@@ -3,12 +3,15 @@ using System.Collections.Generic;
 
 namespace DataStruct.Tree.BTree
 {
-    // B-树节点
+    /// <summary>
+    /// B-树节点定义
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     class BTNode<T> where T : IComparable<T>
     {
-        private BTNode<T> parentNode;// 父节点
-        private List<T> keyList;       // 数值向量
-        private List<BTNode<T>> childList;  // 孩子向量（其长度总比key多一）
+        private BTNode<T> parentNode;       // 父节点
+        private List<T> keyList;            // 关键字向量
+        private List<BTNode<T>> childList;  // 子节点向量（其长度总比key多一）
 
         public BTNode()
         {
